@@ -2,15 +2,28 @@ class Student
     attr_accessor :id, :first_name, :name, :patronymic, :phone_number, :telegram, :email, :git
 
     # constructor
-    def initialize(first_name, name, patronymic, id=nil, phone_number=nil, telegram=nil, email=nil, git=nil)
-        self.id = id
-        self.first_name = first_name
-        self.name = name
-        self.patronymic = patronymic
-        self.phone_number = phone_number
-        self.telegram = telegram
-        self.email = email
-        self.git = git
+    def initialize(params)
+        self.id = params[:id]
+
+        if (!params[:first_name]) then
+            raise "Last name not given"
+        end
+        self.first_name = params[:first_name]
+
+        if (!params[:name]) then
+            raise "Name not given"
+        end
+        self.name = params[:name]
+
+        if (!params[:patronymic]) then
+            raise "Patronymic not given"
+        end
+        self.patronymic = params[:patronymic]
+
+        self.phone_number = params[:phone_number]
+        self.telegram = params[:telegram]
+        self.email = params[:email]
+        self.git = params[:git]
     end
 
     # print info

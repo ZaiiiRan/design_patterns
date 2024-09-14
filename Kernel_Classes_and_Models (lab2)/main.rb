@@ -1,8 +1,11 @@
 require './student.rb'
 
-student1 = Student.new('Смирнов', 'Никита', 'Олегович', 1, '+7(934)-453-32-11', '@zaiiran', nil, 'https://github.com/ZaiiiRan')
-student2 = Student.new('Блягоз', 'Амаль', 'Хазретович', 2, '+7(945)-345-22-66', '@lamafout', 'lamafout@gmail.com', 'https://github.com/lamafout')
-student3 = Student.new('Лотарев', 'Сергей', 'Юрьевич', 3, nil, '@lotarv')
+student1 = Student.new(id: 1, first_name: 'Смирнов', name: 'Никита', patronymic: 'Олегович', phone_number: '+7(934)-453-32-11', 
+    telegram: '@zaiiran', git: 'https://github.com/ZaiiiRan')
+
+student2 = Student.new(first_name: 'Блягоз', name: 'Амаль', patronymic: 'Хазретович', id: 2, telegram: '@lamafout', git: 'https://github.com/lamafout',
+    email: 'lamafout@gmail.com')
+student3 = Student.new(first_name: 'Лотарев', name: 'Сергей', patronymic: 'Юрьевич', id: 3, telegram: '@lotarv')
 
 student1.print_info
 student2.print_info
