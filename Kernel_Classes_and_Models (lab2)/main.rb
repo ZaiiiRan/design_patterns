@@ -1,6 +1,6 @@
 require './student.rb'
 
-student1 = Student.new(id: 1, first_name: 'Смирнов', name: 'Никита', patronymic: 'Олегович', phone_number: '+7(934)-453-32-11', 
+student1 = Student.new(id: 1, first_name: 'Смирнов', name: 'Никита', patronymic: 'Олегович', phone_number: '+7-(934)-453-32-11', 
     telegram: '@zaiiran', git: 'https://github.com/ZaiiiRan')
 
 student2 = Student.new(first_name: 'Блягоз', name: 'Амаль', patronymic: 'Хазретович', id: 2, telegram: '@lamafout', git: 'https://github.com/lamafout',
@@ -10,3 +10,9 @@ student3 = Student.new(first_name: 'Лотарев', name: 'Сергей', patro
 student1.print_info
 student2.print_info
 student3.print_info
+
+begin
+    student2.phone_number='2323434'
+rescue
+    puts "phone number is not valid"
+end

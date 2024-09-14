@@ -1,5 +1,6 @@
 class Student
-    attr_accessor :id, :first_name, :name, :patronymic, :phone_number, :telegram, :email, :git
+    attr_reader :phone_number
+    attr_accessor :id, :first_name, :name, :patronymic, :telegram, :email, :git
 
     # constructor
     def initialize(first_name:, name:, patronymic:, **params)
@@ -11,6 +12,19 @@ class Student
         self.telegram = params[:telegram]
         self.email = params[:email]
         self.git = params[:git]
+    end
+
+    # phone number validation
+    def self.validate_phone_number?(phone_number)
+        phone_number.nil? || phone_number =~ /^(?:\+7|8)[\s-]?(?:\(?\d{3}\)?[\s-]?)\d{3}[\s-]?\d{2}[\s-]?\d{2}$/
+    end
+
+    # phone number setter
+    def phone_number=(phone_number)
+        unless self.class.validate_phone_number?(phone_number)
+            raise ArgumentError, "Wrong phone number format"
+        end
+        @phone_number = phone_number
     end
 
     # print info
