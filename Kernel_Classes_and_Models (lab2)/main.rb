@@ -10,9 +10,3 @@ student3 = Student.new(first_name: 'Лотарев', name: 'Сергей', patro
 student1.print_info
 student2.print_info
 student3.print_info
-
-begin
-    student2.phone_number='2323434'
-rescue
-    puts "phone number is not valid"
-end
