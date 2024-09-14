@@ -5,7 +5,7 @@ student1 = Student.new(id: 1, first_name: 'Смирнов', name: 'Никита'
 
 student2 = Student.new(first_name: 'Блягоз', name: 'Амаль', patronymic: 'Хазретович', id: 2, telegram: '@lamafout', git: 'https://github.com/lamafout',
     email: 'lamafout@gmail.com')
-student3 = Student.new(first_name: 'Лотарев', name: 'Сергей', patronymic: 'Юрьевич', id: 3, telegram: '@lotarv')
+student3 = Student.new(first_name: 'Лотарев', name: 'Сергей', patronymic: 'Юрьевич', id: 3, telegram: '@lotarv', git: 'https://github.com/lotarv')
 
 student1.print_info
 student2.print_info

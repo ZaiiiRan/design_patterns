@@ -35,10 +35,9 @@ class Student
     end
 
     # names validation
-    def self.valie_name?(name)
+    def self.valid_name?(name)
         name =~ /^[А-ЯЁ][а-яё]{1,}(-[А-ЯЁ][а-яё]{1,})?$/
     end
-
 
     # phone number setter
     def phone_number=(phone_number)
@@ -74,7 +73,7 @@ class Student
 
     # first name setter
     def first_name=(first_name)
-        unless self.class.valie_name?(first_name)
+        unless self.class.valid_name?(first_name)
             raise ArgumentError, "Wrong first name format"
         end
         @first_name = first_name
@@ -82,7 +81,7 @@ class Student
 
     # name setter
     def name=(name)
-        unless self.class.valie_name?(name)
+        unless self.class.valid_name?(name)
             raise ArgumentError, "Wrong name format"
         end
         @name = name
@@ -90,12 +89,34 @@ class Student
 
     # patronymic setter
     def patronymic=(patronymic)
-        unless self.class.valie_name?(patronymic)
+        unless self.class.valid_name?(patronymic)
             raise ArgumentError, "Wrong patronymic format"
         end
         @patronymic = patronymic
     end
 
+
+    # checking for git availability
+    def validate_git(git)
+        if git.nil? then
+            raise ArgumentError, "Git is empty"
+        end
+    end
+
+    # checking the availability of email, phone number or telegram
+    def validate_contacts(phone_number, telegram, email)
+        if phone_number.nil? && telegram.nil? && email.nil? then
+            raise ArgumentError, "Phone number, telegram or Email is empty"
+        end
+    end
+
+    # contacts validation
+    def validate(git, phone_number, telegram, email)
+        validate_git(git)
+        validate_contacts(phone_number, telegram, email)
+    end
+
+    
 
     # print info
     def print_info
