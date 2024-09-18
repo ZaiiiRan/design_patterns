@@ -117,6 +117,30 @@ class Student < Person
         end
     end
 
+    # reading students from txt file
+    def self.read_from_txt(path)
+        if path.nil? || path.empty? then
+            raise ArgumentError, 'File path is nil or empty'
+        end
+        unless File.exists?(path) then
+            raise ArgumentError, 'File does not exists'
+        end
+
+        students = []
+        File.open(path, 'r') do |file|
+            file.each_line do |line|
+                begin
+                    student = self.new_from_string(line.strip)
+                    students << student
+                rescue ArgumentError => e
+                    puts "#{line.strip} => #{e.message}"
+                end
+            end
+        end
+
+        students
+    end
+
 
     private
 
