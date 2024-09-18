@@ -13,4 +13,7 @@ student3 = Student.new(first_name: 'Лотарев', name: 'Сергей', patro
 
 student4 = Student.from_string("id:5, first_name: Иванов, name: Иван, patronymic: Иванович, telegram: @1vann, git: https://github.com/1vandfd")
 
-student4.print_info
+puts student1.get_info
+puts student2.get_info
+puts student3.get_info
+puts student4.get_info

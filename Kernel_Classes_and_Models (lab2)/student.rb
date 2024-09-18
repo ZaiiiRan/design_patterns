@@ -38,55 +38,6 @@ class Student
         )
     end
 
-    # first name setter
-    def first_name=(first_name)
-        unless self.class.valid_name?(first_name)
-            raise ArgumentError, "Wrong first name format"
-        end
-        @first_name = first_name
-    end
-
-    # name setter
-    def name=(name)
-        unless self.class.valid_name?(name)
-            raise ArgumentError, "Wrong name format"
-        end
-        @name = name
-    end
-
-    # patronymic setter
-    def patronymic=(patronymic)
-        unless self.class.valid_name?(patronymic)
-            raise ArgumentError, "Wrong patronymic format"
-        end
-        @patronymic = patronymic
-    end
-
-    # contacts setter
-    def set_contacts(contacts)
-        validate(contacts[:git], contacts[:phone_number], contacts[:telegram], contacts[:email])
-
-        unless self.class.valid_phone_number?(contacts[:phone_number])
-            raise ArgumentError, "Wrong phone number format"
-        end
-        @phone_number = contacts[:phone_number]
-
-        unless self.class.valid_telegram?(contacts[:telegram])
-            raise ArgumentError, "Wrong telegram format"
-        end
-        @telegram = contacts[:telegram]
-
-        unless self.class.valid_git?(contacts[:git])
-            raise ArgumentError, "Wrong git link format"
-        end
-        @git = contacts[:git]
-
-        unless self.class.valid_email?(contacts[:email])
-            raise ArgumentError, "Wrong Email format"
-        end
-        @email = contacts[:email]
-    end
-
     # print info
     def print_info
         puts '-------------------'
@@ -101,6 +52,29 @@ class Student
         puts "Git: #{ @git ? @git : 'Not Set' }"
 
         puts '-------------------'
+    end
+
+    # get short info in string
+    def get_info
+        "#{get_full_name}, git: #{self.git}, #{get_any_contact}"
+    end
+
+    # get full name in string
+    def get_full_name
+        "full_name: #{self.first_name} #{self.name[0]}.#{self.patronymic[0]}."
+    end
+
+    # get any contact in string
+    def get_any_contact
+        if telegram then
+            "telegram: #{self.telegram}"
+        elsif email
+            "email: #{self.email}"
+        elsif phone_number
+            "phone_number: #{self.phone_number}"
+        else
+            "no contact provided"
+        end
     end
 
 
@@ -149,5 +123,54 @@ class Student
     def validate(git, phone_number, telegram, email)
         self.validate_git(git)
         self.validate_contacts(phone_number, telegram, email)
+    end
+
+    # first name setter
+    def first_name=(first_name)
+        unless self.class.valid_name?(first_name)
+            raise ArgumentError, "Wrong first name format"
+        end
+        @first_name = first_name
+    end
+
+    # name setter
+    def name=(name)
+        unless self.class.valid_name?(name)
+            raise ArgumentError, "Wrong name format"
+        end
+        @name = name
+    end
+
+    # patronymic setter
+    def patronymic=(patronymic)
+        unless self.class.valid_name?(patronymic)
+            raise ArgumentError, "Wrong patronymic format"
+        end
+        @patronymic = patronymic
+    end
+
+    # contacts setter
+    def set_contacts(contacts)
+        validate(contacts[:git], contacts[:phone_number], contacts[:telegram], contacts[:email])
+
+        unless self.class.valid_phone_number?(contacts[:phone_number])
+            raise ArgumentError, "Wrong phone number format"
+        end
+        @phone_number = contacts[:phone_number]
+
+        unless self.class.valid_telegram?(contacts[:telegram])
+            raise ArgumentError, "Wrong telegram format"
+        end
+        @telegram = contacts[:telegram]
+
+        unless self.class.valid_git?(contacts[:git])
+            raise ArgumentError, "Wrong git link format"
+        end
+        @git = contacts[:git]
+
+        unless self.class.valid_email?(contacts[:email])
+            raise ArgumentError, "Wrong Email format"
+        end
+        @email = contacts[:email]
     end
 end
