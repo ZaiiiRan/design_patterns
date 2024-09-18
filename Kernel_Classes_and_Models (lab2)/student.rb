@@ -157,9 +157,7 @@ class Student < Person
         end
     end
 
-
-    private
-
+    # to string
     def to_s
         data = []
         data << "first_name: #{self.first_name}"
@@ -180,6 +178,8 @@ class Student < Person
         end
         data.join(', ')
     end
+
+    private
 
     # names validation
     def self.valid_name?(name)

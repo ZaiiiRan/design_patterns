@@ -8,5 +8,8 @@ student2 = Student.new(first_name: 'Блягоз', name: 'Амаль', patronymi
 student3 = Student.new(first_name: 'Лотарев', name: 'Сергей', patronymic: 'Юрьевич', id: 3, telegram: '@lotarv', git: 'https://github.com/lotarv')
 student4 = Student.new_from_string("id:5, first_name: Иванов, name: Иван, patronymic: Иванович, telegram: @1vann, git: https://github.com/1vandfd")
 
-
-
+begin
+    Student.write_to_txt('./students.txt', [student1, student2, student3, student4])
+rescue ArgumentError => e
+    puts e.message
+end
