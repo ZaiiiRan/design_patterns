@@ -6,12 +6,12 @@ student1 = Student.new(id: 1, first_name: 'Смирнов', name: 'Никита'
 student2 = Student.new(first_name: 'Блягоз', name: 'Амаль', patronymic: 'Хазретович', id: 2, telegram: '@lamafout', git: 'https://github.com/lamafout',
     email: 'lamafout@gmail.com')
 student3 = Student.new(first_name: 'Лотарев', name: 'Сергей', patronymic: 'Юрьевич', id: 3, telegram: '@lotarv', git: 'https://github.com/lotarv')
-
-# student1.print_info
-# student2.print_info
-# student3.print_info
-
 student4 = Student.from_string("id:5, first_name: Иванов, name: Иван, patronymic: Иванович, telegram: @1vann, git: https://github.com/1vandfd")
+
+student1.print_info
+student2.print_info
+student3.print_info
+student4.print_info
 
 
 sh_st4 = Student_short.new_from_student_obj(student4)
