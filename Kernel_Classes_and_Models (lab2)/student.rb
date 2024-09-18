@@ -141,8 +141,45 @@ class Student < Person
         students
     end
 
+    #writing students in txt
+    def self.write_to_txt(path, students)
+        if path.nil? || path.empty? then
+            raise ArgumentError, 'File path is nil or empty'
+        end
+        if students.nil? || students.empty?
+            raise ArgumentError, 'Students list is empty or nil'
+        end
+
+        File.open(path, 'w') do |file|
+            students.each do |student|
+                file.puts student.to_s
+            end
+        end
+    end
+
 
     private
+
+    def to_s
+        data = []
+        data << "first_name: #{self.first_name}"
+        data << "name: #{self.name}"
+        data << "patronymic: #{self.patronymic}"
+        data << "git: #{self.git}"
+        if self.id then
+            data << "id: #{self.id}"
+        end
+        if self.telegram then
+            data << "telegram: #{self.telegram}"
+        end
+        if self.email then
+            data << "email: #{self.email}"
+        end
+        if self.phone_number then
+            data << "phone_number: #{phone_number}"
+        end
+        data.join(', ')
+    end
 
     # names validation
     def self.valid_name?(name)
