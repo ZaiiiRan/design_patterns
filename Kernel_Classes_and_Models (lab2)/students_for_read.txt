@@ -1,0 +1,3 @@
+id:5, first_name: Иванов, name: Иван, patronymic: Иванович, telegram: @1vann, git: https://github.com/1vandfd
+id:7, first_name: Петров, name: Петр, patronymic: Петрович, telegram: @petr00v, git: https://github.com/petr00v
+id:9, first_name: Сергеев, name: Сергей, patronymic: Сергеевич, telegram: @sergey, git: https://github.com/sergey

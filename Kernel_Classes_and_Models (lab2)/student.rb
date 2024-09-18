@@ -122,7 +122,7 @@ class Student < Person
         if path.nil? || path.empty? then
             raise ArgumentError, 'File path is nil or empty'
         end
-        unless File.exists?(path) then
+        unless File.exist?(path) then
             raise ArgumentError, 'File does not exists'
         end
 
@@ -133,7 +133,7 @@ class Student < Person
                     student = self.new_from_string(line.strip)
                     students << student
                 rescue ArgumentError => e
-                    puts "#{line.strip} => #{e.message}"
+                    raise ArgumentError, "#{line.strip} => #{e.message}"
                 end
             end
         end
