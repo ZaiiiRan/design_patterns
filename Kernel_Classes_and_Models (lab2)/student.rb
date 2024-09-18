@@ -63,7 +63,7 @@ class Student < Person
     end
 
     # constructor_from_string
-    def self.from_string(string)
+    def self.new_from_string(string)
         hash = self.parse_string(string)
 
         self.new(
