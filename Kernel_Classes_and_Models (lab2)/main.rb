@@ -13,7 +13,18 @@ student3 = Student.new(first_name: 'Лотарев', name: 'Сергей', patro
 
 student4 = Student.from_string("id:5, first_name: Иванов, name: Иван, patronymic: Иванович, telegram: @1vann, git: https://github.com/1vandfd")
 
-puts student1.get_info
-puts student2.get_info
-puts student3.get_info
-puts student4.get_info
+
+sh_st4 = Student_short.new_from_student_obj(student4)
+puts sh_st4.id
+puts sh_st4.full_name
+puts sh_st4.git
+puts sh_st4.contact
+
+puts '------'
+
+sh_st5 = Student_short.new_from_string(6, "full_name: Петров П.П., git: https://github.com/petr00v, email: petrov@mail.ru")
+puts sh_st5.id
+puts sh_st5.full_name
+puts sh_st5.git
+puts sh_st5.contact
+

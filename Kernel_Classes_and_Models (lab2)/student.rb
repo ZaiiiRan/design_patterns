@@ -174,3 +174,132 @@ class Student
         @email = contacts[:email]
     end
 end
+
+class Student_short
+    attr_reader :id, :full_name, :git, :contact
+    private_class_method :new
+
+    def initialize(id, full_name, git, contact)
+        self.id = id
+        self.full_name = full_name
+        self.git = git
+        self.contact = contact
+    end
+
+    # constructor from Student object
+    def self.new_from_student_obj(student)
+        self.new(
+            student.id.to_i,
+            student.get_full_name.slice(11..-1),
+            student.git,
+            student.get_any_contact
+        )
+    end
+
+    # constructor from string
+    def self.new_from_string(id, string)
+        hash = self.parse_string(string)
+        contact = ''
+        if hash['telegram'] then
+            contact = "telegram: #{hash['telegram']}"
+        elsif hash['email']
+            contact = "email: #{hash['email']}"
+        else 
+            contact = "phone_number #{hash['phone_number']}"
+        end
+        
+        self.new(
+            id.to_i,
+            hash['full_name'],
+            hash['git'],
+            contact
+        )
+    end
+
+    private 
+    attr_writer :id
+
+    def self.parse_string(string)
+        data = string.split(',')
+        hash = {}
+
+        data.each do |x|
+            pair = x.strip.split(':')
+            if pair[0] && !pair[0].strip.empty? && pair[1] then
+                hash[pair[0].strip] = pair[1].strip + (pair[2] ? ":#{pair[2].strip}" : '')
+            else
+                raise ArgumentError, "Wrong string format"
+            end
+        end
+
+        hash
+    end
+
+    def full_name=(full_name)
+        unless self.class.valid_full_name?(full_name)
+            raise ArgumentError, "Wrong full name format"
+        end
+        @full_name = full_name
+    end
+
+    def git=(git)
+        unless git
+            raise ArgumentError, "Git is empty"
+        end
+        unless self.class.valid_git?(git)
+            raise ArgumentError, "Wrong git link format"
+        end
+        @git = git
+    end
+
+    def contact=(contact)
+        unless contact
+            raise ArgumentError, "Contact is empty"
+        end
+
+        if contact.start_with?('telegram:') then
+            telegram = contact.slice(9..-1).strip
+            unless self.class.valid_telegram?(telegram)
+                raise ArgumentError, "Wrong telegram format"
+            end
+        elsif contact.start_with?('email:')
+            email = contact.slice(6..-1).strip
+            unless self.class.valid_email?(email)
+                raise ArgumentError, "Wrong email format"
+            end
+        elsif contact.start_with?('phone_number:')
+            phone_number = contact.slice(13..-1).strip
+            unless self.class.valid_phone_number?(phone_number)
+                raise ArgumentError, "Wrong phone number format"
+            end
+        else
+            raise ArgumentError, "Wrong contact format"
+        end
+        @contact = contact
+    end
+
+    # phone number validation
+    def self.valid_phone_number?(phone_number)
+        phone_number.nil? || phone_number =~ /^(?:\+7|8)[\s-]?(?:\(?\d{3}\)?[\s-]?)\d{3}[\s-]?\d{2}[\s-]?\d{2}$/
+    end
+
+    # telegram validation
+    def self.valid_telegram?(telegram)
+        telegram.nil? || telegram =~ /@[a-zA-Z0-9_]{5,}$/
+    end
+
+    # git link validation
+    def self.valid_git?(git)
+        git.nil? || git =~ %r{^https?://github\.com/[a-zA-Z0-9_\-]+$}
+    end
+
+    # email validation
+    def self.valid_email?(email)
+        email.nil? || email =~ /^[\w+_.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+    end
+
+    # full name validation
+    def self.valid_full_name?(name)
+        name =~ /^[А-ЯЁ][а-яё]{1,}(-[А-ЯЁ][а-яё]{1,})?\s[А-ЯЁ].\s?[А-ЯЁ].$/
+    end
+end
