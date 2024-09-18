@@ -11,6 +11,31 @@ class Student
         self.set_contacts(git: params[:git], email: params[:email], telegram: params[:telegram], phone_number: params[:phone_number])
     end
 
+    # constructor_from_string
+    #string format: "param1: value, param2: value,,"
+    def self.from_string(string)
+        data = string.split(',')
+        hash = {}
+
+        data.each do |x|
+            pair = x.strip.split(':')
+            if pair[0] && !pair[0].strip.empty? && pair[1] then
+                hash[pair[0].strip] = pair[1].strip + (pair[2] ? ":#{pair[2].strip}" : '')
+            end
+        end
+
+        self.new(
+            id: hash['id'].to_i,
+            first_name: hash['first_name'],
+            name: hash['name'],
+            patronymic: hash['patronymic'],
+            telegram: hash['telegram'],
+            email: hash['email'],
+            phone_number: hash['phone_number'],
+            git: hash['git']
+        )
+    end
+
     # first name setter
     def first_name=(first_name)
         unless self.class.valid_name?(first_name)
