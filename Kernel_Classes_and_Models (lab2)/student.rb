@@ -12,7 +12,7 @@ class Student
     end
 
     # constructor_from_string
-    #string format: "param1: value, param2: value,,"
+    #string format: "param1: value, param2: value"
     def self.from_string(string)
         data = string.split(',')
         hash = {}
@@ -21,6 +21,8 @@ class Student
             pair = x.strip.split(':')
             if pair[0] && !pair[0].strip.empty? && pair[1] then
                 hash[pair[0].strip] = pair[1].strip + (pair[2] ? ":#{pair[2].strip}" : '')
+            else
+                raise ArgumentError, "Wrong string format"
             end
         end
 
