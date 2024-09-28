@@ -25,7 +25,7 @@ class Person
     end
 
     # checking for git availability
-    def validate_git(git)
+    def self.validate_git(git)
         if git.nil? then
             raise ArgumentError, "Git is empty"
         end
@@ -38,7 +38,7 @@ class Person
 
     # git setter
     def git=(git)
-        self.validate_git(git)
+        self.class.validate_git(git)
         unless self.class.valid_git?(git)
             raise ArgumentError, "Wrong git link format"
         end
@@ -186,7 +186,7 @@ class Student < Person
     private
 
     # checking the availability of email, phone number or telegram
-    def validate_contacts(phone_number, telegram, email)
+    def self.validate_contacts(phone_number, telegram, email)
         if phone_number.nil? && telegram.nil? && email.nil? then
             raise ArgumentError, "Phone number, telegram or Email is empty"
         end
@@ -218,7 +218,7 @@ class Student < Person
 
     # contacts setter
     def set_contacts(contacts)
-        validate_contacts(contacts[:phone_number], contacts[:telegram], contacts[:email])
+        self.class.validate_contacts(contacts[:phone_number], contacts[:telegram], contacts[:email])
 
         unless self.class.valid_phone_number?(contacts[:phone_number])
             raise ArgumentError, "Wrong phone number format"
