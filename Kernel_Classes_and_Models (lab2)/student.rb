@@ -1,7 +1,7 @@
 class Person
     attr_reader :id, :git
 
-
+    
     protected
 
     # phone number validation
@@ -54,12 +54,12 @@ class Student < Person
     attr_writer :id
 
     # constructor
-    def initialize(first_name:, name:, patronymic:, **params)
-        self.id = params[:id]
+    def initialize(first_name:, name:, patronymic:, id: nil, telegram: nil, phone_number: nil, email: nil, git: nil)
+        self.id = id
         self.first_name = first_name
         self.name = name
         self.patronymic = patronymic
-        self.set_contacts(git: params[:git], email: params[:email], telegram: params[:telegram], phone_number: params[:phone_number])
+        self.set_contacts(git: git, email: email, telegram: telegram, phone_number: phone_number)
     end
 
     # constructor_from_string
@@ -242,7 +242,7 @@ class Student_short < Person
     attr_reader :id, :full_name, :contact
     private_class_method :new
 
-    def initialize(id, full_name, git, contact)
+    def initialize(full_name:, git:, contact:, id: nil)
         self.id = id
         self.full_name = full_name
         self.git = git
