@@ -78,20 +78,9 @@ class Student < Person
         )
     end
 
-    # print info
-    def print_info
-        puts '-------------------'
-
-        puts "ID: #{ @id ? @id : 'Not Set' }"
-        puts "First Name: #{ @first_name }"
-        puts "Name: #{ @name }"
-        puts "Patronymic: #{ @patronymic }"
-        puts "Phone Number: #{ @phone_number ? @phone_number : 'Not Set' }"
-        puts "Telegram: #{ @telegram ? @telegram : 'Not Set' }"
-        puts "Email: #{ @email ? @email : 'Not Set' }"
-        puts "Git: #{ @git ? @git : 'Not Set' }"
-
-        puts '-------------------'
+    # to string
+    def to_s 
+        "#{"-------------------\nID: #{self.id}\n" unless self.id.nil?}First Name: #{ self.first_name }\nName: #{ self.name }\nPatronymic: #{ self.patronymic }\n#{"Phone Number: #{ self.phone_number }\n" unless self.phone_number.nil?}#{"Telegram: #{ self.phone_number }\n" unless self.telegram}#{"Email: #{ self.email }\n" unless self.email.nil?}#{"Git: #{ self.git }\n" unless self.git.nil?}-------------------"
     end
 
     # get short info in string
@@ -152,13 +141,13 @@ class Student < Person
 
         File.open(path, 'w') do |file|
             students.each do |student|
-                file.puts student.to_s
+                file.puts student.to_line_s
             end
         end
     end
 
     # to string
-    def to_s
+    def to_line_s
         data = []
         data << "first_name: #{self.first_name}"
         data << "name: #{self.name}"
