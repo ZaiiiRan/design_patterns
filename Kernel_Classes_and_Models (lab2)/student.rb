@@ -31,6 +31,11 @@ class Person
         end
     end
 
+    # names validation
+    def self.valid_name?(name)
+        name =~ /^[А-ЯЁ][а-яё]{1,}(-[А-ЯЁ][а-яё]{1,})?$/
+    end
+
     # git setter
     def git=(git)
         self.validate_git(git)
@@ -180,11 +185,6 @@ class Student < Person
 
     private
 
-    # names validation
-    def self.valid_name?(name)
-        name =~ /^[А-ЯЁ][а-яё]{1,}(-[А-ЯЁ][а-яё]{1,})?$/
-    end
-
     # checking the availability of email, phone number or telegram
     def validate_contacts(phone_number, telegram, email)
         if phone_number.nil? && telegram.nil? && email.nil? then
@@ -315,7 +315,7 @@ class Student_short < Person
     end
 
     # full name validation
-    def self.valid_full_name?(name)
+    def self.valid_name?(name)
         name =~ /^[А-ЯЁ][а-яё]{1,}(-[А-ЯЁ][а-яё]{1,})?\s[А-ЯЁ].\s?[А-ЯЁ].$/
     end
 end
