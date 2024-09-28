@@ -1,7 +1,7 @@
 class Person
     attr_reader :id, :git
 
-    
+
     protected
 
     # phone number validation
@@ -29,6 +29,15 @@ class Person
         if git.nil? then
             raise ArgumentError, "Git is empty"
         end
+    end
+
+    # git setter
+    def git=(git)
+        self.validate_git(git)
+        unless self.class.valid_git?(git)
+            raise ArgumentError, "Wrong git link format"
+        end
+        @git = git
     end
 
     # returning hash
@@ -59,7 +68,8 @@ class Student < Person
         self.first_name = first_name
         self.name = name
         self.patronymic = patronymic
-        self.set_contacts(git: git, email: email, telegram: telegram, phone_number: phone_number)
+        self.git = git
+        self.set_contacts(email: email, telegram: telegram, phone_number: phone_number)
     end
 
     # constructor_from_string
@@ -182,12 +192,6 @@ class Student < Person
         end
     end
 
-    # contacts validation
-    def validate(git, phone_number, telegram, email)
-        self.validate_git(git)
-        self.validate_contacts(phone_number, telegram, email)
-    end
-
     # first name setter
     def first_name=(first_name)
         unless self.class.valid_name?(first_name)
@@ -214,7 +218,7 @@ class Student < Person
 
     # contacts setter
     def set_contacts(contacts)
-        validate(contacts[:git], contacts[:phone_number], contacts[:telegram], contacts[:email])
+        validate_contacts(contacts[:phone_number], contacts[:telegram], contacts[:email])
 
         unless self.class.valid_phone_number?(contacts[:phone_number])
             raise ArgumentError, "Wrong phone number format"
@@ -225,11 +229,6 @@ class Student < Person
             raise ArgumentError, "Wrong telegram format"
         end
         @telegram = contacts[:telegram]
-
-        unless self.class.valid_git?(contacts[:git])
-            raise ArgumentError, "Wrong git link format"
-        end
-        @git = contacts[:git]
 
         unless self.class.valid_email?(contacts[:email])
             raise ArgumentError, "Wrong Email format"
@@ -287,14 +286,6 @@ class Student_short < Person
             raise ArgumentError, "Wrong full name format"
         end
         @full_name = full_name
-    end
-
-    def git=(git)
-        self.validate_git(git)
-        unless self.class.valid_git?(git)
-            raise ArgumentError, "Wrong git link format"
-        end
-        @git = git
     end
 
     def contact=(contact)
