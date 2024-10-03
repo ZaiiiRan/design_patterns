@@ -1,5 +1,5 @@
 class Person
-    attr_reader :id, :git
+    attr_reader :id, :name, :git
 
 
     protected
@@ -45,6 +45,14 @@ class Person
         @git = git
     end
 
+    #name setter
+    def name=(name)
+        unless self.class.valid_name?(name)
+            raise ArgumentError, "Wrong name format"
+        end
+        @name = name
+    end
+
     # returning hash
     def self.parse_string(string)
         data = string.split(',')
@@ -64,7 +72,7 @@ class Person
 end
 
 class Student < Person
-    attr_reader :first_name, :name, :patronymic, :telegram, :email, :phone_number
+    attr_reader :first_name, :patronymic, :telegram, :email, :phone_number
     attr_writer :id
 
     # constructor
@@ -200,14 +208,6 @@ class Student < Person
         @first_name = first_name
     end
 
-    # name setter
-    def name=(name)
-        unless self.class.valid_name?(name)
-            raise ArgumentError, "Wrong name format"
-        end
-        @name = name
-    end
-
     # patronymic setter
     def patronymic=(patronymic)
         unless self.class.valid_name?(patronymic)
@@ -238,12 +238,12 @@ class Student < Person
 end
 
 class Student_short < Person
-    attr_reader :id, :full_name, :contact
+    attr_reader :id, :contact
     private_class_method :new
 
     def initialize(full_name:, git:, contact:, id: nil)
         self.id = id
-        self.full_name = full_name
+        self.name = full_name
         self.git = git
         self.contact = contact
     end
@@ -251,10 +251,10 @@ class Student_short < Person
     # constructor from Student object
     def self.new_from_student_obj(student)
         self.new(
-            student.id.to_i,
-            student.get_full_name.slice(11..-1),
-            student.git,
-            student.get_any_contact
+            id: student.id.to_i,
+            full_name: student.get_full_name.slice(11..-1),
+            git: student.git,
+            contact: student.get_any_contact
         )
     end
 
@@ -271,22 +271,15 @@ class Student_short < Person
         end
         
         self.new(
-            id.to_i,
-            hash['full_name'],
-            hash['git'],
-            contact
+            id: id.to_i,
+            full_name: hash['full_name'],
+            git: hash['git'],
+            contact: contact
         )
     end
 
     private 
     attr_writer :id
-
-    def full_name=(full_name)
-        unless self.class.valid_full_name?(full_name)
-            raise ArgumentError, "Wrong full name format"
-        end
-        @full_name = full_name
-    end
 
     def contact=(contact)
         unless contact
