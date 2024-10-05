@@ -1,4 +1,4 @@
 first_name: Смирнов, name: Никита, patronymic: Олегович, git: https://github.com/ZaiiiRan, id: 1, telegram: @zaiiran, phone_number: +7-(934)-453-32-11
 first_name: Блягоз, name: Амаль, patronymic: Хазретович, git: https://github.com/lamafout, id: 2, telegram: @lamafout, email: lamafout@gmail.com
 first_name: Лотарев, name: Сергей, patronymic: Юрьевич, git: https://github.com/lotarv, id: 3, telegram: @lotarv
-first_name: Иванов, name: Иван, patronymic: Иванович, git: https://github.com/1vandfd, id: 5, telegram: @1vann
+first_name: Иванов, name: Иван, patronymic: Иванович, id: 5, telegram: @1vann

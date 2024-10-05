@@ -1,6 +1,15 @@
 class Person
     attr_reader :id, :name, :git
 
+    # checking for git availability
+    def validate_git
+        !self.git.nil?
+    end
+
+    # validate git
+    def validate
+        self.validate_git
+    end
 
     protected
 
@@ -24,13 +33,6 @@ class Person
         email.nil? || email =~ /^[\w+_.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
     end
 
-    # checking for git availability
-    def self.validate_git(git)
-        if git.nil? then
-            raise ArgumentError, "Git is empty"
-        end
-    end
-
     # names validation
     def self.valid_name?(name)
         name =~ /^[А-ЯЁ][а-яё]{1,}(-[А-ЯЁ][а-яё]{1,})?$/
@@ -38,7 +40,6 @@ class Person
 
     # git setter
     def git=(git)
-        self.class.validate_git(git)
         unless self.class.valid_git?(git)
             raise ArgumentError, "Wrong git link format"
         end

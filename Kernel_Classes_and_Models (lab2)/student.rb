@@ -80,14 +80,17 @@ class Student < Person
         data.join(', ')
     end
 
-    private
-
-    # checking the availability of email, phone number or telegram
-    def self.validate_contacts(phone_number, telegram, email)
-        if phone_number.nil? && telegram.nil? && email.nil? then
-            raise ArgumentError, "Phone number, telegram or Email is empty"
-        end
+    # checking for contacts availability
+    def validate_contacts
+        !self.telegram.nil? || !self.email.nil? || !self.phone_number.nil?
     end
+
+    # validate git and contacts
+    def validate
+        super && self.validate_contacts
+    end
+
+    private
 
     # first name setter
     def first_name=(first_name)
@@ -107,8 +110,6 @@ class Student < Person
 
     # contacts setter
     def set_contacts(contacts)
-        self.class.validate_contacts(contacts[:phone_number], contacts[:telegram], contacts[:email])
-
         unless self.class.valid_phone_number?(contacts[:phone_number])
             raise ArgumentError, "Wrong phone number format"
         end

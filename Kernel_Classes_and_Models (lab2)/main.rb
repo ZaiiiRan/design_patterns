@@ -1,4 +1,5 @@
 require './student.rb'
+require './student_short.rb'
 
 # reading students from txt file
 def read_from_txt(path)
