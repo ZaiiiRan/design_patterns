@@ -57,6 +57,7 @@ def menu
         puts '2 - Проверить, является ли элемент локальным минимумом'
         puts '3 - Циклический свдиг массива влево на одну позицию'
         puts '4 - Вывести сначала элементы с четными индексами, потом - с нечетными'
+        puts '5 - Построить списки L1 и L2, где L1 - это список уникальных элементов исходного массива, а элемент с номером i списка L2 указывает сколько раз элемент с этим номером из списка L1 повторяется в исходном'
         puts '0 - Выход'
     
         task = gets.chomp.to_i
@@ -70,6 +71,8 @@ def menu
             cyclic_shift
         when 4
             even_odd_index
+        when 5
+            build_L1_L2
         when 0
             exit
         else
@@ -128,6 +131,15 @@ def even_odd_index
     even_odd = Processing.even_odd_index(arr)
 
     puts "Полученный массив: #{even_odd.join(' ')}"
+end
+
+def build_L1_L2
+    arr = input_choice
+
+    lists = Processing.build_L1_L2(arr)
+
+    puts "L1: #{lists[0]. join(' ')}"
+    puts "L2: #{lists[1]. join(' ')}"
 end
 
 menu

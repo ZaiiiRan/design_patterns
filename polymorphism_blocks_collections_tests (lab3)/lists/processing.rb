@@ -23,4 +23,11 @@ class Processing
 
         even_index_elems.push('_') + odd_index_elems
     end
+
+    def self.build_L1_L2(arr)
+        l1 = arr.uniq
+        l2 = l1.map{ |element| arr.count(element) }
+
+        [l1, l2]
+    end
 end
