@@ -26,7 +26,7 @@ end
 
 def input_choice
     arr = []
-    while true 
+    loop do
         puts 'Выберите способ ввода данных: '
         puts '1. С клавиатуры'
         puts '2 - Из файла'
@@ -45,13 +45,13 @@ def input_choice
         end
     end
 
+    puts "\n\n"
     puts "Введенный массив: #{arr.join(' ')}"
     arr
 end
 
-
 def menu
-    while true
+    loop do
         puts 'Выберите задачу:'
         puts '1 - Проверить, является ли элемент глобальным максимумом'
         puts '2 - Проверить, является ли элемент локальным минимумом'
@@ -61,6 +61,7 @@ def menu
         puts '0 - Выход'
     
         task = gets.chomp.to_i
+        puts "\n\n"
     
         case task
         when 1
@@ -78,17 +79,29 @@ def menu
         else
             puts 'Нет такой задачи'
         end
+
+        puts "\n\n"
     end
+end
+
+def index_input(arr)
+    puts 'Введите индекс: '
+    index = gets.chomp.to_i
+
+    unless index.between?(0, arr.length - 1)
+        raise 'Индекс некорректен'
+    end
+
+    index.to_i
 end
 
 def is_global_maximum
     arr = input_choice
 
-    puts 'Введите индекс: '
-    index = gets.chomp.to_i
-
-    if index < 0 || index > arr.length - 1 then
-        puts 'Индекс некорректен'
+    begin
+        index = index_input(arr)
+    rescue => e
+        puts "#{e.message}"
         return
     end
 
@@ -102,8 +115,12 @@ end
 def is_local_minimum
     arr = input_choice
 
-    puts 'Введите индекс: '
-    index = gets.chomp.to_i
+    begin
+        index = index_input(arr)
+    rescue => e
+        puts "#{e.message}"
+        return
+    end
 
     if index < 0 || index > arr.length - 1 then
         puts 'Индекс некорректен'
