@@ -16,6 +16,14 @@ class Tests < Minitest::Test
         assert_equal 4, self.processor.count { |x| x.even? }
     end
 
+    def test_group_by_even
+        assert_equal({ true => [2, 2, 4, 6], false => [1, 5, -7, 3, 5, 33] }, self.processor.group_by { |x| x.even? })
+    end
+
+    def test_group_by_negative
+        assert_equal({ true => [-7], false => [1, 5, 2, 2, 3, 4, 5, 33, 6] }, self.processor.group_by { |x| x < 0 })
+    end
+
     private
     attr_writer :processor
 end
