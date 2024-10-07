@@ -23,6 +23,19 @@ class Array_processor
         result
     end
 
+    def partition
+        true_part = []
+        false_part = []
+        self.array.each do |element|
+            if yield element then
+                true_part << element
+            else 
+                false_part << element
+            end
+        end
+        [true_part, false_part]
+    end
+
     private
     attr_writer :array
 end

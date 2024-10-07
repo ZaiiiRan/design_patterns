@@ -24,6 +24,14 @@ class Tests < Minitest::Test
         assert_equal({ true => [-7], false => [1, 5, 2, 2, 3, 4, 5, 33, 6] }, self.processor.group_by { |x| x < 0 })
     end
 
+    def test_partition_even
+        assert_equal [[2, 2, 4, 6], [1, 5, -7, 3, 5, 33]], self.processor.partition {|x| x.even?}
+    end
+
+    def test_partition_positive
+        assert_equal [[1, 5, 2, 2, 3, 4, 5, 33, 6], [-7]], self.processor.partition {|x| x > 0}
+    end
+
     private
     attr_writer :processor
 end
