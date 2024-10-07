@@ -48,6 +48,14 @@ class Tests < Minitest::Test
         assert_equal 2, self.processor.min { |a, b| (a.even? ? a: Float::INFINITY) <=> (b.even? ? b: Float::INFINITY) }
     end
 
+    def test_filter_map_incr_if_even
+        assert_equal [3, 3, 5, 7], self.processor.filter_map { |x| x + 1 if x.even? }
+    end
+
+    def test_filter_map_square_if_odd
+        assert_equal [1, 25, 49, 9, 25, 1089], self.processor.filter_map { |x| x * x if x.odd? }
+    end
+
     private
     attr_writer :processor
 end

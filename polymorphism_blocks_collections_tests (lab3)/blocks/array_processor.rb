@@ -55,6 +55,15 @@ class Array_processor
         min_element
     end
 
+    def filter_map
+        result = []
+        self.array.each do |element|
+            val = yield element
+            result << val if val
+        end
+        result
+    end
+
     private
     attr_writer :array
 end
