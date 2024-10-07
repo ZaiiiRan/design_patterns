@@ -40,6 +40,14 @@ class Tests < Minitest::Test
         assert_equal [1, 5, 2, 2], self.processor.take_while { |x| x > 0 }
     end
 
+    def test_min_count_of_digits
+        assert_equal 1, self.processor.min { |a, b| a.abs.to_s <=> b.abs.to_s }
+    end
+
+    def test_min_even
+        assert_equal 2, self.processor.min { |a, b| (a.even? ? a: Float::INFINITY) <=> (b.even? ? b: Float::INFINITY) }
+    end
+
     private
     attr_writer :processor
 end
