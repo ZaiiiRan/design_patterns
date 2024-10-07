@@ -36,6 +36,15 @@ class Array_processor
         [true_part, false_part]
     end
 
+    def take_while
+        result = []
+        self.array.each do |element|
+            break unless yield element
+            result << element
+        end
+        result
+    end
+
     private
     attr_writer :array
 end

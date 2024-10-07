@@ -32,6 +32,14 @@ class Tests < Minitest::Test
         assert_equal [[1, 5, 2, 2, 3, 4, 5, 33, 6], [-7]], self.processor.partition {|x| x > 0}
     end
 
+    def test_take_while_odd
+        assert_equal [1, 5], self.processor.take_while { |x| x.odd? }
+    end
+
+    def test_take_while_positive
+        assert_equal [1, 5, 2, 2], self.processor.take_while { |x| x > 0 }
+    end
+
     private
     attr_writer :processor
 end
