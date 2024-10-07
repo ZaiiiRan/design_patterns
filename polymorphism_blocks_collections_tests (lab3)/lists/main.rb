@@ -54,6 +54,7 @@ def menu
     while true
         puts 'Выберите задачу:'
         puts '1 - Проверить, является ли элемент глобальным максимумом'
+        puts '2 - Проверить, является ли элемент локальным минимумом'
         puts '0 - Выход'
     
         task = gets.chomp.to_i
@@ -61,6 +62,8 @@ def menu
         case task
         when 1
             is_global_maximum
+        when 2
+            is_local_minimum
         when 0
             exit
         else
@@ -84,6 +87,24 @@ def is_global_maximum
         puts "Элемент #{arr[index]} глобальный максимум"
     else
         puts "Элемент #{arr[index]} не глобальный максимум"
+    end
+end
+
+def is_local_minimum
+    arr = input_choice
+
+    puts 'Введите индекс: '
+    index = gets.chomp.to_i
+
+    if index < 0 || index > arr.length - 1 then
+        puts 'Индекс некорректен'
+        return
+    end
+
+    if Processing.is_local_minimum(arr, index) then
+        puts "Элемент #{arr[index]} локальный минимум"
+    else
+        puts "Элемент #{arr[index]} не локальный минимум"
     end
 end
 
