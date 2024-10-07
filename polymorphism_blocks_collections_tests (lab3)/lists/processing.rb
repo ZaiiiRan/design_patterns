@@ -16,4 +16,11 @@ class Processing
     def self.cyclic_shift(arr)
         arr.rotate
     end
+
+    def self.even_odd_index(arr)
+        even_index_elems = arr.select.with_index { |_, index| index.even? }
+        odd_index_elems = arr.select.with_index { |_, index| index.odd? }
+
+        even_index_elems.push('_') + odd_index_elems
+    end
 end

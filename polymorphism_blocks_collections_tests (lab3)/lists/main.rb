@@ -56,6 +56,7 @@ def menu
         puts '1 - Проверить, является ли элемент глобальным максимумом'
         puts '2 - Проверить, является ли элемент локальным минимумом'
         puts '3 - Циклический свдиг массива влево на одну позицию'
+        puts '4 - Вывести сначала элементы с четными индексами, потом - с нечетными'
         puts '0 - Выход'
     
         task = gets.chomp.to_i
@@ -67,6 +68,8 @@ def menu
             is_local_minimum
         when 3
             cyclic_shift
+        when 4
+            even_odd_index
         when 0
             exit
         else
@@ -117,6 +120,14 @@ def cyclic_shift
     shifted_arr = Processing.cyclic_shift(arr)
 
     puts "Сдвинутый массив: #{shifted_arr.join(' ')}"
+end
+
+def even_odd_index
+    arr = input_choice
+
+    even_odd = Processing.even_odd_index(arr)
+
+    puts "Полученный массив: #{even_odd.join(' ')}"
 end
 
 menu
