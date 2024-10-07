@@ -55,6 +55,7 @@ def menu
         puts 'Выберите задачу:'
         puts '1 - Проверить, является ли элемент глобальным максимумом'
         puts '2 - Проверить, является ли элемент локальным минимумом'
+        puts '3 - Циклический свдиг массива влево на одну позицию'
         puts '0 - Выход'
     
         task = gets.chomp.to_i
@@ -64,6 +65,8 @@ def menu
             is_global_maximum
         when 2
             is_local_minimum
+        when 3
+            cyclic_shift
         when 0
             exit
         else
@@ -108,5 +111,12 @@ def is_local_minimum
     end
 end
 
+def cyclic_shift
+    arr = input_choice
+
+    shifted_arr = Processing.cyclic_shift(arr)
+
+    puts "Сдвинутый массив: #{shifted_arr.join(' ')}"
+end
 
 menu

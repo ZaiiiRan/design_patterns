@@ -12,4 +12,8 @@ class Processing
             return arr[index] <= arr[index - 1] && arr[index] <= arr[index + 1]
         end
     end
+
+    def self.cyclic_shift(arr)
+        arr.rotate
+    end
 end
