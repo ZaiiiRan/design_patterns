@@ -42,13 +42,13 @@ class Student_short < Person
     end
 
     # checking for contacts availability
-    def validate_contacts
+    def validate_contacts?
         !self.contact.nil?
     end
 
     # validate git and contacts
-    def validate
-        super && self.validate_contacts
+    def validate?
+        super && self.validate_contacts?
     end
 
     private 
@@ -76,7 +76,7 @@ class Student_short < Person
         @contact = contact
     end
 
-    def get_contacts
+    def get_any_contact
         @contact
     end
 

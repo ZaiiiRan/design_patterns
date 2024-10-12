@@ -2,13 +2,13 @@ class Person
     attr_reader :id, :git
 
     # checking for git availability
-    def validate_git
+    def validate_git?
         !self.git.nil?
     end
 
     # validate git
-    def validate
-        self.validate_git
+    def validate?
+        self.validate_git?
     end
 
     protected
@@ -62,4 +62,11 @@ class Person
 
         hash
     end
+
+    def get_any_contact
+    end
+
+    def set_contacts
+    end
+
 end

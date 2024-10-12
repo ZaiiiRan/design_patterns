@@ -81,13 +81,13 @@ class Student < Person
     end
 
     # checking for contacts availability
-    def validate_contacts
+    def validate_contacts?
         !self.telegram.nil? || !self.email.nil? || !self.phone_number.nil?
     end
 
     # validate git and contacts
-    def validate
-        super && self.validate_contacts
+    def validate?
+        super && self.validate_contacts?
     end
 
     private
