@@ -1,7 +1,7 @@
 require './person.rb'
 
 class Student_short < Person
-    attr_reader :id, :full_name, :contact
+    attr_reader :id, :full_name
     private_class_method :new
 
     def initialize(full_name:, git:, contact:, id: nil)
@@ -54,7 +54,7 @@ class Student_short < Person
     private 
     attr_writer :id
 
-    def contact=(contact)
+    def set_contacts(contact)
         if contact.start_with?('telegram:') then
             telegram = contact.slice(9..-1).strip
             unless self.class.valid_telegram?(telegram)
@@ -74,6 +74,10 @@ class Student_short < Person
             raise ArgumentError, "Wrong contact format"
         end
         @contact = contact
+    end
+
+    def get_contacts
+        @contact
     end
 
     def full_name=(full_name)
