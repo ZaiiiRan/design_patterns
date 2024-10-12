@@ -1,5 +1,5 @@
 class Person
-    attr_reader :id, :name, :git
+    attr_reader :id, :git
 
     # checking for git availability
     def validate_git
@@ -44,14 +44,6 @@ class Person
             raise ArgumentError, "Wrong git link format"
         end
         @git = git
-    end
-
-    #name setter
-    def name=(name)
-        unless self.class.valid_name?(name)
-            raise ArgumentError, "Wrong name format"
-        end
-        @name = name
     end
 
     # returning hash

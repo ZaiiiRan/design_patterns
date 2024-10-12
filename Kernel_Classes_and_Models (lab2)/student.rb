@@ -1,7 +1,7 @@
 require './person.rb'
 
 class Student < Person
-    attr_reader :first_name, :patronymic, :telegram, :email, :phone_number
+    attr_reader :first_name, :name, :patronymic, :telegram, :email, :phone_number
     attr_writer :id
 
     # constructor
@@ -98,6 +98,14 @@ class Student < Person
             raise ArgumentError, "Wrong first name format"
         end
         @first_name = first_name
+    end
+
+    #name setter
+    def name=(name)
+        unless self.class.valid_name?(name)
+            raise ArgumentError, "Wrong name format"
+        end
+        @name = name
     end
 
     # patronymic setter

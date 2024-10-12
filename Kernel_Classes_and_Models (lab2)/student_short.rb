@@ -1,12 +1,12 @@
 require './person.rb'
 
 class Student_short < Person
-    attr_reader :id, :contact
+    attr_reader :id, :full_name, :contact
     private_class_method :new
 
     def initialize(full_name:, git:, contact:, id: nil)
         self.id = id
-        self.name = full_name
+        self.full_name = full_name
         self.git = git
         self.contact = contact
     end
@@ -74,6 +74,13 @@ class Student_short < Person
             raise ArgumentError, "Wrong contact format"
         end
         @contact = contact
+    end
+
+    def full_name=(full_name)
+        unless self.class.valid_name?(full_name)
+            raise ArgumentError, "Wrong name format"
+        end
+        @full_name = full_name
     end
 
     # full name validation
