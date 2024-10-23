@@ -66,7 +66,6 @@ def print_html_dfs(tree)
 end
 
 # в этом обходе вывести html в прежней структуре не получится 
-# (поэтому я тут и оставил всего один блок))) )
 def print_opening_tags_bfs(tree)
     tree.bfs { |node| puts node.opening_tag }
 end

@@ -12,25 +12,13 @@ class Tree
 
     # по умолчанию в each будет dfs
     def each(&block)
-        dfs(@root, &block)
+        traverse(Tree_iterator_dfs.new(root), &block)
     end
 
-    def dfs(node)
-        iterator = Tree_iterator_dfs.new(node)
-        while !iterator.done?
-            yield iterator.current
-            iterator.next
-        end
+    # обход в ширину
+    def bfs(&block)
+        traverse(Tree_iterator_bfs.new(root), &block)
     end
-
-    def bfs
-        iterator = Tree_iterator_bfs.new(root)
-        while !iterator.done?
-            yield iterator.current
-            iterator.next
-        end
-    end
-
 
     private
     def parse_html(html_string)
@@ -93,5 +81,13 @@ class Tree
     # обработка текста внутри тега
     def process_text(token, current_parent)
         current_parent.content += token if current_parent
+    end
+
+    # обход
+    def traverse(iterator, &block) 
+        while !iterator.done?
+            yield iterator.current
+            iterator.next
+        end
     end
 end

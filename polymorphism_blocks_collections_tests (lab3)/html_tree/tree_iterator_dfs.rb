@@ -1,11 +1,10 @@
 require './tag.rb'
+require './tree_iterator.rb'
 
-class Tree_iterator_dfs
-    attr_reader :current
-
+class Tree_iterator_dfs < Tree_iterator
     def initialize(root)
         self.stack = root.children.reverse
-        self.current = root
+        super root
     end 
 
     def next
@@ -23,5 +22,4 @@ class Tree_iterator_dfs
 
     private
     attr_accessor :stack 
-    attr_writer :current
 end

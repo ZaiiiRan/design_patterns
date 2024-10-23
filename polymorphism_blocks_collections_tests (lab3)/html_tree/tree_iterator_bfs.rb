@@ -1,11 +1,10 @@
 require './tag.rb'
+require './tree_iterator.rb'
 
-class Tree_iterator_bfs
-    attr_reader :current
-
+class Tree_iterator_bfs < Tree_iterator
     def initialize(root)
         self.queue = root.children
-        self.current = root
+        super root
     end
 
     def done?
@@ -21,6 +20,5 @@ class Tree_iterator_bfs
     end
 
     private
-    attr_writer :current
     attr_accessor :queue
 end
