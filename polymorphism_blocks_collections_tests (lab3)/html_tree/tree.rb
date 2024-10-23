@@ -1,4 +1,5 @@
 require './tag.rb'
+require './tree_iterator_dfs.rb'
 
 class Tree
     include Enumerable
@@ -9,16 +10,16 @@ class Tree
     end
 
     # по умолчанию в each будет dfs
-    def each(initial_block, final_block = nil)
-        dfs(@root, initial_block, final_block)
+    def each(&block)
+        dfs(@root, &block)
     end
 
-    def dfs(node, initial_block, final_block)
-        initial_block.call(node)
-        node.children.each do |child|
-            dfs(child, initial_block, final_block)
+    def dfs(node)
+        iterator = Tree_iterator_dfs.new(node)
+        while !iterator.done?
+            yield iterator.current
+            iterator.next
         end
-        final_block.call(node) if final_block
     end
 
     def bfs
