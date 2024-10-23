@@ -1,5 +1,6 @@
 require './tag.rb'
 require './tree_iterator_dfs.rb'
+require './tree_iterator_bfs.rb'
 
 class Tree
     include Enumerable
@@ -23,11 +24,10 @@ class Tree
     end
 
     def bfs
-        queue = [self.root]
-        until queue.empty?
-            node = queue.shift
-            yield node
-            queue.concat(node.children)
+        iterator = Tree_iterator_bfs.new(root)
+        while !iterator.done?
+            yield iterator.current
+            iterator.next
         end
     end
 
