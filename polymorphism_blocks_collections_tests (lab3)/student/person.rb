@@ -1,14 +1,14 @@
 class Person
-    attr_reader :id, :name, :git
+    attr_reader :id, :git
 
     # checking for git availability
-    def validate_git
+    def validate_git?
         !self.git.nil?
     end
 
     # validate git
-    def validate
-        self.validate_git
+    def validate?
+        self.validate_git?
     end
 
     protected
@@ -46,14 +46,6 @@ class Person
         @git = git
     end
 
-    #name setter
-    def name=(name)
-        unless self.class.valid_name?(name)
-            raise ArgumentError, "Wrong name format"
-        end
-        @name = name
-    end
-
     # returning hash
     def self.parse_string(string)
         data = string.split(',')
@@ -70,4 +62,11 @@ class Person
 
         hash
     end
+
+    def get_any_contact
+    end
+
+    def set_contacts
+    end
+
 end
