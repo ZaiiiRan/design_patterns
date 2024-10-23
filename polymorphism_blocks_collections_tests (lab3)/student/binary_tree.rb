@@ -1,3 +1,5 @@
+require './binary_tree_iterator.rb'
+
 class Binary_tree
     include Enumerable
 
@@ -28,16 +30,12 @@ class Binary_tree
         self.balance(new_node)
     end
 
-    def in_order_traverse(node, &block)
-        return nil if node.nil?
-
-        in_order_traverse(node.left, &block)
-        block.call(node.student)
-        in_order_traverse(node.right, &block)
-    end
-
-    def each(&block)
-        in_order_traverse(self.root, &block)
+    def each
+        iterator = Binary_tree_iterator.new(self.root)
+        while !iterator.done?
+            iterator.next
+            yield iterator.current.student
+        end
     end
 
     def find(birthdate)

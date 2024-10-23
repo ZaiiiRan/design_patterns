@@ -1,17 +1,19 @@
 require './person.rb'
+require 'date'
 
 class Student < Person
-    attr_reader :first_name, :name, :patronymic, :telegram, :email, :phone_number
+    attr_reader :first_name, :name, :patronymic, :telegram, :email, :phone_number, :birthdate
     attr_writer :id
 
     # constructor
-    def initialize(first_name:, name:, patronymic:, id: nil, telegram: nil, phone_number: nil, email: nil, git: nil)
+    def initialize(first_name:, name:, patronymic:, birthdate:, id: nil, telegram: nil, phone_number: nil, email: nil, git: nil)
         self.id = id
         self.first_name = first_name
         self.name = name
         self.patronymic = patronymic
         self.git = git
         self.set_contacts(email: email, telegram: telegram, phone_number: phone_number)
+        self.birthdate = birthdate
     end
 
     # constructor_from_string
@@ -26,13 +28,14 @@ class Student < Person
             telegram: hash['telegram'],
             email: hash['email'],
             phone_number: hash['phone_number'],
-            git: hash['git']
+            git: hash['git'],
+            birthdate: hash['birthdate']
         )
     end
 
     # to string
     def to_s 
-        "#{"-------------------\nID: #{self.id}\n" unless self.id.nil?}First Name: #{ self.first_name }\nName: #{ self.name }\nPatronymic: #{ self.patronymic }\n#{"Phone Number: #{ self.phone_number }\n" unless self.phone_number.nil?}#{"Telegram: #{ self.phone_number }\n" unless self.telegram}#{"Email: #{ self.email }\n" unless self.email.nil?}#{"Git: #{ self.git }\n" unless self.git.nil?}-------------------"
+        "#{"-------------------\nID: #{self.id}\n" unless self.id.nil?}First Name: #{ self.first_name }\nName: #{ self.name }\nPatronymic: #{ self.patronymic }\nBithdate: #{ self.birthdate }\n#{"Phone Number: #{ self.phone_number }\n" unless self.phone_number.nil?}#{"Telegram: #{ self.phone_number }\n" unless self.telegram}#{"Email: #{ self.email }\n" unless self.email.nil?}#{"Git: #{ self.git }\n" unless self.git.nil?}-------------------"
     end
 
     # get short info in string
@@ -91,6 +94,11 @@ class Student < Person
     end
 
     private
+
+    # birthdate setter
+    def birthdate=(birthdate)
+        @birthdate = Date.parse(birthdate)
+    end
 
     # first name setter
     def first_name=(first_name)
