@@ -1,31 +1,36 @@
 class Binary_tree_iterator
-    attr_reader :current
+    include Enumerable
+
+    attr_reader :root
 
     def initialize(root)
-        self.stack = []
-        self.current = nil
-        push_left_branch(root)
+        self.root = root
     end
 
-    def done?
-        self.stack.empty?
-    end
-
-    def next
-        return nil if self.done?
-        self.current = stack.pop
-        self.push_left_branch(self.current.right)
-        self.current
+    def each(&block)
+        self.enumerator.each(&block)
     end
 
     private
-    attr_writer :current
-    attr_accessor :stack
+    attr_writer :root
 
-    def push_left_branch(node)
+    def enumerator
+        Enumerator.new do |yielder|
+            stack = []
+            push_left_branch(yielder, self.root, stack)
+        end
+    end
+
+    def push_left_branch(yielder, node, stack)
         while node
-            self.stack.push(node)
+            yielder << node.value
+            stack.push(node)
             node = node.left
+        end
+
+        until stack.empty?
+            current = stack.pop
+            push_left_branch(yielder, current.right, stack)
         end
     end
 end

@@ -2,6 +2,7 @@ require './person.rb'
 require 'date'
 
 class Student < Person
+    include Comparable
     attr_reader :first_name, :name, :patronymic, :telegram, :email, :phone_number, :birthdate
     attr_writer :id
     attr_accessor :key_type
@@ -110,6 +111,18 @@ class Student < Person
             self.git
         else
             raise ArgumentError, "Unknown key_type"
+        end
+    end
+
+    def <=>(other)
+        if self.key.nil? && other.key.nil?
+            0
+        elsif self.key.nil?
+            1
+        elsif other.key.nil?
+            -1
+        else
+            self.key <=> other.key
         end
     end
 
