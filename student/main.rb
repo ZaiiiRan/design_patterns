@@ -1,5 +1,6 @@
 require './student.rb'
 require './student_short.rb'
+require './binary_tree.rb'
 
 # reading students from txt file
 def read_from_txt(path)
@@ -42,20 +43,47 @@ def write_to_txt(path, students)
 end
 
 
+def print_students
+    begin
+        students = read_from_txt('./students.txt')
+        students.each do |x|
+            puts x.get_info
+        end
+        
+        puts '-------'
+        students.each do |x|
+            puts x
+        end
+    rescue ArgumentError => e
+        puts e.message
+    end
+end
+
+def print_tree(tree)
+    tree.each { |student| puts student }
+end
+
+def find_in_tree(tree)
+    puts tree.find(Date.parse("03.06.2004"))
+end
 
 
+tree = Binary_tree.new
 begin
     students = read_from_txt('./students.txt')
     students.each do |x|
-        puts x.get_info
-    end
-    
-    puts '-------'
-    students.each do |x|
-        puts x
+        tree.add(x)
     end
 rescue ArgumentError => e
     puts e.message
 end
+
+
+puts 'tree:'
+print_tree(tree)
+
+puts "\n\nfind result"
+find_in_tree(tree)
+
 
 
