@@ -1,16 +1,21 @@
 class Tree_iterator
-    attr_reader :current
+    include Enumerable
+
+    attr_reader :root
 
     def initialize(root)
-        self.current = root
+        self.root = root
     end
 
-    def done?
-    end
-
-    def next
+    def each
+        enumerator = self.enumerator
+        enumerator.each { |node| yield node }
     end
 
     protected
-    attr_writer :current
+    attr_writer :root
+
+    def enumerator
+        raise NotImplementedError
+    end
 end

@@ -3,21 +3,20 @@ require './tree_iterator_dfs.rb'
 require './tree_iterator_bfs.rb'
 
 class Tree
-    include Enumerable
     attr_accessor :root
 
     def initialize(html_string)
         self.root = self.parse_html(html_string)
     end
 
-    # по умолчанию в each будет dfs
-    def each(&block)
-        traverse(Tree_iterator_dfs.new(root), &block)
+    # итератор для обхода в глубину
+    def dfs_iterator
+        Tree_iterator_dfs.new(self.root)
     end
 
-    # обход в ширину
-    def bfs(&block)
-        traverse(Tree_iterator_bfs.new(root), &block)
+    # итератор для обхода в ширину
+    def bfs_iterator
+        Tree_iterator_bfs.new(self.root)
     end
 
     private
@@ -81,13 +80,5 @@ class Tree
     # обработка текста внутри тега
     def process_text(token, current_parent)
         current_parent.content += token if current_parent
-    end
-
-    # обход
-    def traverse(iterator, &block) 
-        while !iterator.done?
-            yield iterator.current
-            iterator.next
-        end
     end
 end

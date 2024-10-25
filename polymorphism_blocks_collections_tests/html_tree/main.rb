@@ -28,10 +28,12 @@ tree = Tree.new(
 )
 
 def print_html_dfs(tree)
+    iterator = tree.dfs_iterator
+
     tab_count = 0
     parents = []
     
-    tree.each do |node|
+    iterator.each do |node|
         output = ''
 
         if !node.closing? && node.children_count > 0
@@ -67,7 +69,8 @@ end
 
 # в этом обходе вывести html в прежней структуре не получится 
 def print_opening_tags_bfs(tree)
-    tree.bfs { |node| puts node.opening_tag }
+    iterator = tree.bfs_iterator
+    iterator.each { |node| puts node.opening_tag }
 end
 
 puts 'HTML'
