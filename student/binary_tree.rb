@@ -7,10 +7,11 @@ class Binary_tree
     BLACK = false
 
     class Node
-        attr_accessor :student, :left, :right, :color, :parent
+        attr_accessor :value, :key, :left, :right, :color, :parent
 
-        def initialize(student, color = RED)
-            self.student = student
+        def initialize(value, color = RED)
+            self.value = value
+            self.key = value.key
             self.left = nil
             self.right = nil
             self.color = color
@@ -24,8 +25,8 @@ class Binary_tree
         self.root = nil
     end
 
-    def add(student)
-        new_node = Node.new(student)
+    def add(value)
+        new_node = Node.new(value)
         self.root = insert(self.root, new_node)
         self.balance(new_node)
     end
@@ -34,15 +35,15 @@ class Binary_tree
         iterator = Binary_tree_iterator.new(self.root)
         while !iterator.done?
             iterator.next
-            yield iterator.current.student
+            yield iterator.current.value
         end
     end
 
-    def find(birthdate)
+    def find(key)
         result = nil
-        self.each do |student|
-            if student.birthdate == birthdate
-                result = student
+        self.each do |value|
+            if value.key == key
+                result = value
                 break
             end
         end
@@ -53,12 +54,12 @@ class Binary_tree
     def insert(root, node)
         if root.nil?
             return node
-        elsif node.student.birthdate < root.student.birthdate
-            root.left = insert(root.left, node)
-            root.left.parent = root
-        else
+        elsif node.key.nil? || node.key >= root.key
             root.right = insert(root.right, node)
             root.right.parent = root
+        else root.key.nil? || node.key < root.key
+            root.left = insert(root.left, node)
+            root.left.parent = root
         end
         root
     end

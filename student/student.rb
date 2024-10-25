@@ -4,9 +4,10 @@ require 'date'
 class Student < Person
     attr_reader :first_name, :name, :patronymic, :telegram, :email, :phone_number, :birthdate
     attr_writer :id
+    attr_accessor :key_type
 
     # constructor
-    def initialize(first_name:, name:, patronymic:, birthdate:, id: nil, telegram: nil, phone_number: nil, email: nil, git: nil)
+    def initialize(first_name:, name:, patronymic:, birthdate:, id: nil, telegram: nil, phone_number: nil, email: nil, git: nil, key_type: :birthdate)
         self.id = id
         self.first_name = first_name
         self.name = name
@@ -14,6 +15,7 @@ class Student < Person
         self.git = git
         self.set_contacts(email: email, telegram: telegram, phone_number: phone_number)
         self.birthdate = birthdate
+        self.key_type = key_type
     end
 
     # constructor_from_string
@@ -91,6 +93,24 @@ class Student < Person
     # validate git and contacts
     def validate?
         super && self.validate_contacts?
+    end
+
+    # key for binary tree
+    def key
+        case self.key_type
+        when :birthdate
+            self.birthdate
+        when :id
+            self.id
+        when :full_name
+            self.get_full_name
+        when :contacts
+            self.get_any_contact
+        when :git
+            self.git
+        else
+            raise ArgumentError, "Unknown key_type"
+        end
     end
 
     private

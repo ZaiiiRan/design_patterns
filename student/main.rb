@@ -67,23 +67,26 @@ def find_in_tree(tree)
     puts tree.find(Date.parse("03.06.2004"))
 end
 
-
-tree = Binary_tree.new
-begin
-    students = read_from_txt('./students.txt')
-    students.each do |x|
-        tree.add(x)
+def test_tree
+    tree = Binary_tree.new
+    begin
+        students = read_from_txt('./students.txt')
+        students.each do |x|
+            tree.add(x)
+        end
+    rescue ArgumentError => e
+        puts e.message
     end
-rescue ArgumentError => e
-    puts e.message
+    
+    
+    puts 'tree:'
+    print_tree(tree)
+    
+    puts "\n\nfind result"
+    find_in_tree(tree)
 end
 
-
-puts 'tree:'
-print_tree(tree)
-
-puts "\n\nfind result"
-find_in_tree(tree)
+test_tree
 
 
 
