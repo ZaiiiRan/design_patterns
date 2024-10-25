@@ -62,6 +62,10 @@ class Array_processor
         result
     end
 
+    def to_a
+        self.array.dup
+    end
+
     private
     attr_accessor :array
 end
