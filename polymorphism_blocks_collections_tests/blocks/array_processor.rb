@@ -1,8 +1,6 @@
 class Array_processor
-    attr_reader :array
-
     def initialize(array) 
-        self.array = array
+        self.array = array.dup
     end
 
     def count
@@ -65,5 +63,5 @@ class Array_processor
     end
 
     private
-    attr_writer :array
+    attr_accessor :array
 end
