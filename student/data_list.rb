@@ -16,6 +16,11 @@ class Data_list
         self.selected.dup
     end
 
+    # clear selected
+    def clear_selected
+        self.selected = []
+    end
+
     # pattern-method
     def retrieve_data
         result = []
@@ -43,14 +48,14 @@ class Data_list
         result
     end
 
-    protected
-    attr_reader :data
-    attr_accessor :selected
-
     # data setter
     def data=(data)
         @data = data.map { |element| deep_dup(element) }
     end
+
+    protected
+    attr_reader :data
+    attr_accessor :selected
 
     # validate index
     def valid_index?(index)
