@@ -1,6 +1,8 @@
 require './student.rb'
 require './student_short.rb'
 require './binary_tree.rb'
+require './data_list_student_short.rb'
+require './data_table'
 
 # reading students from txt file
 def read_from_txt(path)
@@ -86,7 +88,28 @@ def test_tree
     find_in_tree(tree)
 end
 
-test_tree
+def print_table(table)
+    (0...table.row_count).each do |i|
+        (0...table.col_count).each do |j|
+            print "#{table.get(i, j)}\t"
+        end
+        puts "\n"
+    end
+end
 
+def test_data_list
+    students = read_from_txt('./students.txt')
+    student_short_objs = []
+    students.each do |x|
+        student_short_objs.append(Student_short.new_from_student_obj(x))
+    end
 
+    data_list = Data_list_student_short.new(student_short_objs)
+    data_list.select(0)
+    data_list.select(1)
+    data_list.select(2)
+    table = data_list.get_data
+    print_table table
+end
 
+test_data_list

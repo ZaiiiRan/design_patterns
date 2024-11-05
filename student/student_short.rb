@@ -8,7 +8,7 @@ class Student_short < Person
         self.id = id
         self.full_name = full_name
         self.git = git
-        self.contact = contact
+        self.set_contacts(contact)
     end
 
     # constructor from Student object
@@ -51,6 +51,10 @@ class Student_short < Person
         super && self.validate_contacts?
     end
 
+    def get_any_contact
+        @contact
+    end
+
     private 
     attr_writer :id
 
@@ -74,10 +78,6 @@ class Student_short < Person
             raise ArgumentError, "Wrong contact format"
         end
         @contact = contact
-    end
-
-    def get_any_contact
-        @contact
     end
 
     def full_name=(full_name)

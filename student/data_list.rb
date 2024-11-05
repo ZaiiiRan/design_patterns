@@ -7,10 +7,8 @@ class Data_list
 
     # select element id by number
     def select(number)
-        element = self.data[number]
-        if element && !self.selected.include?(element.id)
-            self.selected << element.id
-        end
+        raise IndexError, "Index out of bounds" unless self.valid_index?(number)
+        self.selected << number
     end
 
     # get selected ids
@@ -28,13 +26,18 @@ class Data_list
         raise NotImplementedError, "Not implemented"
     end
 
-    private
+    protected
     attr_reader :data
     attr_accessor :selected
 
     # data setter
     def data=(data)
         @data = data.map { |element| deep_dup(element) }
+    end
+
+    # validate index
+    def valid_index?(index)
+        index.between?(0, self.data.size - 1)
     end
 
     # deep copy
