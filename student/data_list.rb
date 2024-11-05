@@ -1,4 +1,8 @@
+require './deep_dup.rb'
+
 class Data_list
+    include Deep_dup
+
     # constructor
     def initialize(elements)
         self.data = elements
@@ -60,19 +64,6 @@ class Data_list
     # validate index
     def valid_index?(index)
         index.between?(0, self.data.size - 1)
-    end
-
-    # deep copy
-    def deep_dup(element)
-        if element.is_a?(Array)
-            element.map { |sub_element| deep_dup(sub_element) }
-        else
-            begin
-                element.dup
-            rescue
-                element
-            end
-        end
     end
 
     # build row method (abstract)

@@ -1,4 +1,8 @@
+require './deep_dup.rb'
+
 class Data_table
+    include Deep_dup
+
     # constructor
     def initialize(data)
         self.data = data
@@ -44,18 +48,5 @@ class Data_table
     # column validation
     def valid_col?(col)
         col.between?(0, self.col_count - 1)
-    end
-
-    # deep copy
-    def deep_dup(element)
-        if element.is_a?(Array)
-            element.map { |sub_element| deep_dup(sub_element) }
-        else
-            begin
-                element.dup
-            rescue
-                element
-            end
-        end
     end
 end
