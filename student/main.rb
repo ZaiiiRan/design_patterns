@@ -108,7 +108,7 @@ def test_data_list
     data_list.select(0)
     data_list.select(1)
     data_list.select(2)
-    table = data_list.get_data
+    table = data_list.retrieve_data
     print_table table
 end
 

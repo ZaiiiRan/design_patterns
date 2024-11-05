@@ -16,14 +16,31 @@ class Data_list
         self.selected.dup
     end
 
-    # get names
+    # pattern-method
+    def retrieve_data
+        result = []
+        result << self.get_names
+        result.concat(self.get_data)
+        Data_table.new(result)
+    end
+
+    # get names (abstract)
     def get_names
         raise NotImplementedError, "Not implemented"
     end
 
     # get_data
     def get_data
-        raise NotImplementedError, "Not implemented"
+        index = 1
+        result = []
+        selected = self.get_selected
+        selected.each do |selected_index|
+            obj = self.data[selected_index]
+            row = build_row(index, obj)
+            result.append(row)
+            index += 1
+        end
+        result
     end
 
     protected
@@ -51,5 +68,10 @@ class Data_list
                 element
             end
         end
+    end
+
+    # build row method (abstract)
+    def build_row(index, obj)
+        raise NotImplementedError, "Not implemented"
     end
 end
