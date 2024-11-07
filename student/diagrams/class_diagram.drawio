@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36" version="24.8.4">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36" version="24.8.4">
   <diagram name="Страница — 1" id="5-wUqx7X6pIQO82QbJgh">
     <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -138,6 +138,86 @@
             <mxPoint x="30" y="1340" as="targetPoint" />
             <Array as="points">
               <mxPoint x="-265" y="1340" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KkiaDDsZdYViQD7Pt-F1-1" value="Students_list" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="30" y="1530" width="350" height="350" as="geometry" />
+        </mxCell>
+        <mxCell id="KkiaDDsZdYViQD7Pt-F1-2" value="- file_path: String&lt;br&gt;- students: Student[]" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="KkiaDDsZdYViQD7Pt-F1-1">
+          <mxGeometry y="26" width="350" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="KkiaDDsZdYViQD7Pt-F1-3" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="KkiaDDsZdYViQD7Pt-F1-1">
+          <mxGeometry y="60" width="350" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="KkiaDDsZdYViQD7Pt-F1-18" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;exitX=0.001;exitY=0.29;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="KkiaDDsZdYViQD7Pt-F1-1" source="KkiaDDsZdYViQD7Pt-F1-4">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint y="159" as="sourcePoint" />
+            <mxPoint x="10" y="-770" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-80" y="150" />
+              <mxPoint x="-80" y="-770" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KkiaDDsZdYViQD7Pt-F1-4" value="&lt;div&gt;+ &lt;i&gt;read(): Student[]&lt;/i&gt;&lt;br&gt;+ &lt;i&gt;write()&lt;/i&gt;&lt;br&gt;+ get_student_by_id(id: Integer): Student&lt;br&gt;+ get_k_n_student_short_list(k, n: Integer, data_list: Data_list_student_short): Data_list_student_short&lt;br&gt;&lt;br&gt;+ sort_by_full_name!()&lt;br&gt;+ add_student(student: Student)&lt;br&gt;+ replace_student(id: Integer, new_student: Student)&lt;br&gt;+ delete_student(id: Integer)&lt;br&gt;+ get_student_short_count(): Integer&lt;br&gt;&lt;br&gt;- file_path: String&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;get&lt;br&gt;- file_path=(file_path)&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; set&lt;br&gt;- students: Student[]&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; get&lt;br&gt;- students=(students: Student[])&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; set&lt;br&gt;&lt;br&gt;+ &amp;lt;&amp;lt;create&amp;gt;&amp;gt; new(file_path: String)&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="KkiaDDsZdYViQD7Pt-F1-1">
+          <mxGeometry y="68" width="350" height="282" as="geometry" />
+        </mxCell>
+        <mxCell id="KkiaDDsZdYViQD7Pt-F1-5" value="Students_list_JSON" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-190" y="1970" width="350" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="KkiaDDsZdYViQD7Pt-F1-7" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="KkiaDDsZdYViQD7Pt-F1-5">
+          <mxGeometry y="26" width="350" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="KkiaDDsZdYViQD7Pt-F1-8" value="&lt;div&gt;+ read(): Student[]&lt;br&gt;+ write()&lt;br&gt;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="KkiaDDsZdYViQD7Pt-F1-5">
+          <mxGeometry y="34" width="350" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="KkiaDDsZdYViQD7Pt-F1-9" value="Students_list_YAML" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="239" y="1970" width="350" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="KkiaDDsZdYViQD7Pt-F1-11" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="KkiaDDsZdYViQD7Pt-F1-9">
+          <mxGeometry y="26" width="350" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="KkiaDDsZdYViQD7Pt-F1-12" value="&lt;div&gt;+ read(): Student[]&lt;br&gt;+ write()&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="KkiaDDsZdYViQD7Pt-F1-9">
+          <mxGeometry y="34" width="350" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="KkiaDDsZdYViQD7Pt-F1-13" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="KkiaDDsZdYViQD7Pt-F1-9">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="440" y="1920" as="sourcePoint" />
+            <mxPoint x="200" y="1880" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="414" y="1920" />
+              <mxPoint x="200" y="1920" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KkiaDDsZdYViQD7Pt-F1-14" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;entryX=0.486;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="KkiaDDsZdYViQD7Pt-F1-5" target="KkiaDDsZdYViQD7Pt-F1-4">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="424" y="1980" as="sourcePoint" />
+            <mxPoint x="210" y="1894" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-15" y="1920" />
+              <mxPoint x="200" y="1920" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KkiaDDsZdYViQD7Pt-F1-15" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;exitX=1;exitY=0.291;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.855;entryY=1.009;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="KkiaDDsZdYViQD7Pt-F1-4" target="5-nP5moGx_K60F7qfpw7-12">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="580" y="1660" as="sourcePoint" />
+            <mxPoint x="580" y="1580" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="750" y="1680" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KkiaDDsZdYViQD7Pt-F1-17" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;exitX=1;exitY=0.291;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="380" y="1699" as="sourcePoint" />
+            <mxPoint x="730" y="670" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="810" y="1699" />
+              <mxPoint x="810" y="880" />
+              <mxPoint x="730" y="880" />
             </Array>
           </mxGeometry>
         </mxCell>
