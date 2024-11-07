@@ -4,19 +4,20 @@ require './data_list_student_short'
 
 class Students_list
     # constructor
-    def initialize(file_path)
+    def initialize(file_path, data_storage_strategy)
         self.file_path = file_path
+        self.data_storage_strategy = data_storage_strategy
         self.students = read
     end
 
-    # read from file
+    # read from data storage
     def read
-        raise NotImplementedError, 'This method should be implemented in a subclass'
+        self.data_storage_strategy.read(self.file_path)
     end
 
-    # write to file
+    # write to data storage
     def write
-        raise NotImplementedError, 'This method should be implemented in a subclass'
+        self.data_storage_strategy.write(self.file_path, self.students)
     end
 
     # get student by id
@@ -29,7 +30,7 @@ class Students_list
         start = (k - 1) * n
         selected = self.students[start, n] || []
         students_short = selected.map { |student| Student_short.new_from_student_obj(student) }
-        data_list ||= Data_list_student_short.new(selected)
+        data_list ||= Data_list_student_short.new(students_short)
         data_list
     end
 
@@ -63,6 +64,6 @@ class Students_list
         self.students.size
     end
 
-    protected
-    attr_accessor :file_path, :students
+    private
+    attr_accessor :file_path, :students, :data_storage_strategy
 end
