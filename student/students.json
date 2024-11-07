@@ -1,0 +1,35 @@
+[
+  {
+    "id": 3,
+    "first_name": "Блягоз",
+    "name": "Амаль",
+    "patronymic": "Хазретович",
+    "birthdate": "2004-06-14",
+    "telegram": "@lamafout",
+    "email": "lamafout@gmail.com",
+    "phone_number": null,
+    "git": "https://github.com/lamafout"
+  },
+  {
+    "id": 1,
+    "first_name": "Лотарев",
+    "name": "Сергей",
+    "patronymic": "Юрьевич",
+    "birthdate": "2004-10-26",
+    "telegram": "@lotarv",
+    "email": null,
+    "phone_number": null,
+    "git": "https://github.com/lotarv"
+  },
+  {
+    "id": 2,
+    "first_name": "Смирнов",
+    "name": "Никита",
+    "patronymic": "Олегович",
+    "birthdate": "2004-06-03",
+    "telegram": "@zaiiran",
+    "email": null,
+    "phone_number": "+7-(934)-453-32-11",
+    "git": "https://github.com/ZaiiiRan"
+  }
+]

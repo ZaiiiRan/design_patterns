@@ -3,6 +3,7 @@ require './student_short.rb'
 require './binary_tree.rb'
 require './data_list_student_short.rb'
 require './data_table'
+require './Students_list_JSON.rb'
 
 # reading students from txt file
 def read_from_txt(path)
@@ -112,4 +113,12 @@ def test_data_list
     print_table table
 end
 
-test_data_list
+def test_student_list_json
+    json = Students_list_JSON.new('./students.json')
+    
+    data_list = json.get_k_n_student_short_list(1, 5)
+    table = data_list.retrieve_data
+    print_table table
+end
+
+test_student_list_json

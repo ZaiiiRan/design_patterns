@@ -41,6 +41,12 @@ class Student < Person
         "#{"-------------------\nID: #{self.id}\n" unless self.id.nil?}First Name: #{ self.first_name }\nName: #{ self.name }\nPatronymic: #{ self.patronymic }\nBithdate: #{ self.birthdate }\n#{"Phone Number: #{ self.phone_number }\n" unless self.phone_number.nil?}#{"Telegram: #{ self.phone_number }\n" unless self.telegram}#{"Email: #{ self.email }\n" unless self.email.nil?}#{"Git: #{ self.git }\n" unless self.git.nil?}-------------------"
     end
 
+    # to hash
+    def to_h
+        { id: self.id, first_name: self.first_name, name: self.name, patronymic: self.patronymic, 
+        birthdate: self.birthdate, telegram: self.telegram, email: self.email, phone_number: self.phone_number, git: self.git }
+    end
+
     # get short info in string
     def get_info
         "#{get_full_name}, git: #{self.git}, #{get_any_contact}"
