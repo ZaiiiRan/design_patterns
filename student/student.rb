@@ -136,7 +136,7 @@ class Student < Person
 
     # birthdate setter
     def birthdate=(birthdate)
-        @birthdate = Date.parse(birthdate)
+        @birthdate = birthdate.is_a?(String) ? Date.parse(birthdate) : birthdate
     end
 
     # first name setter

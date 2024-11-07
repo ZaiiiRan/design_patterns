@@ -10,15 +10,14 @@ class Students_list_YAML
         self.students = read
     end
 
-    # read from json file
+    # read from yaml file
     def read
         return [] unless File.exist?(self.file_path)
-        YAML.load_file(self.file_path).map do |data|
-            Student.new(**data)
-        end
+        data = YAML.safe_load(File.read(self.file_path), permitted_classes: [Date, Symbol])
+        data.map { |student| Student.new(**student) }
     end
 
-    # read to json file
+    # read to yaml file
     def write
         data = self.students.map { |student| student.to_h }
         File.write(self.file_path, data.to_yaml)

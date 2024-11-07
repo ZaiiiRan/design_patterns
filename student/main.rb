@@ -123,7 +123,7 @@ def test_student_list_json
 end
 
 def test_student_list_yaml
-    yaml = Students_list_YAML.new('/students.yaml')
+    yaml = Students_list_YAML.new('./students.yaml')
     yaml.add_student(Student.new_from_string('first_name: Лотарев, name: Сергей, patronymic: Юрьевич, git: https://github.com/lotarv, id: 3, telegram: @lotarv, birthdate: 26.10.2004'))
     yaml.add_student(Student.new_from_string('first_name: Смирнов, name: Никита, patronymic: Олегович, git: https://github.com/ZaiiiRan, id: 1, telegram: @zaiiran, phone_number: +7-(934)-453-32-11, birthdate: 03.06.2004'))
     yaml.add_student(Student.new_from_string('first_name: Блягоз, name: Амаль, patronymic: Хазретович, git: https://github.com/lamafout, id: 2, telegram: @lamafout, email: lamafout@gmail.com, birthdate: 14.06.2004'))
