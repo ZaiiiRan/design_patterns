@@ -13,7 +13,8 @@ class Students_list_JSON
     # read from json file
     def read
         return [] unless File.exist?(self.file_path)
-        JSON.parse(File.read(self.file_path), symbolize_names: true).map do |data|
+        data = JSON.parse(File.read(self.file_path), symbolize_names: true) rescue []
+        data.map do |data|
             Student.new(**data)
         end
     end

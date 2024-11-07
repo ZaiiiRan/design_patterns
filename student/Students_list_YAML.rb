@@ -13,7 +13,7 @@ class Students_list_YAML
     # read from yaml file
     def read
         return [] unless File.exist?(self.file_path)
-        data = YAML.safe_load(File.read(self.file_path), permitted_classes: [Date, Symbol])
+        data = YAML.safe_load(File.read(self.file_path), permitted_classes: [Date, Symbol]) || []
         data.map { |student| Student.new(**student) }
     end
 
