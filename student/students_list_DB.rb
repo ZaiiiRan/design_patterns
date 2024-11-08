@@ -6,8 +6,8 @@ require './DB_client'
 
 class Students_list_DB
     # constructor
-    def initialize(db_config)
-        self.db = DB_client.new(db_config)
+    def initialize(db)
+        self.db = db
     end
 
     def get_student_by_id(id)

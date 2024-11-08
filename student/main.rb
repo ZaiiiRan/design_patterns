@@ -9,6 +9,7 @@ require './YAML_storage_strategy.rb'
 require 'dotenv/load'
 require 'mysql2'
 require './students_list_DB.rb'
+require './DB_client'
 
 # reading students from txt file
 def read_from_txt(path)
@@ -158,12 +159,13 @@ def test_mysql
 end
 
 def test_student_list_db
-    db = Students_list_DB.new(
+    client = DB_client.instance(
         host: ENV['DB_HOST'],
         username: ENV['DB_USERNAME'],
         password: ENV['DB_PASSWORD'],
         database: ENV['DB_NAME']
     )
+    db = Students_list_DB.new(client)
     data_list = db.get_k_n_student_short_list(1, 3)
     data_list.select(1)
     data_list.select(2)
@@ -172,8 +174,6 @@ def test_student_list_db
     print_table table
 
     db.replace_student(34, db.get_student_by_id(35))
-    # db.add_student(Student.new_from_string('first_name: Лотарев, name: Сергей, patronymic: Юрьевич, git: https://github.com/lotarv, id: 3, telegram: @lotarv, birthdate: 26.10.2004'))
-    # db.add_student(Student.new_from_string('first_name: Смирнов, name: Никита, patronymic: Олегович, git: https://
 end
 
 test_student_list_db
