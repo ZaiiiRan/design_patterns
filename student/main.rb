@@ -6,6 +6,8 @@ require './data_table'
 require './students_list.rb'
 require './JSON_storage_strategy.rb'
 require './YAML_storage_strategy.rb'
+require 'dotenv/load'
+require 'mysql2'
 
 # reading students from txt file
 def read_from_txt(path)
@@ -134,4 +136,24 @@ def test_student_list_yaml
     yaml.write
 end
 
-test_student_list_yaml
+def test_mysql
+    client = Mysql2::Client.new(
+        host: ENV['DB_HOST'],
+        username: ENV['DB_USERNAME'],
+        password: ENV['DB_PASSWORD'],
+        database: ENV['DB_NAME']
+    )
+
+    begin
+        results = client.query('SELECT * FROM student')
+        results.each do |row|
+            puts Student.new_from_hash(row)
+        end
+    rescue Mysql2::Error => e
+        puts "Error: #{e.message}"
+    ensure
+        client.close if client
+    end
+end
+
+test_mysql

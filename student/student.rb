@@ -36,6 +36,11 @@ class Student < Person
         )
     end
 
+    # constructor_from_hash
+    def self.new_from_hash(hash)
+        self.new(**hash.transform_keys(&:to_sym))
+    end
+
     # to string
     def to_s 
         "#{"-------------------\nID: #{self.id}\n" unless self.id.nil?}First Name: #{ self.first_name }\nName: #{ self.name }\nPatronymic: #{ self.patronymic }\nBithdate: #{ self.birthdate }\n#{"Phone Number: #{ self.phone_number }\n" unless self.phone_number.nil?}#{"Telegram: #{ self.phone_number }\n" unless self.telegram}#{"Email: #{ self.email }\n" unless self.email.nil?}#{"Git: #{ self.git }\n" unless self.git.nil?}-------------------"
