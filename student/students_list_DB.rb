@@ -5,13 +5,8 @@ require './data_list_student_short.rb'
 require './DB_client'
 
 class Students_list_DB
-    # constructor
-    def initialize(db)
-        self.db = db
-    end
-
     def get_student_by_id(id)
-        result = self.db.query("SELECT * FROM student WHERE id = ?", [id])
+        result = DB_client.instance.query("SELECT * FROM student WHERE id = ?", [id])
         row = result.first
         return nil unless row
 
@@ -20,7 +15,7 @@ class Students_list_DB
 
     def get_k_n_student_short_list(k, n, data_list = nil)
         start = (k - 1) * n
-        result = self.db.query("SELECT * FROM student LIMIT ? OFFSET ?", [n, start])
+        result = DB_client.instance.query("SELECT * FROM student LIMIT ? OFFSET ?", [n, start])
         students_short = result.map { |row| Student_short.new_from_student_obj(Student.new_from_hash(row)) }
         data_list ||= Data_list_student_short.new(students_short)
         data_list
@@ -31,7 +26,7 @@ class Students_list_DB
             INSERT INTO student (first_name, name, patronymic, birthdate, telegram, email, phone_number, git)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         SQL
-        self.db.query(query, [
+        DB_client.instance.query(query, [
             student.first_name,
             student.name,
             student.patronymic,
@@ -49,7 +44,7 @@ class Students_list_DB
             SET first_name = ?, name = ?, patronymic = ?, birthdate = ?, telegram = ?, email = ?, phone_number = ?, git = ?
             WHERE id = ?
         SQL
-        self.db.query(query, [
+        DB_client.instance.query(query, [
             new_student.first_name,
             new_student.name,
             new_student.patronymic,
@@ -64,14 +59,11 @@ class Students_list_DB
 
     def delete_student(id)
         query = "DELETE FROM student WHERE id = ?"
-        self.db.query(query, [id])
+        DB_client.instance.query(query, [id])
     end
 
     def get_student_short_count
-        result = self.db.query("SELECT COUNT(*) AS count FROM student")
+        result = DB_client.instance.query("SELECT COUNT(*) AS count FROM student")
         result.first['count']
     end
-
-    private
-    attr_accessor :db
 end

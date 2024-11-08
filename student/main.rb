@@ -165,7 +165,7 @@ def test_student_list_db
         password: ENV['DB_PASSWORD'],
         database: ENV['DB_NAME']
     )
-    db = Students_list_DB.new(client)
+    db = Students_list_DB.new()
     data_list = db.get_k_n_student_short_list(1, 3)
     data_list.select(1)
     data_list.select(2)
