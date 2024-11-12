@@ -122,6 +122,8 @@ class Binary_tree
     # левое вращение
     def left_rotate(node)
         right_child = node.right
+        return if right_child.nil?
+
         node.right = right_child.left
         right_child.left.parent = node if right_child.left
         right_child.parent = node.parent
@@ -141,6 +143,8 @@ class Binary_tree
     # правое вращение
     def right_rotate(node)
         left_child = node.left
+        return if left_child.nil?
+
         node.left = left_child.right
         left_child.right.parent = node if left_child.right
         left_child.parent = node.parent

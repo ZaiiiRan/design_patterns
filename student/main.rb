@@ -127,6 +127,8 @@ def test_student_list_json
     data_list.select(2)
     table = data_list.retrieve_data
     print_table table
+
+    json.add_student(Student.new_from_string('first_name: Смирнов, name: Никита, patronymic: Олегович, git: https://github.com/ZaiiiRan, id: 1, telegram: @zaiiran, phone_number: +7-(934)-453-32-11, birthdate: 03.06.2004'))
 end
 
 def test_student_list_yaml
@@ -176,4 +178,4 @@ def test_student_list_db
     db.replace_student(72, db.get_student_by_id(73))
 end
 
-test_student_list_db
+test_student_list_json

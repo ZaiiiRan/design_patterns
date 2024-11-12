@@ -120,6 +120,12 @@ class Student < Person
             self.get_any_contact
         when :git
             self.git
+        when :email
+            self.email
+        when :phone_number
+            self.phone_number
+        when :telegram
+            self.telegram
         else
             raise ArgumentError, "Unknown key_type"
         end
