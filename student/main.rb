@@ -4,11 +4,12 @@ require './binary_tree.rb'
 require './data_list_student_short.rb'
 require './data_table'
 require './students_list.rb'
+require './students_list_file_adapter.rb'
 require './JSON_storage_strategy.rb'
 require './YAML_storage_strategy.rb'
 require 'dotenv/load'
 require 'mysql2'
-require './students_list_DB.rb'
+require './students_list_DB_adapter.rb'
 require './DB_client'
 
 # reading students from txt file
@@ -120,44 +121,33 @@ def test_data_list
 end
 
 def test_student_list_json
-    json = Students_list.new('./students.json', JSON_storage_strategy.new())
+    students_list = Students_list.new(
+        Students_list_file_adapter.new(
+            './students.json',
+            JSON_storage_strategy.new()
+        )
+    )
     
-    data_list = json.get_k_n_student_short_list(1, 5)
+    data_list = students_list.get_k_n_student_short_list(1, 5)
     data_list.select(1)
     data_list.select(2)
     table = data_list.retrieve_data
     print_table table
 
-    # json.add_student(Student.new_from_string('first_name: Смирнов, name: Никита, patronymic: Олегович, git: https://github.com/ZaiiiRan, id: 1, telegram: @zaiiran, phone_number: +7-(934)-453-32-11, birthdate: 03.06.2004'))
+    students_list.add_student(Student.new_from_string('first_name: Смирнов, name: Никита, patronymic: Олегович, git: https://github.com/ZaiiiRan, id: 1, telegram: @zaiiran, phone_number: +7-(934)-453-32-11, birthdate: 03.06.2004'))
 end
 
 def test_student_list_yaml
-    yaml = Students_list.new('./students.yaml', YAML_storage_strategy.new())
-
-    yaml.add_student(Student.new_from_string('first_name: Лотарев, name: Сергей, patronymic: Юрьевич, git: https://github.com/lotarv, id: 3, telegram: @lotarv, birthdate: 26.10.2004'))
-    yaml.add_student(Student.new_from_string('first_name: Смирнов, name: Никита, patronymic: Олегович, git: https://github.com/ZaiiiRan, id: 1, telegram: @zaiiran, phone_number: +7-(934)-453-32-11, birthdate: 03.06.2004'))
-    yaml.add_student(Student.new_from_string('first_name: Блягоз, name: Амаль, patronymic: Хазретович, git: https://github.com/lamafout, id: 2, telegram: @lamafout, email: lamafout@gmail.com, birthdate: 14.06.2004'))
-    yaml.write
-end
-
-def test_mysql
-    client = Mysql2::Client.new(
-        host: ENV['DB_HOST'],
-        username: ENV['DB_USERNAME'],
-        password: ENV['DB_PASSWORD'],
-        database: ENV['DB_NAME']
+    students_list = Students_list.new(
+        Students_list_file_adapter.new(
+            './students.json',
+            YAML_storage_strategy.new()
+        )
     )
 
-    begin
-        results = client.query('SELECT * FROM student')
-        results.each do |row|
-            puts Student.new_from_hash(row)
-        end
-    rescue Mysql2::Error => e
-        puts "Error: #{e.message}"
-    ensure
-        client.close if client
-    end
+    students_list.add_student(Student.new_from_string('first_name: Лотарев, name: Сергей, patronymic: Юрьевич, git: https://github.com/lotarv, id: 3, telegram: @lotarv, birthdate: 26.10.2004'))
+    students_list.add_student(Student.new_from_string('first_name: Смирнов, name: Никита, patronymic: Олегович, git: https://github.com/ZaiiiRan, id: 1, telegram: @zaiiran, phone_number: +7-(934)-453-32-11, birthdate: 03.06.2004'))
+    students_list.add_student(Student.new_from_string('first_name: Блягоз, name: Амаль, patronymic: Хазретович, git: https://github.com/lamafout, id: 2, telegram: @lamafout, email: lamafout@gmail.com, birthdate: 14.06.2004'))
 end
 
 def test_student_list_db
@@ -167,15 +157,18 @@ def test_student_list_db
         password: ENV['DB_PASSWORD'],
         database: ENV['DB_NAME']
     )
-    db = Students_list_DB.new()
-    data_list = db.get_k_n_student_short_list(1, 3)
+
+    students_list = Students_list.new(
+        Students_list_DB_adapter.new
+    )
+    data_list = students_list.get_k_n_student_short_list(1, 3)
     data_list.select(1)
     data_list.select(2)
     data_list.select(0)
     table = data_list.retrieve_data
     print_table table
 
-    db.replace_student(72, db.get_student_by_id(73))
+    students_list.replace_student(72, students_list.get_student_by_id(73))
 end
 
-test_student_list_json
+test_student_list_db

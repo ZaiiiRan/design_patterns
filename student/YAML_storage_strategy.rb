@@ -7,7 +7,9 @@ class YAML_storage_strategy < Data_storage_strategy
     def read(file_path)
         return [] unless File.exist?(file_path)
         data = YAML.safe_load(File.read(file_path), permitted_classes: [Date, Symbol]) || []
-        data.map { |student| Student.new(**student) }
+        data.map do |student| 
+            Student.new_from_hash(student) 
+        end
     end
 
     # read to yaml file
