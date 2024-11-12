@@ -22,7 +22,4 @@ class Students_list_interface
     def get_student_short_count
         raise NotImplementedError
     end
-
-    protected
-    attr_accessor :students_list
 end
