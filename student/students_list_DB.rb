@@ -19,6 +19,7 @@ class Students_list_DB
         result = DB_client.instance.query("SELECT * FROM student LIMIT ? OFFSET ?", [n, start])
         students_short = result.map { |row| Student_short.new_from_student_obj(Student.new_from_hash(row)) }
         data_list ||= Data_list_student_short.new(students_short)
+        data_list.index = start + 1
         data_list
     end
 

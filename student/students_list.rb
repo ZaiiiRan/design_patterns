@@ -32,6 +32,7 @@ class Students_list
         selected = self.students[start, n] || []
         students_short = selected.map { |student| Student_short.new_from_student_obj(student) }
         data_list ||= Data_list_student_short.new(students_short)
+        data_list.index = start + 1
         data_list
     end
 
