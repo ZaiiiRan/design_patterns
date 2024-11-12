@@ -1,5 +1,5 @@
-require './students_list_DB.rb'
-require './students_list_interface.rb'
+require './students_list/students_list_DB.rb'
+require './students_list/students_list_interface.rb'
 
 class Students_list_DB_adapter < Students_list_interface
     def initialize

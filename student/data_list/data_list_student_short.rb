@@ -1,5 +1,5 @@
-require './data_list.rb'
-require './data_table'
+require './data_list/data_list.rb'
+require './data_table/data_table'
 
 class Data_list_student_short < Data_list
     # get_names for student short

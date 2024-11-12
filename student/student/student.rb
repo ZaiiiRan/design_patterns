@@ -1,4 +1,4 @@
-require './person.rb'
+require './person/person.rb'
 require 'date'
 
 class Student < Person

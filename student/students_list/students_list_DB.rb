@@ -1,8 +1,8 @@
 require 'mysql2'
-require './student'
-require './student_short'
-require './data_list_student_short.rb'
-require './DB_client'
+require './student/student'
+require './student_short/student_short'
+require './data_list/data_list_student_short.rb'
+require './DB_client/DB_client.rb'
 
 class Students_list_DB
 

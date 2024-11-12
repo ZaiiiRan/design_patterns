@@ -1,5 +1,5 @@
-require './students_list_file.rb'
-require './students_list_interface.rb'
+require './students_list/students_list_file.rb'
+require './students_list/students_list_interface.rb'
 
 class Students_list_file_adapter < Students_list_interface
     def initialize(file_path, data_storage_strategy)

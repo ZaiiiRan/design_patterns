@@ -1,7 +1,7 @@
-require './student'
-require './student_short'
-require './data_list_student_short'
-require './binary_tree.rb'
+require './student/student'
+require './student_short/student_short'
+require './data_list/data_list_student_short'
+require './binary_tree/binary_tree.rb'
 
 class Students_list_file
     # constructor

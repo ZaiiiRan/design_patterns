@@ -1,4 +1,3 @@
-
 class Students_list 
     def initialize(adapter)
         self.adapter = adapter

@@ -1,4 +1,4 @@
-require './deep_dup.rb'
+require './deep_dup/deep_dup.rb'
 
 class Data_list
     include Deep_dup
