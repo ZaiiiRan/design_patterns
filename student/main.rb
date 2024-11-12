@@ -173,7 +173,7 @@ def test_student_list_db
     table = data_list.retrieve_data
     print_table table
 
-    db.replace_student(34, db.get_student_by_id(35))
+    db.replace_student(72, db.get_student_by_id(73))
 end
 
 test_student_list_db

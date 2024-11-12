@@ -14,3 +14,5 @@ CREATE TABLE student (
 );
 
 ALTER TABLE student AUTO_INCREMENT = 1;
+
+ALTER TABLE student ADD UNIQUE (telegram(255)), ADD UNIQUE (email(255)), ADD UNIQUE (git(255));

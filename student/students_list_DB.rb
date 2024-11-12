@@ -26,16 +26,25 @@ class Students_list_DB
             INSERT INTO student (first_name, name, patronymic, birthdate, telegram, email, phone_number, git)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         SQL
-        DB_client.instance.query(query, [
-            student.first_name,
-            student.name,
-            student.patronymic,
-            student.birthdate,
-            student.telegram,
-            student.email,
-            student.phone_number,
-            student.git
-        ])
+
+        begin
+            DB_client.instance.query(query, [
+                student.first_name,
+                student.name,
+                student.patronymic,
+                student.birthdate,
+                student.telegram,
+                student.email,
+                student.phone_number,
+                student.git
+            ])
+        rescue Mysql2::Error => e
+            if e.message.include?('Duplicate entry')
+                raise "Student with this unique value already exists - #{e.message}"
+            else
+                raise e
+            end
+        end
     end
 
     def replace_student(id, new_student)
@@ -44,17 +53,25 @@ class Students_list_DB
             SET first_name = ?, name = ?, patronymic = ?, birthdate = ?, telegram = ?, email = ?, phone_number = ?, git = ?
             WHERE id = ?
         SQL
-        DB_client.instance.query(query, [
-            new_student.first_name,
-            new_student.name,
-            new_student.patronymic,
-            new_student.birthdate,
-            new_student.telegram,
-            new_student.email,
-            new_student.phone_number,
-            new_student.git,
-            id
-        ])
+        begin
+            DB_client.instance.query(query, [
+                new_student.first_name,
+                new_student.name,
+                new_student.patronymic,
+                new_student.birthdate,
+                new_student.telegram,
+                new_student.email,
+                new_student.phone_number,
+                new_student.git,
+                id
+            ])
+        rescue Mysql2::Error => e
+            if e.message.include?('Duplicate entry')
+                raise "Error: Student with this unique value already exists - #{e.message}"
+            else
+                raise e
+            end
+        end
     end
 
     def delete_student(id)
