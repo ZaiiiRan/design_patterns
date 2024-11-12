@@ -3,10 +3,13 @@ require './deep_dup.rb'
 class Data_list
     include Deep_dup
 
+    attr_accessor :index
+
     # constructor
     def initialize(elements)
         self.data = elements
         self.selected = []
+        self.index = 1
     end
 
     # select element id by number
@@ -26,7 +29,7 @@ class Data_list
     end
 
     # pattern-method
-    def retrieve_data
+    def retrieve_data()
         result = []
         result << self.get_names
         result.concat(self.get_data)
@@ -39,15 +42,14 @@ class Data_list
     end
 
     # get_data
-    def get_data
-        index = 1
+    def get_data()
         result = []
         selected = self.get_selected
         selected.each do |selected_index|
             obj = self.data[selected_index]
-            row = build_row(index, obj)
+            row = build_row(self.index, obj)
             result.append(row)
-            index += 1
+            self.index += 1
         end
         result
     end
