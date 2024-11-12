@@ -11,6 +11,9 @@ require 'dotenv/load'
 require 'mysql2'
 require './students_list/students_list_DB_adapter.rb'
 require './DB_client/DB_client'
+require './filter/filter.rb'
+require './filter/has_git_filter_decorator.rb'
+require './filter/has_contact_filter_decorator.rb'
 
 # reading students from txt file
 def read_from_txt(path)
@@ -127,8 +130,9 @@ def test_student_list_json
             JSON_storage_strategy.new()
         )
     )
-    
-    data_list = students_list.get_k_n_student_short_list(1, 5)
+
+    has_git_and_contacts = Has_git_filter_decorator.new(Has_contact_filter_decorator.new(Filter.new))
+    data_list = students_list.get_k_n_student_short_list(1, 5, has_git_and_contacts)
     data_list.select(1)
     data_list.select(2)
     table = data_list.retrieve_data
@@ -161,14 +165,17 @@ def test_student_list_db
     students_list = Students_list.new(
         Students_list_DB_adapter.new
     )
-    data_list = students_list.get_k_n_student_short_list(1, 3)
+    has_git_and_contacts = Has_git_filter_decorator.new(Has_contact_filter_decorator.new(Filter.new))
+    data_list = students_list.get_k_n_student_short_list(1, 3, has_git_and_contacts)
     data_list.select(1)
     data_list.select(2)
     data_list.select(0)
     table = data_list.retrieve_data
     print_table table
 
-    students_list.replace_student(72, students_list.get_student_by_id(73))
+    puts "Total student count: #{students_list.get_student_short_count}"
+    puts "Students with git and any one contact: #{students_list.get_student_short_count(has_git_and_contacts)}"
+    # students_list.replace_student(72, students_list.get_student_by_id(73))
 end
 
 test_student_list_db

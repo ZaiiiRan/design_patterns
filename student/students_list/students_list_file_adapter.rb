@@ -28,9 +28,10 @@ class Students_list_file_adapter < Students_list_interface
     end
 
     # get data_list_student_short of k n students
-    def get_k_n_student_short_list(k, n, data_list = nil)
+    def get_k_n_student_short_list(k, n, filter = nil, data_list = nil)
         start = (k - 1) * n
-        selected = self.students[start, n] || []
+        filtered = filter ? filter.apply(self.students) : self.students
+        selected = filtered[start, n] || []
         students_short = selected.map { |student| Student_short.new_from_student_obj(student) }
         data_list ||= Data_list_student_short.new(students_short)
         data_list.index = start + 1
@@ -78,8 +79,8 @@ class Students_list_file_adapter < Students_list_interface
     end
 
     # get count of students
-    def get_student_short_count
-        self.students.size
+    def get_student_short_count(filter = nil)
+        filter ? filter.apply(self.students).size : self.students.size
     end
 
     private

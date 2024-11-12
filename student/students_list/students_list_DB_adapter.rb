@@ -14,9 +14,12 @@ class Students_list_DB_adapter < Students_list_interface
         Student.new_from_hash(row)
     end
 
-    def get_k_n_student_short_list(k, n, data_list = nil)
+    def get_k_n_student_short_list(k, n, filter = nil, data_list = nil)
+        base_query = "SELECT * FROM student"
+        filter_query = filter ? filter.apply(base_query) : base_query
         start = (k - 1) * n
-        result = DB_client.instance.query("SELECT * FROM student LIMIT ? OFFSET ?", [n, start])
+
+        result = DB_client.instance.query(filter_query + " ORDER BY id LIMIT ? OFFSET ?", [n, start])
         students_short = result.map { |row| Student_short.new_from_student_obj(Student.new_from_hash(row)) }
         data_list ||= Data_list_student_short.new(students_short)
         data_list.index = start + 1
@@ -81,8 +84,11 @@ class Students_list_DB_adapter < Students_list_interface
         DB_client.instance.query(query, [id])
     end
 
-    def get_student_short_count
-        result = DB_client.instance.query("SELECT COUNT(*) AS count FROM student")
+    def get_student_short_count(filter = nil)
+        base_query = "SELECT COUNT(*) AS count FROM student"
+        filter_query = filter ? filter.apply(base_query) : base_query
+
+        result = DB_client.instance.query(filter_query)
         result.first['count']
     end
 end

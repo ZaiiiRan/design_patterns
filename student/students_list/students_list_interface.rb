@@ -3,7 +3,7 @@ class Students_list_interface
         raise NotImplementedError
     end
 
-    def get_k_n_student_short_list(k, n)
+    def get_k_n_student_short_list(k, n, filter = nil, data_list = nil)
         raise NotImplementedError
     end
 
@@ -19,7 +19,7 @@ class Students_list_interface
         raise NotImplementedError
     end
 
-    def get_student_short_count
+    def get_student_short_count(filter = nil)
         raise NotImplementedError
     end
 end

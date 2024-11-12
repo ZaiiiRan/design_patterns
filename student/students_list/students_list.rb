@@ -7,8 +7,8 @@ class Students_list
         self.adapter.get_student_by_id(id)
     end
     
-    def get_k_n_student_short_list(k, n)
-        self.adapter.get_k_n_student_short_list(k, n)
+    def get_k_n_student_short_list(k, n, filter = nil, data_list = nil)
+        self.adapter.get_k_n_student_short_list(k, n, filter, data_list)
     end
     
     def add_student(student)
@@ -23,8 +23,8 @@ class Students_list
         self.adapter.delete_student(id)
     end
     
-    def get_student_short_count
-        self.adapter.get_student_short_count
+    def get_student_short_count(filter = nil)
+        self.adapter.get_student_short_count(filter)
     end
 
     private
