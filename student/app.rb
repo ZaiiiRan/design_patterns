@@ -1,4 +1,5 @@
 require 'fox16'
+require './student_list_view.rb'
 
 include Fox
 
@@ -8,23 +9,19 @@ class App < FXMainWindow
 
         tabs = FXTabBook.new(self, opts: LAYOUT_FILL)
 
-        tab1 = FXTabItem.new(tabs, "Список студентов")
-        frame1 = FXHorizontalFrame.new(tabs, opts: LAYOUT_FILL)
-        students_list_view(frame1)
+        FXTabItem.new(tabs, "Список студентов")
+        student_list = FXVerticalFrame.new(tabs, opts: LAYOUT_FILL)
+        Student_list_view.new(student_list)
 
         FXTabItem.new(tabs, "Пока неизвестная вкладка")
-        FXHorizontalFrame.new(tabs, opts: LAYOUT_FILL)
+        FXVerticalFrame.new(tabs, opts: LAYOUT_FILL)
 
         FXTabItem.new(tabs, "Тоже пока не понятно что тут")
-        FXHorizontalFrame.new(tabs, opts: LAYOUT_FILL)
+        FXVerticalFrame.new(tabs, opts: LAYOUT_FILL)
     end
 
     def create
         super
         show(PLACEMENT_SCREEN)
-    end
-
-    def students_list_view(parent)
-        FXLabel.new(parent, "Тут будет список студентов")
     end
 end
