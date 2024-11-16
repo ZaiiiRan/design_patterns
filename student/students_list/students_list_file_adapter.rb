@@ -68,7 +68,7 @@ class Students_list_file_adapter < Students_list_interface
             raise e
         end
         new_student.id = id
-        student = new_student
+        current_student = new_student
         self.write
     end
 
