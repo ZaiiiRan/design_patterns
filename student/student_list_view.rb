@@ -14,6 +14,7 @@ class Student_list_view < FXVerticalFrame
 
     setup_filtering_area
     setup_table_area
+    setup_control_buttons_area
   end
 
   def setup_filtering_area
@@ -71,8 +72,37 @@ class Student_list_view < FXVerticalFrame
     populate_table
   end
 
+  def setup_control_buttons_area
+    button_area = FXHorizontalFrame.new(parent, opts: LAYOUT_FILL_X | PACK_UNIFORM_WIDTH)
+
+    self.add_btn = FXButton.new(button_area, "Добавить", opts: BUTTON_NORMAL)
+    self.update_btn = FXButton.new(button_area, "Обновить", opts: BUTTON_NORMAL)
+    self.edit_btn = FXButton.new(button_area, "Изменить", opts: BUTTON_NORMAL)
+    self.delete_btn = FXButton.new(button_area, "Удалить", opts: BUTTON_NORMAL)
+
+    self.add_btn.connect(SEL_COMMAND) { on_add }
+    self.update_btn.connect(SEL_COMMAND) { on_update }
+    self.edit_btn.connect(SEL_COMMAND) { on_edit }
+    self.delete_btn.connect(SEL_COMMAND) { on_delete }
+
+    self.table.connect(SEL_SELECTED) { update_button_states }
+    self.table.connect(SEL_DESELECTED) { update_button_states }
+
+    update_button_states
+  end
+
   private
-  attr_accessor :table, :data, :total_pages, :current_page, :page_label, :prev_btn, :next_btn, :sort_order
+  attr_accessor :table, :data, :total_pages, :current_page, :page_label, :prev_btn, :next_btn, :sort_order,
+    :add_btn, :update_btn, :edit_btn, :delete_btn
+
+  # get selected rows
+  def get_selected_rows
+    selected_rows = []
+    (0...self.table.numRows).each do |row|
+      selected_rows << row if self.table.rowSelected?(row)
+    end
+    selected_rows
+  end
 
   # populate table by mock data
   def populate_table
@@ -171,5 +201,37 @@ class Student_list_view < FXVerticalFrame
 
     self.data = Data_table.new(all_rows)
     update_table
+  end
+
+  # update button states method
+  def update_button_states
+    selected_rows = get_selected_rows
+  
+    self.add_btn.enabled = true
+    self.update_btn.enabled = true
+  
+    case selected_rows.size
+    when 0
+      self.edit_btn.enabled = false
+      self.delete_btn.enabled = false
+    when 1
+      self.edit_btn.enabled = true
+      self.delete_btn.enabled = true
+    else
+      self.edit_btn.enabled = false
+      self.delete_btn.enabled = true
+    end
+  end
+
+  def on_add
+  end
+  
+  def on_update
+  end
+  
+  def on_edit
+  end
+  
+  def on_delete
   end
 end
