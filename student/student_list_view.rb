@@ -12,6 +12,7 @@ class Student_list_view < FXVerticalFrame
   def initialize(parent)
     super(parent, opts: LAYOUT_FILL)
 
+    self.filters = {}
     setup_filtering_area
     setup_table_area
     setup_control_buttons_area
@@ -21,15 +22,22 @@ class Student_list_view < FXVerticalFrame
     filtering_area = FXVerticalFrame.new(self, opts: LAYOUT_FILL_X | LAYOUT_SIDE_TOP)
     FXLabel.new(filtering_area, "Фильтрация")
 
+    name_text_field = nil
     FXHorizontalFrame.new(filtering_area, opts: LAYOUT_FILL_X) do |frame|
       FXLabel.new(frame, "Фамилия и инициалы:")
-      FXTextField.new(frame, 20, opts: TEXTFIELD_NORMAL)
+      name_text_field = FXTextField.new(frame, 20, opts: TEXTFIELD_NORMAL)
     end
+
+    self.filters['name'] = { text_field: name_text_field }
 
     add_filtering_row(filtering_area, "Git:")
     add_filtering_row(filtering_area, "Email:")
     add_filtering_row(filtering_area, "Телефон:")
     add_filtering_row(filtering_area, "Telegram:")
+
+    FXButton.new(filtering_area, "Сбросить", opts: BUTTON_NORMAL).connect(SEL_COMMAND) do
+      reset_filters
+    end
   end
 
   def add_filtering_row(parent, label)
@@ -42,6 +50,8 @@ class Student_list_view < FXVerticalFrame
       combo.appendItem("Нет")
       text_field = FXTextField.new(frame, 15, opts: TEXTFIELD_NORMAL)
       text_field.enabled = false
+
+      self.filters[label] = { combo: combo, text_field: text_field }
 
       combo.connect(SEL_COMMAND) do
         text_field.enabled = (combo.currentItem == 1)
@@ -93,7 +103,7 @@ class Student_list_view < FXVerticalFrame
 
   private
   attr_accessor :table, :data, :total_pages, :current_page, :page_label, :prev_btn, :next_btn, :sort_order,
-    :add_btn, :update_btn, :edit_btn, :delete_btn
+    :add_btn, :update_btn, :edit_btn, :delete_btn, :filters
 
   # get selected rows
   def get_selected_rows
@@ -233,5 +243,13 @@ class Student_list_view < FXVerticalFrame
   end
   
   def on_delete
+  end
+
+  def reset_filters
+    self.filters.each_value do |field|
+      field[:combo].setCurrentItem(0) if !field[:combo].nil?
+      field[:text_field].text = ""
+    end
+    populate_table
   end
 end
