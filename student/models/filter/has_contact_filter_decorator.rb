@@ -1,4 +1,4 @@
-require './filter/filter_decorator.rb'
+require './models/filter/filter_decorator.rb'
 
 class Has_contact_filter_decorator < Filter_decorator
     def initialize(filter)

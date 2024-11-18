@@ -1,4 +1,4 @@
-require './filter/filter'
+require './models/filter/filter'
 
 class Filter_decorator < Filter
     def initialize(filter)

@@ -1,9 +1,9 @@
 require 'mysql2'
-require './student/student'
-require './student_short/student_short'
-require './data_list/data_list_student_short.rb'
-require './DB_client/DB_client.rb'
-require './students_list/students_list_interface.rb'
+require './models/student/student'
+require './models/student_short/student_short'
+require './models/data_list/data_list_student_short.rb'
+require './data_access/DB_client/DB_client.rb'
+require './models/students_list/students_list_interface.rb'
 
 class Students_list_DB_adapter < Students_list_interface
     def get_student_by_id(id)

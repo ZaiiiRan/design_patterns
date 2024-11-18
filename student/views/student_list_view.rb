@@ -1,11 +1,12 @@
 require 'fox16'
-require './data_list/data_list_student_short.rb'
-require './student/student.rb'
-require './student_short/student_short.rb'
+require './models/data_list/data_list_student_short.rb'
+require './models/student/student.rb'
+require './models/student_short/student_short.rb'
 
 include Fox
 
 class Student_list_view < FXVerticalFrame
+  attr_accessor :controller
 
   ROWS_PER_PAGE = 5
 

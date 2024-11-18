@@ -1,4 +1,4 @@
-require './filter/filter_decorator'
+require './models/filter/filter_decorator'
 
 class Has_git_filter_decorator < Filter_decorator
     def initialize(filter)

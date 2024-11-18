@@ -1,8 +1,8 @@
-require './student/student'
-require './student_short/student_short'
-require './data_list/data_list_student_short'
-require './binary_tree/binary_tree.rb'
-require './students_list/students_list_interface.rb'
+require './models/student/student'
+require './models/student_short/student_short'
+require './models/data_list/data_list_student_short'
+require './models/binary_tree/binary_tree.rb'
+require './models/students_list/students_list_interface.rb'
 
 class Students_list_file_adapter < Students_list_interface
     # constructor
