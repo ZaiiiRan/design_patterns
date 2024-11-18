@@ -3,19 +3,26 @@ require './deep_dup/deep_dup.rb'
 class Data_list
     include Deep_dup
 
-    attr_accessor :index
+    attr_accessor :index, :count
 
     # constructor
     def initialize(elements)
         self.data = elements
         self.selected = []
         self.index = 1
+        self.observers = []
     end
 
     # select element id by number
     def select(number)
         raise IndexError, "Index out of bounds" unless self.valid_index?(number)
         self.selected << number
+    end
+
+    def select_all
+        (0...self.data.size).each do |i|
+            self.select(i)
+        end
     end
 
     # get selected ids
@@ -59,9 +66,20 @@ class Data_list
         @data = data.map { |element| deep_dup(element) }
     end
 
+    def notify
+        observers.each do |observer|
+            observer.set_table_params(self.get_names, self.count)
+            observer.set_table_data(self.retrieve_data)
+        end
+    end
+
+    def add_observer(observer)
+        self.observers << observer
+    end
+
     protected
     attr_reader :data
-    attr_accessor :selected
+    attr_accessor :selected, :observers
 
     # validate index
     def valid_index?(index)

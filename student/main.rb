@@ -1,6 +1,7 @@
 require 'fox16'
 require './app'
 require './data_access/DB_client/DB_client.rb'
+require 'dotenv/load'
 
 include Fox
 

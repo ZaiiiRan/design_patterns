@@ -7,8 +7,9 @@ include Fox
 
 class Student_list_view < FXVerticalFrame
   attr_accessor :controller
+  attr_reader :current_page
 
-  ROWS_PER_PAGE = 5
+  ROWS_PER_PAGE = 10
 
   def initialize(parent)
     super(parent, opts: LAYOUT_FILL)
@@ -17,6 +18,8 @@ class Student_list_view < FXVerticalFrame
     setup_filtering_area
     setup_table_area
     setup_control_buttons_area
+    self.current_page = 1
+    self.total_pages = 1
   end
 
   def setup_filtering_area
@@ -77,10 +80,8 @@ class Student_list_view < FXVerticalFrame
     self.prev_btn.connect(SEL_COMMAND) { switch_page(-1) }
     self.next_btn.connect(SEL_COMMAND) { switch_page(1) }
     self.table.columnHeader.connect(SEL_COMMAND) do |_, _, column_index|
-      sort_table_by_column(column_index)
+      # sort_table_by_column(column_index)
     end
-
-    populate_table
   end
 
   def setup_control_buttons_area
@@ -102,9 +103,32 @@ class Student_list_view < FXVerticalFrame
     update_button_states
   end
 
+  def set_table_params(column_names, whole_entities_count)
+    column_names.each_with_index do |name, index|
+      self.table.setColumnText(index, name)
+    end
+    self.total_pages = (whole_entities_count / ROWS_PER_PAGE.to_f).ceil
+    update_page_label
+  end
+
+  def set_table_data(data_table)
+    clear_table
+    (1...data_table.row_count).each do |row|
+      (0...data_table.col_count).each do |col|
+        self.table.setItemText(row - 1, col, data_table.get(row, col).to_s)
+      end
+    end
+  end
+
+  def refresh_data
+    self.current_page = 1
+    self.controller.refresh_data
+  end
+
   private
-  attr_accessor :table, :data, :total_pages, :current_page, :page_label, :prev_btn, :next_btn, :sort_order,
+  attr_accessor :table, :total_pages, :page_label, :prev_btn, :next_btn, :sort_order,
     :add_btn, :update_btn, :edit_btn, :delete_btn, :filters
+  attr_writer :current_page
 
   # get selected rows
   def get_selected_rows
@@ -115,103 +139,38 @@ class Student_list_view < FXVerticalFrame
     selected_rows
   end
 
-  # populate table by mock data
-  def populate_table
-    data_list = Data_list_student_short.new([
-      Student_short.new_from_student_obj(Student.new_from_string('first_name: Лотарев, name: Сергей, patronymic: Юрьевич, git: https://github.com/lotarv, id: 3, telegram: @lotarv, birthdate: 26.10.2004')),
-      Student_short.new_from_student_obj(Student.new_from_string('first_name: Смирнов, name: Никита, patronymic: Олегович, git: https://github.com/ZaiiiRan, id: 1, telegram: @zaiiran, phone_number: +7-(934)-453-32-11, birthdate: 03.06.2004')),
-      Student_short.new_from_student_obj(Student.new_from_string('first_name: Блягоз, name: Амаль, patronymic: Хазретович, git: https://github.com/lamafout, id: 2, telegram: @lamafout, email: lamafout@gmail.com, birthdate: 14.06.2004')),
-      Student_short.new_from_student_obj(Student.new_from_string('first_name: Матюха, name: Филипп, patronymic: Андреевич, git: https://github.com/SerenityFlaim, id: 4, telegram: @SerenityFlaim, birthdate: 09.06.2004')),
-      Student_short.new_from_student_obj(Student.new_from_string('first_name: Воробьев, name: Артем, patronymic: Олегович, git: https://github.com/creatior, id: 5, telegram: @artyomvor, birthdate: 25.09.2004')),
-      Student_short.new_from_student_obj(Student.new_from_string('first_name: Вавакин, name: Владислав, patronymic: Олегович, git: https://github.com/VavakinV, id: 5, telegram: @Renbhed, birthdate: 16.06.2004')),
-    ])
-    data_list.select(0)
-    data_list.select(1)
-    data_list.select(2)
-    data_list.select(3)
-    data_list.select(4)
-    data_list.select(5)
-
-    self.data = data_list.retrieve_data
-    self.total_pages = ((self.data.row_count - 1).to_f / ROWS_PER_PAGE).ceil
-    self.current_page = 1
-
-    update_table
-  end
-
-  # update table method
-  def update_table(sorted_data = nil)
-    return if self.data.nil? || self.data.row_count <= 1
-
-    (0...self.data.col_count).each do |col_index|
-      self.table.setColumnText(col_index, self.data.get(0, col_index).to_s)
-    end
-    clear_table
-
-    data_to_display = sorted_data || get_page_data(self.current_page)
-    data_to_display.each_with_index do |row, row_index|
-      row.each_with_index do |cell, col_index|
-        self.table.setItemText(row_index, col_index, cell.to_s)
-      end
-    end
-
+  def update_page_label
     self.page_label.text = "Страница: #{self.current_page}/#{self.total_pages}"
   end
 
   # clear table method
   def clear_table
-    (0...ROWS_PER_PAGE).each do |row_index|
-      (0...self.data.col_count).each do |col_index|
-        self.table.setItemText(row_index, col_index, "")
+    (0...self.table.numRows).each do |row|
+      (0...self.table.numColumns).each do |col|
+        self.table.setItemText(row, col, "")
       end
     end
   end
 
-  # getting data for page
-  def get_page_data(page_number)
-    start_index = (page_number - 1) * ROWS_PER_PAGE + 1
-    end_index = start_index + ROWS_PER_PAGE - 1
-    data_page = []
-
-    (start_index..end_index).each do |row_index|
-      break if row_index >= self.data.row_count
-      row = []
-      (0...self.data.col_count).each do |col_index|
-        row << self.data.get(row_index, col_index)
-      end
-      data_page << row
-    end
-    data_page
+  def on_add
+  end
+  
+  def on_update
+    self.refresh_data
+  end
+  
+  def on_edit
+  end
+  
+  def on_delete
   end
 
-  # switch page
   def switch_page(direction)
     new_page = self.current_page + direction
-    return if new_page < 1 || new_page > self.total_pages
-    self.current_page = new_page
-    update_table
-  end
-
-  # sort
-  def sort_table_by_column(column_index)
-    return if self.data.nil? || self.data.row_count <= 1
-
-    headers = (0...self.data.col_count).map { |col_index| self.data.get(0, col_index) }
-
-    rows = (1...self.data.row_count).map do |row_index|
-      (0...self.data.col_count).map { |col_index| self.data.get(row_index, col_index)}
+    if new_page > 0 && new_page <= self.total_pages
+      self.current_page = new_page
+      self.controller.refresh_data
     end
-
-    self.sort_order ||= {}
-    self.sort_order[column_index] = !sort_order.fetch(column_index, false)
-
-    sorted_rows = rows.sort_by { |row| row[column_index] }
-    sorted_rows.reverse! unless self.sort_order[column_index]
-
-    all_rows = [headers] + sorted_rows
-
-    self.data = Data_table.new(all_rows)
-    update_table
   end
 
   # update button states method
@@ -232,18 +191,6 @@ class Student_list_view < FXVerticalFrame
       self.edit_btn.enabled = false
       self.delete_btn.enabled = true
     end
-  end
-
-  def on_add
-  end
-  
-  def on_update
-  end
-  
-  def on_edit
-  end
-  
-  def on_delete
   end
 
   def reset_filters
