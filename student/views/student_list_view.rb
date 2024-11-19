@@ -2,6 +2,7 @@ require 'fox16'
 require './models/data_list/data_list_student_short.rb'
 require './models/student/student.rb'
 require './models/student_short/student_short.rb'
+require './controllers/Student_list_controller.rb'
 
 include Fox
 
@@ -13,6 +14,7 @@ class Student_list_view < FXVerticalFrame
 
   def initialize(parent)
     super(parent, opts: LAYOUT_FILL)
+    self.controller = Student_list_controller.new(self)
 
     self.filters = {}
     setup_filtering_area
@@ -20,6 +22,7 @@ class Student_list_view < FXVerticalFrame
     setup_control_buttons_area
     self.current_page = 1
     self.total_pages = 1
+    self.refresh_data
   end
 
   def setup_filtering_area
