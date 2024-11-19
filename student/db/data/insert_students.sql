@@ -2,7 +2,7 @@ INSERT INTO student (first_name, name, patronymic, telegram, email, phone_number
 VALUES 
 ('Смирнов', 'Никита', 'Олегович', '@zaiiran', 'a1b075753@gmail.com', '+7-(934)-453-32-11', 'https://github.com/ZaiiiRan', '2004-06-03'),
 ('Лотарев', 'Сергей', 'Юрьевич', '@lotarv', NULL, NULL, 'https://github.com/lotarv', '2004-10-24'),
-('Блягов', 'Амаль', 'Хазретович', '@lamafout', NULL, NULL, 'https://github.com/lamafout', '2004-06-14'),
+('Блягоз', 'Амаль', 'Хазретович', '@lamafout', NULL, NULL, 'https://github.com/lamafout', '2004-06-14'),
 ('Иван', 'Иванов', 'Иванович', '@ivan_ivanov', 'ivan.ivanov@example.com', '+79161234501', 'https://github.com/ivanov', '1995-01-15'),
 ('Пётр', 'Петров', 'Петрович', '@petr_petrov', 'petr.petrov@example.com', '+79161234502', 'https://github.com/petrov', '1994-02-20'),
 ('Сергей', 'Сергеев', 'Сергеевич', '@sergey_sergeev', 'sergey.sergeev@example.com', '+79161234503', 'https://github.com/sergeev', '1993-03-25'),
