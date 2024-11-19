@@ -128,6 +128,10 @@ class Student_list_view < FXVerticalFrame
     self.controller.refresh_data
   end
 
+  def show_error_message(message)
+    FXMessageBox.error(self, MBOX_OK, "Ошибка", message)
+  end
+
   private
   attr_accessor :table, :total_pages, :page_label, :prev_btn, :next_btn, :sort_order,
     :add_btn, :update_btn, :edit_btn, :delete_btn, :filters
