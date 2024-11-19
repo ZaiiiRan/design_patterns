@@ -1,4 +1,4 @@
-require './binary_tree/binary_tree_iterator.rb'
+require './models//binary_tree/binary_tree_iterator.rb'
 
 class Binary_tree
     include Enumerable

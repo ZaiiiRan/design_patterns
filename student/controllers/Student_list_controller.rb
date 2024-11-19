@@ -1,11 +1,13 @@
 require './models/students_list/students_list'
 require './models/students_list/students_list_DB_adapter'
 require './models/data_list/data_list_student_short'
+require './models/students_list/students_list_file_adapter'
+require './models/data_storage_strategy/JSON_storage_strategy'
 
 class Student_list_controller
   def initialize(view)
     self.view = view
-    self.student_list = Students_list.new(Students_list_DB_adapter.new)
+    self.student_list = Students_list.new(Students_list_file_adapter.new('./students.json', JSON_storage_strategy.new()))
     self.data_list = Data_list_student_short.new([])
     self.data_list.add_observer(self.view)
   end
