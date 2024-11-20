@@ -31,5 +31,16 @@
     "email": null,
     "phone_number": "+7-(934)-453-32-11",
     "git": "https://github.com/ZaiiiRan"
+  },
+  {
+    "id": 4,
+    "first_name": "Тест",
+    "name": "Тест",
+    "patronymic": "Тест",
+    "birthdate": "2023-12-31",
+    "telegram": null,
+    "email": null,
+    "phone_number": null,
+    "git": null
   }
 ]
