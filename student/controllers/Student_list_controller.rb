@@ -4,6 +4,7 @@ require './models/data_list/data_list_student_short'
 require './models/students_list/students_list_file_adapter'
 require './models/data_storage_strategy/JSON_storage_strategy'
 require 'mysql2'
+require './models/student/student.rb'
 
 class Student_list_controller
   def initialize(view)
@@ -29,7 +30,10 @@ class Student_list_controller
     end
   end
 
-  def add_student
+  def add_student(student_data)
+    student = Student.new(first_name: student_data["first_name"], name: student_data["name"], patronymic: student_data["patronymic"],
+      birthdate: student_data["birthdate"])
+    self.student_list.add_student(student)
   end
 
   def replace_student

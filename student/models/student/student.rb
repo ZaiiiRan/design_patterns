@@ -143,6 +143,16 @@ class Student < Person
         end
     end
 
+    def self.valid_birthdate?(birthdate)
+        valid = (birthdate =~ /^\d{2}\.\d{2}\.\d{4}$/)
+        begin
+            Date.parse(birthdate)
+        rescue
+            false
+        end
+        valid
+    end
+
     private
 
     # birthdate setter

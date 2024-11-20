@@ -18,7 +18,7 @@ class Add_student_modal < FXDialogBox
   def setup_form
     self.fields = {}
     labels = {
-      "last_name" => "Фамилия",
+      "first_name" => "Фамилия",
       "name" => "Имя",
       "patronymic" => "Отчество",
       "birthdate" => "Дата рождения"
@@ -28,13 +28,18 @@ class Add_student_modal < FXDialogBox
       FXHorizontalFrame.new(self, opts: LAYOUT_FILL_X | PACK_UNIFORM_WIDTH) do |frame|
         FXLabel.new(frame, "#{label_text}: ")
         self.fields[field_name] = FXTextField.new(frame, 30, opts: TEXTFIELD_NORMAL | LAYOUT_SIDE_RIGHT)
+        self.fields[field_name].connect(SEL_CHANGED) do
+          enable_ok_btn
+        end
       end
     end
   end
 
   def setup_buttons
     FXHorizontalFrame.new(self, opts: LAYOUT_FILL_X | PACK_UNIFORM_WIDTH) do |frame|
-      FXButton.new(frame, "ОК", opts: BUTTON_NORMAL).connect(SEL_COMMAND) { on_add }
+      self.ok_btn = FXButton.new(frame, "ОК", opts: BUTTON_NORMAL)
+      self.ok_btn.enabled = false
+      self.ok_btn.connect(SEL_COMMAND) { on_add }
       FXButton.new(frame, "Отмена", opts: BUTTON_NORMAL).connect(SEL_COMMAND) { on_cancel }
     end
   end
@@ -44,7 +49,7 @@ class Add_student_modal < FXDialogBox
   end
 
   private
-  attr_accessor :fields
+  attr_accessor :fields, :ok_btn
 
   def on_add
     student_data = self.fields.transform_values(&:text)
@@ -53,5 +58,10 @@ class Add_student_modal < FXDialogBox
 
   def on_cancel
     self.close
+  end
+
+  def enable_ok_btn
+    student_data = self.fields.transform_values(&:text)
+    self.ok_btn.enabled = self.controller.valid_data?(student_data)
   end
 end

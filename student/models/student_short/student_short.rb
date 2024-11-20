@@ -59,6 +59,10 @@ class Student_short < Person
     attr_writer :id
 
     def set_contacts(contact)
+        if contact == 'no contact provided'
+            @contact = nil 
+            return
+        end
         if contact.start_with?('telegram:') then
             telegram = contact.slice(9..-1).strip
             unless self.class.valid_telegram?(telegram)
