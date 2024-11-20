@@ -1,18 +1,21 @@
 require 'fox16'
 require './controllers/add_student_controller'
+require './controllers/replace_student_controller'
 
 include Fox
 
-class Add_student_modal < FXDialogBox
-  attr_accessor :controller
+class Edit_student_modal < FXDialogBox
+  attr_accessor :controller, :mode, :student_id, :fields
 
-  def initialize(parent, parent_controller)
-    super(parent, "Добавить студента", opts: DECOR_TITLE | DECOR_BORDER, width: 500, height: 200)
-    self.controller = Add_student_controller.new(self, parent_controller)
+  def initialize(parent, parent_controller, mode=:add)
+    self.mode = mode
+    super(parent, self.title, opts: DECOR_TITLE | DECOR_BORDER, width: 500, height: 200)
+    set_controller(parent_controller)
     
     setup_form
     setup_buttons
-
+    self.controller.get_student
+    self.controller.populate_fields
   end
 
   def setup_form
@@ -28,6 +31,7 @@ class Add_student_modal < FXDialogBox
       FXHorizontalFrame.new(self, opts: LAYOUT_FILL_X | PACK_UNIFORM_WIDTH) do |frame|
         FXLabel.new(frame, "#{label_text}: ")
         self.fields[field_name] = FXTextField.new(frame, 30, opts: TEXTFIELD_NORMAL | LAYOUT_SIDE_RIGHT)
+        self.fields[field_name].enabled = false
         self.fields[field_name].connect(SEL_CHANGED) do
           enable_ok_btn
         end
@@ -39,7 +43,7 @@ class Add_student_modal < FXDialogBox
     FXHorizontalFrame.new(self, opts: LAYOUT_FILL_X | PACK_UNIFORM_WIDTH) do |frame|
       self.ok_btn = FXButton.new(frame, "ОК", opts: BUTTON_NORMAL)
       self.ok_btn.enabled = false
-      self.ok_btn.connect(SEL_COMMAND) { on_add }
+      self.ok_btn.connect(SEL_COMMAND) { on_ok }
       FXButton.new(frame, "Отмена", opts: BUTTON_NORMAL).connect(SEL_COMMAND) { on_cancel }
     end
   end
@@ -49,11 +53,11 @@ class Add_student_modal < FXDialogBox
   end
 
   private
-  attr_accessor :fields, :ok_btn
+  attr_accessor :ok_btn
 
-  def on_add
+  def on_ok
     student_data = self.fields.transform_values(&:text)
-    self.controller.add_student(student_data)
+    self.controller.save_student(student_data)
   end
 
   def on_cancel
@@ -63,5 +67,21 @@ class Add_student_modal < FXDialogBox
   def enable_ok_btn
     student_data = self.fields.transform_values(&:text)
     self.ok_btn.enabled = self.controller.valid_data?(student_data)
+  end
+
+  def title
+    if self.mode == :add
+      return "Добавить студента"
+    elsif self.mode == :replace
+      return "Редактировать студента"
+    end
+  end
+
+  def set_controller(parent_controller)
+    if self.mode == :add
+      self.controller = Add_student_controller.new(self, parent_controller)
+    elsif self.mode == :replace
+      self.controller = Replace_student_controller.new(self, parent_controller)
+    end
   end
 end

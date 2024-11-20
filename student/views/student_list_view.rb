@@ -3,7 +3,7 @@ require './models/data_list/data_list_student_short.rb'
 require './models/student/student.rb'
 require './models/student_short/student_short.rb'
 require './controllers/Student_list_controller.rb'
-require './views/add_student_modal.rb'
+require './views/edit_student_modal.rb'
 
 include Fox
 
@@ -107,10 +107,6 @@ class Student_list_view < FXVerticalFrame
     self.update_btn.connect(SEL_COMMAND) { on_update }
     self.edit_btn.connect(SEL_COMMAND) { on_edit }
     self.delete_btn.connect(SEL_COMMAND) { on_delete }
-
-    # self.table.connect(SEL_SELECTED) { update_button_states }
-    # self.table.connect(SEL_DESELECTED) { update_button_states }
-
     update_button_states
   end
 
@@ -159,7 +155,7 @@ class Student_list_view < FXVerticalFrame
   end
 
   def on_add
-    modal_view = Add_student_modal.new(self, self.controller)
+    modal_view = Edit_student_modal.new(self, self.controller)
     modal_view.create
     modal_view.show(PLACEMENT_OWNER)
   end
@@ -169,6 +165,9 @@ class Student_list_view < FXVerticalFrame
   end
   
   def on_edit
+    modal_view = Edit_student_modal.new(self, self.controller, :replace)
+    modal_view.create
+    modal_view.show(PLACEMENT_OWNER)
   end
   
   def on_delete

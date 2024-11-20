@@ -1,13 +1,9 @@
 require './models/student/student.rb'
 require 'date'
+require './controllers/edit_student_controller'
 
-class Add_student_controller
-  def initialize(view, parent_controller)
-    self.view = view
-    self.parent_controller = parent_controller
-  end
-
-  def add_student(student_data)
+class Add_student_controller < Edit_student_controller
+  def save_student(student_data)
     begin
       self.parent_controller.add_student(student_data)
       self.view.close
@@ -16,11 +12,14 @@ class Add_student_controller
     end
   end
 
-  def valid_data?(student_data)
-    Student.valid_name?(student_data["first_name"].strip) && Student.valid_name?(student_data["name"].strip) &&
-      Student.valid_name?(student_data["patronymic"].strip) && Student.valid_birthdate?(student_data["birthdate"].strip)
+  def get_student
+    self.view.student_id = nil
   end
 
-  private
-  attr_accessor :view, :parent_controller
+  def populate_fields
+    self.view.fields.each_key do |key|
+      self.view.fields[key].text = ""
+      self.view.fields[key].enabled = true
+    end
+  end
 end

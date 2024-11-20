@@ -49,7 +49,12 @@ class Student_list_controller
     self.data_list.get_selected
   end
 
-  def replace_student
+  def get_student(id)
+    self.student_list.get_student_by_id(id)
+  end
+
+  def replace_student()
+    self.refresh_data
   end
 
   def delete_student
