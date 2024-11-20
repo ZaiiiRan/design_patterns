@@ -10,8 +10,8 @@ class Student_list_controller
   def initialize(view)
     self.view = view
     begin
-      # self.student_list = Students_list.new(Students_list_DB_adapter.new)
-      self.student_list = Students_list.new(Students_list_file_adapter.new('./students.json', JSON_storage_strategy.new))
+      self.student_list = Students_list.new(Students_list_DB_adapter.new)
+      # self.student_list = Students_list.new(Students_list_file_adapter.new('./students.json', JSON_storage_strategy.new))
       self.data_list = Data_list_student_short.new([])
       self.data_list.add_observer(self.view)
     rescue StandardError => e
@@ -35,6 +35,7 @@ class Student_list_controller
     student = Student.new(first_name: student_data["first_name"], name: student_data["name"], patronymic: student_data["patronymic"],
       birthdate: student_data["birthdate"])
     self.student_list.add_student(student)
+    self.refresh_data
   end
 
   def replace_student

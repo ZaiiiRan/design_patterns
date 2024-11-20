@@ -10,11 +10,10 @@ class Add_student_controller
   def add_student(student_data)
     begin
       self.parent_controller.add_student(student_data)
+      self.view.close
     rescue => e
       self.view.show_error_message("Ошибка при добавлении студента: #{e.message}")
     end
-    self.parent_controller.refresh_data
-    self.view.close
   end
 
   def valid_data?(student_data)
