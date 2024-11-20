@@ -20,11 +20,10 @@ class Student_list_controller
   end
 
   def refresh_data
-    self.data_list.clear_selected unless self.data_list.nil?
+    self.data_list.clear_selected
     begin
       self.data_list = self.student_list.get_k_n_student_short_list(self.view.current_page, self.view.class::ROWS_PER_PAGE, nil, self.data_list)
       self.data_list.count = self.student_list.get_student_short_count
-      self.data_list.select_all
       data_list.notify
     rescue => e
       self.view.show_error_message("Ошибка при получении данных: #{e.message}")
@@ -36,6 +35,18 @@ class Student_list_controller
       birthdate: student_data["birthdate"])
     self.student_list.add_student(student)
     self.refresh_data
+  end
+
+  def select(number)
+    self.data_list.select(number)
+  end
+
+  def deselect(number)
+    self.data_list.deselect(number)
+  end
+
+  def get_selected
+    self.data_list.get_selected
   end
 
   def replace_student

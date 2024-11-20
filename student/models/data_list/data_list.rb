@@ -16,18 +16,21 @@ class Data_list
     # select element id by number
     def select(number)
         raise IndexError, "Index out of bounds" unless self.valid_index?(number)
-        self.selected << number
-    end
-
-    def select_all
-        (0...self.data.size).each do |i|
-            self.select(i)
-        end
+        self.selected << number unless self.selected.include?(number)
     end
 
     # get selected ids
     def get_selected
-        self.selected.dup
+        ids = []
+        self.selected.each do |key|
+            ids << self.data[key].id
+        end
+        ids
+    end
+
+    # deselect
+    def deselect(number)
+        self.selected.delete(number) if self.selected.include?(number)
     end
 
     # clear selected
@@ -51,19 +54,20 @@ class Data_list
     # get_data
     def get_data()
         result = []
-        selected = self.get_selected
-        selected.each do |selected_index|
-            obj = self.data[selected_index]
-            row = build_row(self.index, obj)
+        self.data.each do |key, value|
+            row = build_row(key, value)
             result.append(row)
-            self.index += 1
         end
         result
     end
 
     # data setter
     def data=(data)
-        @data = data.map { |element| deep_dup(element) }
+        @data = {}
+        data.each do |element|
+            @data[index] = deep_dup(element)
+            self.index += 1
+        end
     end
 
     def notify
@@ -83,7 +87,7 @@ class Data_list
 
     # validate index
     def valid_index?(index)
-        index.between?(0, self.data.size - 1)
+        self.data.key?(index)
     end
 
     # build row method (abstract)

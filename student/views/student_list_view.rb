@@ -76,6 +76,13 @@ class Student_list_view < FXVerticalFrame
     self.table.rowHeaderMode = LAYOUT_FIX_WIDTH
     self.table.rowHeaderWidth = 30
 
+    self.table.connect(SEL_SELECTED) do |_, _, row|
+      on_row_select(row)
+    end
+    self.table.connect(SEL_DESELECTED) do |_, _, row|
+      on_row_deselect(row)
+    end
+
     controls = FXHorizontalFrame.new(table_area, opts: LAYOUT_FILL_X)
     self.prev_btn = FXButton.new(controls, "<", opts: BUTTON_NORMAL | LAYOUT_LEFT)
     self.page_label = FXLabel.new(controls, "Страница: 1/1", opts: LAYOUT_CENTER_X)
@@ -101,8 +108,8 @@ class Student_list_view < FXVerticalFrame
     self.edit_btn.connect(SEL_COMMAND) { on_edit }
     self.delete_btn.connect(SEL_COMMAND) { on_delete }
 
-    self.table.connect(SEL_SELECTED) { update_button_states }
-    self.table.connect(SEL_DESELECTED) { update_button_states }
+    # self.table.connect(SEL_SELECTED) { update_button_states }
+    # self.table.connect(SEL_DESELECTED) { update_button_states }
 
     update_button_states
   end
@@ -137,15 +144,6 @@ class Student_list_view < FXVerticalFrame
   attr_accessor :table, :total_pages, :page_label, :prev_btn, :next_btn, :sort_order,
     :add_btn, :update_btn, :edit_btn, :delete_btn, :filters
   attr_writer :current_page
-
-  # get selected rows
-  def get_selected_rows
-    selected_rows = []
-    (0...self.table.numRows).each do |row|
-      selected_rows << row if self.table.rowSelected?(row)
-    end
-    selected_rows
-  end
 
   def update_page_label
     self.page_label.text = "Страница: #{self.current_page}/#{self.total_pages}"
@@ -182,11 +180,12 @@ class Student_list_view < FXVerticalFrame
       self.current_page = new_page
       self.controller.refresh_data
     end
+    update_button_states
   end
 
   # update button states method
   def update_button_states
-    selected_rows = get_selected_rows
+    selected_rows = self.controller.get_selected
   
     self.add_btn.enabled = true
     self.update_btn.enabled = true
@@ -210,5 +209,15 @@ class Student_list_view < FXVerticalFrame
       field[:text_field].text = ""
     end
     populate_table
+  end
+
+  def on_row_select(pos)
+    self.controller.select(self.table.getItemText(pos.row, 0).to_i)
+    update_button_states
+  end
+
+  def on_row_deselect(pos)
+    self.controller.deselect(self.table.getItemText(pos.row, 0).to_i)
+    update_button_states
   end
 end
