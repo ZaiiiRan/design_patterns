@@ -559,6 +559,69 @@
             </Array>
           </mxGeometry>
         </mxCell>
+        <mxCell id="mEAxdBfV1t4RpVed3mOv-1" value="Add_student_modal" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-2320" y="2470" width="350" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="mEAxdBfV1t4RpVed3mOv-2" value="&lt;div&gt;- controller&lt;/div&gt;&lt;div&gt;- fields&lt;/div&gt;&lt;div&gt;- ok_btn&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="mEAxdBfV1t4RpVed3mOv-1">
+          <mxGeometry y="26" width="350" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="mEAxdBfV1t4RpVed3mOv-3" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="mEAxdBfV1t4RpVed3mOv-1">
+          <mxGeometry y="90" width="350" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="mEAxdBfV1t4RpVed3mOv-4" value="&lt;div&gt;&amp;lt;&amp;lt;create&amp;gt;&amp;gt; new (parent: Student_list_view, parent_controller: Student_list_controller)&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;+ setup_form&lt;br&gt;+ setup_buttons&lt;br&gt;+ show_error_message(message: String)&lt;br&gt;&lt;br&gt;- on_add&lt;br&gt;- on_cancel&lt;/div&gt;&lt;div&gt;- enable_ok_btn&lt;br&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="mEAxdBfV1t4RpVed3mOv-1">
+          <mxGeometry y="98" width="350" height="162" as="geometry" />
+        </mxCell>
+        <mxCell id="mEAxdBfV1t4RpVed3mOv-5" value="Add_student_controller" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-1780" y="2480" width="350" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="mEAxdBfV1t4RpVed3mOv-6" value="- view&lt;br&gt;- parent_controller" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="mEAxdBfV1t4RpVed3mOv-5">
+          <mxGeometry y="26" width="350" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="mEAxdBfV1t4RpVed3mOv-7" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="mEAxdBfV1t4RpVed3mOv-5">
+          <mxGeometry y="70" width="350" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="mEAxdBfV1t4RpVed3mOv-8" value="&lt;div&gt;&amp;lt;&amp;lt;create&amp;gt;&amp;gt; new (view: Add_student_modal, parent_controller: Student_list_controller)&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;+ add_student(student_data: {})&lt;br&gt;+ valid_data?(student_data: {})&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;- view(): Add_student_modal&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; get&lt;br&gt;- view=(view: Add_student_modal)&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;set&lt;br&gt;- parent_controller(): Student_list_controller&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; get&lt;br&gt;- parent_controller=(parent_controller: Student_list_controller)&amp;nbsp;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="mEAxdBfV1t4RpVed3mOv-5">
+          <mxGeometry y="78" width="350" height="162" as="geometry" />
+        </mxCell>
+        <mxCell id="mEAxdBfV1t4RpVed3mOv-9" value="" style="endArrow=diamondThin;endFill=1;endSize=24;html=1;rounded=0;entryX=0.003;entryY=0.133;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="mEAxdBfV1t4RpVed3mOv-8">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="-1970" y="2580" as="sourcePoint" />
+            <mxPoint x="-1810" y="2580" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mEAxdBfV1t4RpVed3mOv-10" value="" style="endArrow=diamondThin;endFill=1;endSize=24;html=1;rounded=0;entryX=1;entryY=0.073;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.001;exitY=0.133;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="mEAxdBfV1t4RpVed3mOv-8" target="mEAxdBfV1t4RpVed3mOv-4">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="-1920" y="2630" as="sourcePoint" />
+            <mxPoint x="-1760" y="2630" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mEAxdBfV1t4RpVed3mOv-12" value="" style="endArrow=diamondThin;endFill=1;endSize=24;html=1;rounded=0;entryX=0.537;entryY=0.992;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="PUKF_RbwvHRXeGtgpIjq-9">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="-1430" y="2600" as="sourcePoint" />
+            <mxPoint x="-1270" y="2600" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-1160" y="2600" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mEAxdBfV1t4RpVed3mOv-13" value="Use" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;exitX=0.963;exitY=-0.007;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="mEAxdBfV1t4RpVed3mOv-5" target="8w9vdPJpi9KEnKkPlF_M-6">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="-1450" y="2470" as="sourcePoint" />
+            <mxPoint x="-490" y="540" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-1443" y="468" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mEAxdBfV1t4RpVed3mOv-14" value="Use" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;exitX=0.004;exitY=0.254;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="PUKF_RbwvHRXeGtgpIjq-15" target="mEAxdBfV1t4RpVed3mOv-1">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="-1900" y="2300" as="sourcePoint" />
+            <mxPoint x="-1740" y="2300" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-2150" y="2010" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
