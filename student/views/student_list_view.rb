@@ -3,6 +3,7 @@ require './models/data_list/data_list_student_short.rb'
 require './models/student/student.rb'
 require './models/student_short/student_short.rb'
 require './controllers/Student_list_controller.rb'
+require './views/add_student_modal.rb'
 
 include Fox
 
@@ -55,7 +56,7 @@ class Student_list_view < FXVerticalFrame
       combo.appendItem("Не важно")
       combo.appendItem("Да")
       combo.appendItem("Нет")
-      text_field = FXTextField.new(frame, 15, opts: TEXTFIELD_NORMAL)
+      text_field = FXTextField.new(frame, 20, opts: TEXTFIELD_NORMAL)
       text_field.enabled = false
 
       self.filters[label] = { combo: combo, text_field: text_field }
@@ -160,6 +161,9 @@ class Student_list_view < FXVerticalFrame
   end
 
   def on_add
+    modal_view = Add_student_modal.new(self, self.controller)
+    modal_view.create
+    modal_view.show(PLACEMENT_OWNER)
   end
   
   def on_update
