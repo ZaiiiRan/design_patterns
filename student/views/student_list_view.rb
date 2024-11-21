@@ -101,12 +101,16 @@ class Student_list_view < FXVerticalFrame
     self.add_btn = FXButton.new(button_area, "Добавить", opts: BUTTON_NORMAL)
     self.update_btn = FXButton.new(button_area, "Обновить", opts: BUTTON_NORMAL)
     self.edit_btn = FXButton.new(button_area, "Изменить", opts: BUTTON_NORMAL)
+    self.edit_git_btn = FXButton.new(button_area, "Изменить Git", opts: BUTTON_NORMAL)
+    self.edit_contacts_btn = FXButton.new(button_area, "Изменить контакты", opts: BUTTON_NORMAL)
     self.delete_btn = FXButton.new(button_area, "Удалить", opts: BUTTON_NORMAL)
 
     self.add_btn.connect(SEL_COMMAND) { on_add }
     self.update_btn.connect(SEL_COMMAND) { on_update }
     self.edit_btn.connect(SEL_COMMAND) { on_edit }
     self.delete_btn.connect(SEL_COMMAND) { on_delete }
+    self.edit_git_btn.connect(SEL_COMMAND) { on_edit_git }
+    self.edit_contacts_btn.connect(SEL_COMMAND) { on_edit_contacts }
     update_button_states
   end
 
@@ -139,7 +143,7 @@ class Student_list_view < FXVerticalFrame
 
   private
   attr_accessor :table, :total_pages, :page_label, :prev_btn, :next_btn, :sort_order,
-    :add_btn, :update_btn, :edit_btn, :delete_btn, :filters
+    :add_btn, :update_btn, :edit_btn, :edit_git_btn, :edit_contacts_btn, :delete_btn, :filters
   attr_writer :current_page
 
   def update_page_label
@@ -170,6 +174,18 @@ class Student_list_view < FXVerticalFrame
     modal_view.create
     modal_view.show(PLACEMENT_OWNER)
   end
+
+  def on_edit_git
+    modal_view = Edit_student_modal.new(self, self.controller, :edit_git)
+    modal_view.create
+    modal_view.show(PLACEMENT_OWNER)
+  end
+
+  def on_edit_contacts
+    modal_view = Edit_student_modal.new(self, self.controller, :edit_contacts)
+    modal_view.create
+    modal_view.show(PLACEMENT_OWNER)
+  end
   
   def on_delete
   end
@@ -193,11 +209,17 @@ class Student_list_view < FXVerticalFrame
     when 0
       self.edit_btn.enabled = false
       self.delete_btn.enabled = false
+      self.edit_git_btn.enabled = false
+      self.edit_contacts_btn.enabled = false
     when 1
       self.edit_btn.enabled = true
       self.delete_btn.enabled = true
+      self.edit_git_btn.enabled = true
+      self.edit_contacts_btn.enabled = true
     else
       self.edit_btn.enabled = false
+      self.edit_git_btn.enabled = false
+      self.edit_contacts_btn.enabled = false
       self.delete_btn.enabled = true
     end
   end

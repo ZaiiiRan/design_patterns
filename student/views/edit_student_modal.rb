@@ -1,6 +1,8 @@
 require 'fox16'
 require './controllers/add_student_controller'
 require './controllers/replace_student_controller'
+require './controllers/edit_git_controller'
+require './controllers/edit_contacts_controller'
 
 include Fox
 
@@ -9,7 +11,7 @@ class Edit_student_modal < FXDialogBox
 
   def initialize(parent, parent_controller, mode=:add)
     self.mode = mode
-    super(parent, self.title, opts: DECOR_TITLE | DECOR_BORDER, width: 500, height: 200)
+    super(parent, self.title, opts: DECOR_TITLE | DECOR_BORDER, width: 500, height: 350)
     set_controller(parent_controller)
     
     setup_form
@@ -24,7 +26,11 @@ class Edit_student_modal < FXDialogBox
       "first_name" => "Фамилия",
       "name" => "Имя",
       "patronymic" => "Отчество",
-      "birthdate" => "Дата рождения"
+      "birthdate" => "Дата рождения",
+      "git" => "Git",
+      "telegram" => "Telegram",
+      "email" => "Email",
+      "phone_number" => "Телефон"
     }
 
     labels.each do |field_name, label_text|
@@ -70,18 +76,28 @@ class Edit_student_modal < FXDialogBox
   end
 
   def title
-    if self.mode == :add
-      return "Добавить студента"
-    elsif self.mode == :replace
-      return "Редактировать студента"
+    case self.mode
+      when :add
+        return "Добавить студента"
+      when :replace
+        return "Редактировать студента"
+      when :edit_git
+        return "Редактировать Git"
+      when :edit_contacts
+        return "Редактировать контакты"
     end
   end
 
   def set_controller(parent_controller)
-    if self.mode == :add
-      self.controller = Add_student_controller.new(self, parent_controller)
-    elsif self.mode == :replace
-      self.controller = Replace_student_controller.new(self, parent_controller)
+    case self.mode
+      when :add
+        self.controller = Add_student_controller.new(self, parent_controller)
+      when :replace
+        self.controller = Replace_student_controller.new(self, parent_controller)
+      when :edit_git
+        self.controller = Edit_git_controller.new(self, parent_controller)
+      when :edit_contacts
+        self.controller = Edit_contacts_controller.new(self, parent_controller)
     end
   end
 end

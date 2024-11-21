@@ -15,22 +15,22 @@ class Person
 
     # phone number validation
     def self.valid_phone_number?(phone_number)
-        phone_number.nil? || phone_number =~ /^(?:\+7|8)[\s-]?(?:\(?\d{3}\)?[\s-]?)\d{3}[\s-]?\d{2}[\s-]?\d{2}$/
+        phone_number.nil? || phone_number == "" || phone_number =~ /^(?:\+7|8)[\s-]?(?:\(?\d{3}\)?[\s-]?)\d{3}[\s-]?\d{2}[\s-]?\d{2}$/
     end
 
     # telegram validation
     def self.valid_telegram?(telegram)
-        telegram.nil? || telegram =~ /@[a-zA-Z0-9_]{5,}$/
+        telegram.nil? || telegram == "" || telegram =~ /@[a-zA-Z0-9_]{5,}$/
     end
 
     # git link validation
     def self.valid_git?(git)
-        git.nil? || git =~ %r{^https?://github\.com/[a-zA-Z0-9_\-]+$}
+        git.nil? || git == "" || git =~ %r{^https?://github\.com/[a-zA-Z0-9_\-]+$}
     end
 
     # email validation
     def self.valid_email?(email)
-        email.nil? || email =~ /^[\w+_.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+        email.nil? || email == "" || email =~ /^[\w+_.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
     end
 
     # names validation

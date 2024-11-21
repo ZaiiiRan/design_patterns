@@ -3,10 +3,10 @@ require 'date'
 require './controllers/edit_student_controller'
 require './models/student/student.rb'
 
-class Replace_student_controller < Edit_student_controller
+class Edit_contacts_controller < Edit_student_controller
   def populate_fields
     super
-    %w(name first_name patronymic birthdate).each do |field|
+    %w(telegram email phone_number).each do |field|
       self.view.fields[field].enabled = true
     end
   end
@@ -14,10 +14,9 @@ class Replace_student_controller < Edit_student_controller
   def valid_data?(student_data)
     data = student_data.transform_values { |value| value.strip }
     valid = super(data)
-    unchanged = self.student.first_name == data["first_name"] &&
-      self.student.name == data["name"] &&
-      self.student.patronymic == data["patronymic"] &&
-      self.student.birthdate.strftime('%d.%m.%Y') == data["birthdate"]
+    unchanged = self.student.telegram == data["telegram"] &&
+      self.student.email == data["email"] &&
+      self.student.phone_number == data["phone_number"]
     valid && !unchanged
   end
 end

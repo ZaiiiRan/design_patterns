@@ -43,7 +43,7 @@ class Student_short < Person
 
     # checking for contacts availability
     def validate_contacts?
-        !self.contact.nil?
+        !(self.get_any_contact.nil? || self.get_any_contact == "")
     end
 
     # validate git and contacts
