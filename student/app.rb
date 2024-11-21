@@ -1,5 +1,5 @@
 require 'fox16'
-require './views/student_list_view.rb'
+require './views/base_views/base_view_factory.rb'
 
 include Fox
 
@@ -11,7 +11,7 @@ class App < FXMainWindow
 
         FXTabItem.new(tabs, "Список студентов")
         student_list = FXVerticalFrame.new(tabs, opts: LAYOUT_FILL)
-        self.student_list_view = Student_list_view.new(student_list)
+        self.student_list_view = Base_view_factory.create_view(student_list, :student_list)
 
         FXTabItem.new(tabs, "Пока неизвестная вкладка")
         FXVerticalFrame.new(tabs, opts: LAYOUT_FILL)
