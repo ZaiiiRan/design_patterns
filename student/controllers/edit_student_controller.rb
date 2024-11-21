@@ -9,17 +9,14 @@ class Edit_student_controller
     raise NotImplementedError
   end
 
-  def get_student
-    raise NotImplementedError
-  end
-
   def populate_fields
     raise NotImplementedError
   end
 
   def valid_data?(student_data)
-    Student.valid_name?(student_data["first_name"].strip) && Student.valid_name?(student_data["name"].strip) &&
-      Student.valid_name?(student_data["patronymic"].strip) && Student.valid_birthdate?(student_data["birthdate"].strip)
+    data = student_data.transform_values { |value| value.strip }
+    Student.valid_name?(data["first_name"]) && Student.valid_name?(data["name"]) &&
+      Student.valid_name?(data["patronymic"]) && Student.valid_birthdate?(data["birthdate"])
   end
 
   protected

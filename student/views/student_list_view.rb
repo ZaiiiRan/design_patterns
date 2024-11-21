@@ -125,6 +125,7 @@ class Student_list_view < FXVerticalFrame
         self.table.setItemText(row - 1, col, data_table.get(row, col).to_s)
       end
     end
+    update_button_states
   end
 
   def refresh_data
@@ -179,7 +180,6 @@ class Student_list_view < FXVerticalFrame
       self.current_page = new_page
       self.controller.refresh_data
     end
-    update_button_states
   end
 
   # update button states method

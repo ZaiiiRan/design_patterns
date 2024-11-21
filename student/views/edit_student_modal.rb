@@ -5,7 +5,7 @@ require './controllers/replace_student_controller'
 include Fox
 
 class Edit_student_modal < FXDialogBox
-  attr_accessor :controller, :mode, :student_id, :fields
+  attr_accessor :controller, :mode, :fields
 
   def initialize(parent, parent_controller, mode=:add)
     self.mode = mode
@@ -14,8 +14,8 @@ class Edit_student_modal < FXDialogBox
     
     setup_form
     setup_buttons
-    self.controller.get_student
     self.controller.populate_fields
+    enable_ok_btn
   end
 
   def setup_form

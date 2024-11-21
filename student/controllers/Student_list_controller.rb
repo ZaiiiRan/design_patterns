@@ -30,9 +30,7 @@ class Student_list_controller
     end
   end
 
-  def add_student(student_data)
-    student = Student.new(first_name: student_data["first_name"], name: student_data["name"], patronymic: student_data["patronymic"],
-      birthdate: student_data["birthdate"])
+  def add_student(student)
     self.student_list.add_student(student)
     self.refresh_data
   end
@@ -53,7 +51,8 @@ class Student_list_controller
     self.student_list.get_student_by_id(id)
   end
 
-  def replace_student()
+  def replace_student(student)
+    self.student_list.replace_student(student.id, student)
     self.refresh_data
   end
 
