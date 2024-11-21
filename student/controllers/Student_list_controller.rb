@@ -25,6 +25,7 @@ class Student_list_controller
       self.data_list = self.student_list.get_k_n_student_short_list(self.view.current_page, self.view.class::ROWS_PER_PAGE, nil, self.data_list)
       self.data_list.count = self.student_list.get_student_short_count
       data_list.notify
+      self.view.update_button_states
     rescue => e
       self.view.show_error_message("Ошибка при получении данных: #{e.message}")
     end
@@ -37,10 +38,12 @@ class Student_list_controller
 
   def select(number)
     self.data_list.select(number)
+    self.view.update_button_states
   end
 
   def deselect(number)
     self.data_list.deselect(number)
+    self.view.update_button_states
   end
 
   def get_selected

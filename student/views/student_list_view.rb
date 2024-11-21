@@ -129,7 +129,6 @@ class Student_list_view < FXVerticalFrame
         self.table.setItemText(row - 1, col, data_table.get(row, col).to_s)
       end
     end
-    update_button_states
   end
 
   def refresh_data
@@ -139,6 +138,32 @@ class Student_list_view < FXVerticalFrame
 
   def show_error_message(message)
     FXMessageBox.error(self, MBOX_OK, "Ошибка", message)
+  end
+
+  # update button states method
+  def update_button_states
+    selected_rows = self.controller.get_selected
+  
+    self.add_btn.enabled = true
+    self.update_btn.enabled = true
+  
+    case selected_rows.size
+    when 0
+      self.edit_btn.enabled = false
+      self.delete_btn.enabled = false
+      self.edit_git_btn.enabled = false
+      self.edit_contacts_btn.enabled = false
+    when 1
+      self.edit_btn.enabled = true
+      self.delete_btn.enabled = true
+      self.edit_git_btn.enabled = true
+      self.edit_contacts_btn.enabled = true
+    else
+      self.edit_btn.enabled = false
+      self.edit_git_btn.enabled = false
+      self.edit_contacts_btn.enabled = false
+      self.delete_btn.enabled = true
+    end
   end
 
   private
@@ -198,32 +223,6 @@ class Student_list_view < FXVerticalFrame
     end
   end
 
-  # update button states method
-  def update_button_states
-    selected_rows = self.controller.get_selected
-  
-    self.add_btn.enabled = true
-    self.update_btn.enabled = true
-  
-    case selected_rows.size
-    when 0
-      self.edit_btn.enabled = false
-      self.delete_btn.enabled = false
-      self.edit_git_btn.enabled = false
-      self.edit_contacts_btn.enabled = false
-    when 1
-      self.edit_btn.enabled = true
-      self.delete_btn.enabled = true
-      self.edit_git_btn.enabled = true
-      self.edit_contacts_btn.enabled = true
-    else
-      self.edit_btn.enabled = false
-      self.edit_git_btn.enabled = false
-      self.edit_contacts_btn.enabled = false
-      self.delete_btn.enabled = true
-    end
-  end
-
   def reset_filters
     self.filters.each_value do |field|
       field[:combo].setCurrentItem(0) if !field[:combo].nil?
@@ -234,11 +233,9 @@ class Student_list_view < FXVerticalFrame
 
   def on_row_select(pos)
     self.controller.select(self.table.getItemText(pos.row, 0).to_i)
-    update_button_states
   end
 
   def on_row_deselect(pos)
     self.controller.deselect(self.table.getItemText(pos.row, 0).to_i)
-    update_button_states
   end
 end
