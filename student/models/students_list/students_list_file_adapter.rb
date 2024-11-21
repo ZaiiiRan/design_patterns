@@ -60,16 +60,16 @@ class Students_list_file_adapter < Students_list_interface
 
     # replace student by id
     def replace_student(id, new_student)
-        current_student = self.students.find { |student| student.id == id }
-        raise IndexError, 'Unknown student id' if current_student.nil?
+        index = self.students.find_index { |student| student.id == id }
+        raise IndexError, 'Unknown student id' if index.nil?
         begin
             check_unique_fileds(email: new_student.email, telegram: new_student.telegram, 
-                phone_number: new_student.phone_number, git: new_student.git, current_student: current_student)
+                phone_number: new_student.phone_number, git: new_student.git, current_student: self.students[index])
         rescue => e
             raise e
         end
         new_student.id = id
-        current_student = new_student
+        self.students[index] = new_student
         self.write
     end
 

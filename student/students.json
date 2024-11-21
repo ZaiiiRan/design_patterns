@@ -42,5 +42,16 @@
     "email": null,
     "phone_number": null,
     "git": null
+  },
+  {
+    "id": 5,
+    "first_name": "Петров",
+    "name": "Сергей",
+    "patronymic": "Петрович",
+    "birthdate": "2007-08-05",
+    "telegram": null,
+    "email": null,
+    "phone_number": null,
+    "git": null
   }
 ]

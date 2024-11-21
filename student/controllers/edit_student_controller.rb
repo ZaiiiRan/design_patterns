@@ -13,6 +13,10 @@ class Edit_student_controller
     raise NotImplementedError
   end
 
+  def new_student(student_data)
+    raise NotImplementedError
+  end
+
   def valid_data?(student_data)
     data = student_data.transform_values { |value| value.strip }
     Student.valid_name?(data["first_name"]) && Student.valid_name?(data["name"]) &&

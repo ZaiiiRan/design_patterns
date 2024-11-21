@@ -5,8 +5,8 @@ require './models/student/student.rb'
 
 class Replace_student_controller < Edit_student_controller
   def save_student(student_data)
-    edit_student(student_data)
     begin
+      new_student(student_data)
       self.parent_controller.replace_student(self.student)
       self.view.close
     rescue => e
@@ -14,7 +14,7 @@ class Replace_student_controller < Edit_student_controller
     end
   end
 
-  def edit_student(student_data)
+  def new_student(student_data)
     data = student_data.transform_values { |value| value.strip }
     self.student = Student.new(id: self.student.id, first_name: data["first_name"],
       name: data["name"], patronymic: data["patronymic"],

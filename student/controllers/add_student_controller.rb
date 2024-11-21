@@ -6,7 +6,7 @@ require './models/student/student.rb'
 class Add_student_controller < Edit_student_controller
   def save_student(student_data)
     begin
-      student = create_student(student_data)
+      student = new_student(student_data)
       self.parent_controller.add_student(student)
       self.view.close
     rescue => e
@@ -14,7 +14,7 @@ class Add_student_controller < Edit_student_controller
     end
   end
 
-  def create_student(student_data)
+  def new_student(student_data)
     data = student_data.transform_values { |value| value.strip }
     Student.new(name: data["name"], first_name: data["first_name"], 
       patronymic: data["patronymic"], birthdate: Date.parse(data["birthdate"]))
