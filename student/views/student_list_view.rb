@@ -2,7 +2,7 @@ require 'fox16'
 require './models/data_list/data_list_student_short.rb'
 require './models/student/student.rb'
 require './models/student_short/student_short.rb'
-require './controllers/Student_list_controller.rb'
+require './controllers/student_list/student_list_controller.rb'
 require './views/edit_student_modal.rb'
 
 include Fox

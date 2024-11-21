@@ -1,8 +1,8 @@
 require 'fox16'
-require './controllers/add_student_controller'
-require './controllers/replace_student_controller'
-require './controllers/edit_git_controller'
-require './controllers/edit_contacts_controller'
+require './controllers/edit_student/add_student_controller'
+require './controllers/edit_student/replace_student_controller'
+require './controllers/edit_student/edit_git_controller'
+require './controllers/edit_student/edit_contacts_controller'
 
 include Fox
 

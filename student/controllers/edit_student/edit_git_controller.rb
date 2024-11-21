@@ -1,6 +1,6 @@
 require './models/student/student.rb'
 require 'date'
-require './controllers/edit_student_controller'
+require './controllers/edit_student/edit_student_controller'
 require './models/student/student.rb'
 
 class Edit_git_controller < Edit_student_controller
