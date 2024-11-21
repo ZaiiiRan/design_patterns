@@ -46,12 +46,23 @@
   {
     "id": 5,
     "first_name": "Петров",
-    "name": "Сергей",
+    "name": "Петр",
     "patronymic": "Петрович",
-    "birthdate": "2007-08-05",
+    "birthdate": "2004-08-25",
     "telegram": null,
     "email": null,
     "phone_number": null,
     "git": null
+  },
+  {
+    "id": 6,
+    "first_name": "Сергеев",
+    "name": "Сергей",
+    "patronymic": "Сергеевич",
+    "birthdate": "2003-09-04",
+    "telegram": "@telegram",
+    "email": null,
+    "phone_number": null,
+    "git": "https://github.com/sergeev"
   }
 ]

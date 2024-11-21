@@ -16,8 +16,12 @@ class Edit_student_controller
   end
 
   def new_student(student_data)
-    data = student_data.transform_values { |value| value.strip }
-    self.student = Student.new(id: self.student.id, first_name: data["first_name"],
+    data = student_data.transform_values do |value|
+      stripped = value.strip
+      stripped.empty? ? nil : stripped
+    end
+    id = self.student.id unless self.student.nil?
+    self.student = Student.new(id: id, first_name: data["first_name"],
       name: data["name"], patronymic: data["patronymic"],
       birthdate: data["birthdate"], git: data["git"], telegram: data["telegram"],
       email: data["email"], phone_number: data["phone_number"])
