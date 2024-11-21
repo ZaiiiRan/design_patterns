@@ -5,15 +5,16 @@ require './models/student/student.rb'
 
 class Edit_contacts_controller < Edit_student_controller
   def populate_fields
-    super
-    %w(telegram email phone_number).each do |field|
-      self.view.fields[field].enabled = true
-    end
+    self.get_student
+    self.view.fields["telegram"].text = self.student.telegram
+    self.view.fields["email"].text = self.student.email
+    self.view.fields["phone_number"].text = self.student.phone_number
   end
 
   def valid_data?(student_data)
     data = student_data.transform_values { |value| value.strip }
-    valid = super(data)
+    valid = Student.valid_phone_number?(data["phone_number"]) && Student.valid_email?(data["email"]) &&
+      Student.valid_telegram?(data["telegram"])
     unchanged = self.student.telegram == data["telegram"] &&
       self.student.email == data["email"] &&
       self.student.phone_number == data["phone_number"]

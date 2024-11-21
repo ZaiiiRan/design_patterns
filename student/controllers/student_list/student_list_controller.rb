@@ -37,13 +37,19 @@ class Student_list_controller
   end
 
   def select(number)
-    self.data_list.select(number)
-    self.view.update_button_states
+    begin
+      self.data_list.select(number)
+      self.view.update_button_states
+    rescue
+    end
   end
 
   def deselect(number)
-    self.data_list.deselect(number)
-    self.view.update_button_states
+    begin
+      self.data_list.deselect(number)
+      self.view.update_button_states
+    rescue
+    end
   end
 
   def get_selected

@@ -3,7 +3,7 @@ require './models/data_list/data_list_student_short.rb'
 require './models/student/student.rb'
 require './models/student_short/student_short.rb'
 require './controllers/student_list/student_list_controller.rb'
-require './views/edit_student_modal.rb'
+require './views/modal/modal_factory.rb'
 
 include Fox
 
@@ -185,7 +185,7 @@ class Student_list_view < FXVerticalFrame
   end
 
   def on_add
-    modal_view = Edit_student_modal.new(self, self.controller)
+    modal_view = Modal_factory.create_modal(self, self.controller, :add_student)
     modal_view.create
     modal_view.show(PLACEMENT_OWNER)
   end
@@ -195,19 +195,19 @@ class Student_list_view < FXVerticalFrame
   end
   
   def on_edit
-    modal_view = Edit_student_modal.new(self, self.controller, :replace)
+    modal_view = Modal_factory.create_modal(self, self.controller, :replace_student)
     modal_view.create
     modal_view.show(PLACEMENT_OWNER)
   end
 
   def on_edit_git
-    modal_view = Edit_student_modal.new(self, self.controller, :edit_git)
+    modal_view = Modal_factory.create_modal(self, self.controller, :edit_git)
     modal_view.create
     modal_view.show(PLACEMENT_OWNER)
   end
 
   def on_edit_contacts
-    modal_view = Edit_student_modal.new(self, self.controller, :edit_contacts)
+    modal_view = Modal_factory.create_modal(self, self.controller, :edit_contacts)
     modal_view.create
     modal_view.show(PLACEMENT_OWNER)
   end

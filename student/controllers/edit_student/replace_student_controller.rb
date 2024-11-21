@@ -5,10 +5,11 @@ require './models/student/student.rb'
 
 class Replace_student_controller < Edit_student_controller
   def populate_fields
-    super
-    %w(name first_name patronymic birthdate).each do |field|
-      self.view.fields[field].enabled = true
-    end
+    self.get_student
+    self.view.fields["first_name"].text = self.student.first_name
+    self.view.fields["name"].text = self.student.name
+    self.view.fields["patronymic"].text = self.student.patronymic
+    self.view.fields["birthdate"].text = self.student.birthdate.strftime('%d.%m.%Y')
   end
 
   def valid_data?(student_data)
