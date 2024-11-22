@@ -4,7 +4,7 @@ include Fox
 
 class Base_view < FXVerticalFrame
   attr_accessor :controller
-
+  
   def initialize(parent, opts: nil)
     super(parent, opts: opts)
   end
@@ -21,7 +21,7 @@ class Base_view < FXVerticalFrame
     raise NotImplementedError
   end
 
-  # def show_error_message(message)
-  #   FXMessageBox.error(self, MBOX_OK, "Ошибка", message)
-  # end
+  def show_error_message(message)
+    FXMessageBox.error(self, MBOX_OK, "Ошибка", message)
+  end
 end

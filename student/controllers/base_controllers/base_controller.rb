@@ -4,5 +4,5 @@ class Base_controller
   end
   
   protected
-  attr_accessor :view, :list, :data_list
+  attr_accessor :view, :entities_list, :data_list
 end
