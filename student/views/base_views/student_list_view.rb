@@ -8,7 +8,7 @@ require './views/base_views/base_view.rb'
 include Fox
 
 class Student_list_view < Base_view
-  attr_reader :current_page
+  attr_accessor :current_page, :total_pages
 
   ROWS_PER_PAGE = 10
 
@@ -97,13 +97,8 @@ class Student_list_view < Base_view
   end
 
   private
-  attr_accessor :table, :total_pages, :page_label, :prev_btn, :next_btn, :sort_order,
+  attr_accessor :table, :page_label, :prev_btn, :next_btn, :sort_order,
     :add_btn, :update_btn, :edit_btn, :edit_git_btn, :edit_contacts_btn, :delete_btn, :filters
-  attr_writer :current_page
-
-  def update_page_label
-    self.page_label.text = "Страница: #{self.current_page}/#{self.total_pages}"
-  end
 
   # clear table method
   def clear_table
@@ -112,6 +107,10 @@ class Student_list_view < Base_view
         self.table.setItemText(row, col, "")
       end
     end
+  end
+
+  def update_page_label
+    self.page_label.text = "Страница: #{self.current_page}/#{self.total_pages}"
   end
 
   def on_add
@@ -143,14 +142,11 @@ class Student_list_view < Base_view
   end
   
   def on_delete
+    self.controller.delete_student
   end
 
   def switch_page(direction)
-    new_page = self.current_page + direction
-    if new_page > 0 && new_page <= self.total_pages
-      self.current_page = new_page
-      self.controller.refresh_data
-    end
+    self.controller.switch_page(direction)
   end
 
   def reset_filters
