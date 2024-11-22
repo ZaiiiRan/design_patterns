@@ -8,10 +8,17 @@ class Git_sort_decorator < Filter_decorator
 
   def apply(filtering_obj)
     if filtering_obj.is_a?(Array)
-      super(filtering_obj).sort_by do |student|
+      filtered_students = super(filtering_obj)
+      if filtered_students.nil?
+        return []
+      end
+
+      sorted_students = filtered_students.sort_by do |student|
         value = student.git
-        value.empty? ? Float::INFINITY : value.downcase
-      end.reverse! if self.order == :desc
+        String(value.nil? || value.empty? ? Float::INFINITY : value.downcase)
+      end
+      sorted_students.reverse! if self.order == :desc
+      sorted_students
     else
       query = super(filtering_obj)
       "#{query} ORDER BY 

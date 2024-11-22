@@ -8,9 +8,14 @@ class Contact_sort_decorator < Filter_decorator
 
   def apply(filtering_obj)
     if filtering_obj.is_a?(Array)
-      super(filtering_obj).sort_by do |student|
+      filtered_students = super(filtering_obj)
+      return [] if filtered_students.nil?
+
+      sorted_students = filtered_students.sort_by do |student|
         self.get_priority(student)
-      end.reverse! if self.order == :desc
+      end
+      sorted_students.reverse! if self.order == :desc
+      sorted_students
     else
       query = super(filtering_obj)
       "#{query} ORDER BY 

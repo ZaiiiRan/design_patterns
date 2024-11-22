@@ -21,7 +21,7 @@ class Base_view < FXVerticalFrame
     raise NotImplementedError
   end
 
-  # def show_error_message(message)
-  #   FXMessageBox.error(self, MBOX_OK, "Ошибка", message)
-  # end
+  def show_error_message(message)
+    FXMessageBox.error(self, MBOX_OK, "Ошибка", message)
+  end
 end
