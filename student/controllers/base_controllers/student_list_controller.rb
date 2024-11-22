@@ -6,6 +6,10 @@ require './models/data_storage_strategy/JSON_storage_strategy'
 require 'mysql2'
 require './models/student/student.rb'
 require './controllers/base_controllers/base_controller.rb'
+require './models/filter/filter.rb'
+require './models/filter/student_filters/field_filter_decorator.rb'
+require './models/filter/student_filters/full_name_filter_decorator.rb'
+require './models/filter/student_filters/has_not_field_filter_decorator.rb'
 
 class Student_list_controller < Base_controller
   def initialize(view)
@@ -15,6 +19,7 @@ class Student_list_controller < Base_controller
       # self.entities_list = Students_list.new(Students_list_file_adapter.new('./students.json', JSON_storage_strategy.new))
       self.data_list = Data_list_student_short.new([])
       self.data_list.add_observer(self.view)
+      self.filters = Filter.new
     rescue StandardError => e
       self.view.show_error_message("Ошибка при получении доступа к файлу: #{e.message}")
     end
@@ -22,8 +27,10 @@ class Student_list_controller < Base_controller
 
   def refresh_data
     self.data_list.clear_selected
+    self.reset_filters
+    self.apply_filters
     begin
-      self.data_list = self.entities_list.get_k_n_student_short_list(self.view.current_page, self.view.class::ROWS_PER_PAGE, nil, self.data_list)
+      self.data_list = self.entities_list.get_k_n_student_short_list(self.view.current_page, self.view.class::ROWS_PER_PAGE, self.filters, self.data_list)
       self.data_list.count = self.entities_list.get_student_short_count
       data_list.notify
       self.view.update_button_states
@@ -93,5 +100,56 @@ class Student_list_controller < Base_controller
     end
     self.view.current_page = new_page
     self.refresh_data
+  end
+
+  def apply_filters
+    self.apply_full_name_filter
+    self.apply_git_filter
+    self.apply_email_filter
+    self.apply_phone_number_filter
+    self.apply_telegram_filter
+  end
+
+  def reset_filters
+    self.filters = Filter.new
+  end
+
+  private
+  attr_accessor :filters
+
+  def apply_full_name_filter
+    name = self.view.filters['name'][:text_field].text
+    self.filters = Full_name_filter_decorator.new(self.filters, self.view.filters['name'][:text_field].text) unless name.nil? || name.empty?
+  end
+
+  def apply_field_filter(field_key, filter_field, filter_type = :text_field)
+    filter_config = self.view.filters[field_key]
+    flag = filter_config[:combo].currentItem
+    text = filter_config[filter_type].text.strip if filter_type == :text_field
+  
+    case flag
+    when 0
+      return
+    when 1
+      self.filters = Field_filter_decorator.new(self.filters, filter_field, text) unless text.nil? || text.empty?
+    when 2
+      self.filters = Has_not_field_filter_decorator.new(self.filters, filter_field)
+    end
+  end
+
+  def apply_git_filter
+    apply_field_filter('Git:', 'git')
+  end
+  
+  def apply_email_filter
+    apply_field_filter('Email:', 'email')
+  end
+  
+  def apply_phone_number_filter
+    apply_field_filter('Телефон:', 'phone_number')
+  end
+  
+  def apply_telegram_filter
+    apply_field_filter('Telegram:', 'telegram')
   end
 end

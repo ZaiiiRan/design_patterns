@@ -8,7 +8,7 @@ require './views/base_views/base_view.rb'
 include Fox
 
 class Student_list_view < Base_view
-  attr_accessor :current_page, :total_pages
+  attr_accessor :current_page, :total_pages, :filters
 
   ROWS_PER_PAGE = 10
 
@@ -24,28 +24,6 @@ class Student_list_view < Base_view
     self.current_page = 1
     self.total_pages = 1
     refresh_data
-  end
-
-  def setup_filtering_area
-    filtering_area = FXVerticalFrame.new(self, opts: LAYOUT_FILL_X | LAYOUT_SIDE_TOP)
-    FXLabel.new(filtering_area, "Фильтрация")
-
-    name_text_field = nil
-    FXHorizontalFrame.new(filtering_area, opts: LAYOUT_FILL_X | PACK_UNIFORM_WIDTH) do |frame|
-      FXLabel.new(frame, "Фамилия и инициалы:")
-      name_text_field = FXTextField.new(frame, 20, opts: TEXTFIELD_NORMAL | LAYOUT_SIDE_RIGHT)
-    end
-
-    self.filters['name'] = { text_field: name_text_field }
-
-    add_filtering_row(filtering_area, "Git:")
-    add_filtering_row(filtering_area, "Email:")
-    add_filtering_row(filtering_area, "Телефон:")
-    add_filtering_row(filtering_area, "Telegram:")
-
-    FXButton.new(filtering_area, "Сбросить", opts: BUTTON_NORMAL).connect(SEL_COMMAND) do
-      reset_filters
-    end
   end
 
   def set_table_params(column_names, whole_entities_count)
@@ -99,7 +77,7 @@ class Student_list_view < Base_view
 
   private
   attr_accessor :table, :page_label, :prev_btn, :next_btn, :sort_order,
-    :add_btn, :update_btn, :edit_btn, :edit_git_btn, :edit_contacts_btn, :delete_btn, :filters
+    :add_btn, :update_btn, :edit_btn, :edit_git_btn, :edit_contacts_btn, :delete_btn
 
   # clear table method
   def clear_table
@@ -155,7 +133,7 @@ class Student_list_view < Base_view
       field[:combo].setCurrentItem(0) if !field[:combo].nil?
       field[:text_field].text = ""
     end
-    populate_table
+    self.refresh_data
   end
 
   def on_row_select(pos)
@@ -164,6 +142,28 @@ class Student_list_view < Base_view
 
   def on_row_deselect(pos)
     self.controller.deselect(self.table.getItemText(pos.row, 0).to_i)
+  end
+
+  def setup_filtering_area
+    filtering_area = FXVerticalFrame.new(self, opts: LAYOUT_FILL_X | LAYOUT_SIDE_TOP)
+    FXLabel.new(filtering_area, "Фильтрация")
+
+    name_text_field = nil
+    FXHorizontalFrame.new(filtering_area, opts: LAYOUT_FILL_X | PACK_UNIFORM_WIDTH) do |frame|
+      FXLabel.new(frame, "Фамилия и инициалы:")
+      name_text_field = FXTextField.new(frame, 20, opts: TEXTFIELD_NORMAL | LAYOUT_SIDE_RIGHT)
+    end
+
+    self.filters['name'] = { text_field: name_text_field }
+
+    add_filtering_row(filtering_area, "Git:")
+    add_filtering_row(filtering_area, "Email:")
+    add_filtering_row(filtering_area, "Телефон:")
+    add_filtering_row(filtering_area, "Telegram:")
+
+    FXButton.new(filtering_area, "Сбросить", opts: BUTTON_NORMAL).connect(SEL_COMMAND) do
+      reset_filters
+    end
   end
 
   def add_filtering_row(parent, label)
