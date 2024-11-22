@@ -53,6 +53,7 @@ class Student_list_view < Base_view
       self.table.setColumnText(index, name)
     end
     self.total_pages = (whole_entities_count / ROWS_PER_PAGE.to_f).ceil
+    self.total_pages = 1 if self.total_pages == 0
     update_page_label
   end
 
