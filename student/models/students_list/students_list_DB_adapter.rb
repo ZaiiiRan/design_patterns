@@ -19,7 +19,7 @@ class Students_list_DB_adapter < Students_list_interface
         filter_query = filter ? filter.apply(base_query) : base_query
         start = (k - 1) * n
 
-        result = DB_client.instance.query(filter_query + " ORDER BY id LIMIT ? OFFSET ?", [n, start])
+        result = DB_client.instance.query(filter_query + " LIMIT ? OFFSET ?", [n, start])
         students_short = result.map { |row| Student_short.new_from_student_obj(Student.new_from_hash(row)) }
         data_list ||= Data_list_student_short.new(students_short)
         data_list.index = start + 1

@@ -76,7 +76,7 @@ class Student_list_view < Base_view
   end
 
   private
-  attr_accessor :table, :page_label, :prev_btn, :next_btn, :sort_order,
+  attr_accessor :table, :page_label, :prev_btn, :next_btn,
     :add_btn, :update_btn, :edit_btn, :edit_git_btn, :edit_contacts_btn, :delete_btn
 
   # clear table method
@@ -209,7 +209,7 @@ class Student_list_view < Base_view
     self.prev_btn.connect(SEL_COMMAND) { switch_page(-1) }
     self.next_btn.connect(SEL_COMMAND) { switch_page(1) }
     self.table.columnHeader.connect(SEL_COMMAND) do |_, _, column_index|
-      # sort_table_by_column(column_index)
+      self.controller.set_sort_order(column_index)
     end
   end
 

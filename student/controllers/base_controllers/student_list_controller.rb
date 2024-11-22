@@ -10,6 +10,9 @@ require './models/filter/filter.rb'
 require './models/filter/student_filters/field_filter_decorator.rb'
 require './models/filter/student_filters/full_name_filter_decorator.rb'
 require './models/filter/student_filters/has_not_field_filter_decorator.rb'
+require './models/filter/student_filters/contact_sort_decorator.rb'
+require './models/filter/student_filters/git_sort_decorator.rb'
+require './models/filter/student_filters/full_name_sort_decorator.rb'
 
 class Student_list_controller < Base_controller
   def initialize(view)
@@ -20,6 +23,10 @@ class Student_list_controller < Base_controller
       self.data_list = Data_list_student_short.new([])
       self.data_list.add_observer(self.view)
       self.filters = Filter.new
+      self.sort_order = {
+        order: :asc,
+        col_index: 0
+      }
     rescue StandardError => e
       self.view.show_error_message("Ошибка при получении доступа к файлу: #{e.message}")
     end
@@ -108,14 +115,25 @@ class Student_list_controller < Base_controller
     self.apply_email_filter
     self.apply_phone_number_filter
     self.apply_telegram_filter
+    self.apply_sort
   end
 
   def reset_filters
     self.filters = Filter.new
   end
 
+  def set_sort_order(column_index)
+    if self.sort_order[:col_index] == column_index
+      self.sort_order[:order] = self.sort_order[:order] == :asc ? :desc : :asc 
+    else
+      self.sort_order[:col_index] = column_index
+      self.sort_order[:order] = :asc
+    end
+    self.refresh_data
+  end
+
   private
-  attr_accessor :filters
+  attr_accessor :filters, :sort_order
 
   def apply_full_name_filter
     name = self.view.filters['name'][:text_field].text
@@ -151,5 +169,18 @@ class Student_list_controller < Base_controller
   
   def apply_telegram_filter
     apply_field_filter('Telegram:', 'telegram')
+  end
+
+  def apply_sort
+    case self.sort_order[:col_index]
+    when 1
+      self.filters = Full_name_sort_decorator.new(self.filters, self.sort_order[:order])
+    when 2
+      self.filters = Git_sort_decorator.new(self.filters, self.sort_order[:order])
+    when 3
+      self.filters = Contact_sort_decorator.new(self.filters, self.sort_order[:order])
+    else
+      self.filters
+    end
   end
 end
