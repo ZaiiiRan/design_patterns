@@ -17,7 +17,7 @@
 ![Диаграмма последовательности прецендента "Изменить сущность студент (Telegram, Email и номер телефона)"](./media/diagrams/sequence_diagram_for_edit_contacts.png)
 
 ### **Диаграмма последовательности прецендента "Удалить сущность студент"**
-![Диаграмма последовательности прецендента "Удалить сущность студент"](./media/diagrams/sequence_diagram_for_student_deleting.drawio.png)
+![Диаграмма последовательности прецендента "Удалить сущность студент"](./media/diagrams/sequence_diagram_for_student_deleting.png)
 
 ### **Диаграмма последовательности прецендента "Фильтровать данные"**
 ![Диаграмма последовательности прецендента "Фильтровать данные"](./media/diagrams/sequence_diagram_for_students_filtering.png)
