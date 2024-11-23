@@ -5,7 +5,7 @@ require './models/data_list/data_list_student_short.rb'
 require './data_access/DB_client/DB_client.rb'
 require './models/students_list/students_list_interface.rb'
 
-class Students_list_DB_adapter < Students_list_interface
+class Students_list_DB < Students_list_interface
     def get_student_by_id(id)
         result = DB_client.instance.query("SELECT * FROM student WHERE id = ?", [id])
         row = result.first
