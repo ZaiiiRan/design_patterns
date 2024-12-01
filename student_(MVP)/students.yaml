@@ -1,0 +1,28 @@
+---
+- :id: 1
+  :first_name: Лотарев
+  :name: Сергей
+  :patronymic: Юрьевич
+  :birthdate: 2004-10-26
+  :telegram: "@lotarv"
+  :email:
+  :phone_number:
+  :git: https://github.com/lotarv
+- :id: 2
+  :first_name: Смирнов
+  :name: Никита
+  :patronymic: Олегович
+  :birthdate: 2004-06-03
+  :telegram: "@zaiiran"
+  :email:
+  :phone_number: "+7-(934)-453-32-11"
+  :git: https://github.com/ZaiiiRan
+- :id: 3
+  :first_name: Блягоз
+  :name: Амаль
+  :patronymic: Хазретович
+  :birthdate: 2004-06-14
+  :telegram: "@lamafout"
+  :email: lamafout@gmail.com
+  :phone_number:
+  :git: https://github.com/lamafout
