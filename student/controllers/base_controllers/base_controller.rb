@@ -1,8 +1,11 @@
+require './logger/logger.rb'
+
 class Base_controller
   def initialize(view)
     self.view = view
+    self.logger = App_logger.instance
   end
   
   protected
-  attr_accessor :view, :entities_list, :data_list
+  attr_accessor :view, :entities_list, :data_list, :logger
 end

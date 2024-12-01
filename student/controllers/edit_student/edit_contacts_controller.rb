@@ -13,11 +13,14 @@ class Edit_contacts_controller < Edit_student_controller
 
   def valid_data?(student_data)
     data = student_data.transform_values { |value| value.strip }
+    self.logger.debug "Проверка валидности данных: #{data.to_s}"
     valid = Student.valid_phone_number?(data["phone_number"]) && Student.valid_email?(data["email"]) &&
       Student.valid_telegram?(data["telegram"])
     unchanged = self.student.telegram == data["telegram"] &&
       self.student.email == data["email"] &&
       self.student.phone_number == data["phone_number"]
-    valid && !unchanged
+    res = valid && !unchanged
+    self.logger.info "Валидность данных: #{res}"
+    res
   end
 end

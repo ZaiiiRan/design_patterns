@@ -18,10 +18,15 @@ require './models/filter/student_filters/full_name_sort_decorator.rb'
 class Student_list_controller < Base_controller
   def initialize(view)
     super(view)
+    self.logger.debug("Инициализация Student_list_controller")
     begin
+      self.logger.debug("Инициализация Students_list")
       self.entities_list = Students_list.new(Students_list_DB.new)
       # self.entities_list = Students_list.new(Students_list_file_adapter.new(Students_list_file.new('./students.json', JSON_storage_strategy.new)))
+      
+      self.logger.debug("Инициализация Data_list_student_short")
       self.data_list = Data_list_student_short.new([])
+      self.logger.debug("Подписка view на Data_list_student_short")
       self.data_list.add_observer(self.view)
       self.filters = Filter.new
       self.sort_order = {
@@ -29,54 +34,75 @@ class Student_list_controller < Base_controller
         col_index: 0
       }
     rescue StandardError => e
-      self.view.show_error_message("Ошибка при получении доступа к файлу: #{e.message}")
+      error_msg = "Ошибка при получении доступа к файлу: #{e.message}"
+      self.logger.error(error_msg)
+      self.view.show_error_message(error_msg)
     end
   end
 
   def refresh_data
+    self.logger.info "Обновление таблицы студентов"
     self.data_list.clear_selected
     self.reset_filters
     self.apply_filters
     begin
+      self.logger.info "Поиск студентов в хранилище"
       self.data_list = self.entities_list.get_k_n_student_short_list(self.view.current_page, self.view.class::ROWS_PER_PAGE, self.filters, self.data_list)
       self.data_list.count = self.entities_list.get_student_short_count
       data_list.notify
       self.view.update_button_states
     rescue => e
-      self.view.show_error_message("Ошибка при получении данных: #{e.message}")
+      error_msg = "Ошибка при получении данных: #{e.message}"
+      self.logger.error error_msg
+      self.view.show_error_message(error_msg)
     end
+    self.logger.info "Таблица студентов обновлена"
   end
 
   def add_student(student)
+    self.logger.info "Добавление студента в хранилище"
+    self.logger.debug "Данные студента: #{student.to_line_s}"
     self.entities_list.add_student(student)
+    self.logger.info "Студент добавлен в хранилище"
     self.refresh_data
   end
 
   def select(number)
     begin
       self.data_list.select(number)
+      self.logger.info "Выделена строка: #{number}"
       self.view.update_button_states
     rescue
+      self.logger.error "Ошибка при выделении строки: #{number}"
     end
   end
 
   def deselect(number)
     begin
       self.data_list.deselect(number)
+      self.logger.info "Выделение со строки: #{number} убрано"
       self.view.update_button_states
     rescue
+      self.logger.error "Ошибка при удалении выделения строки: #{number}"
     end
   end
 
   def get_selected
-    self.data_list.get_selected
+    selected = self.data_list.get_selected
+    self.logger.debug "Выделенные студенты: #{selected}"
+    selected
   end
 
   def get_student(id)
-    self.entities_list.get_student_by_id(id)
+    self.logger.info "Получение студента по id: #{id}"
+    student = self.entities_list.get_student_by_id(id)
+    self.logger.debug "Студент: #{student.to_line_s}"
+    student
   end
 
   def replace_student(student)
+    self.logger.info "Замена студента с id: #{student.id}"
+    self.logger.debug "Замена студента: #{student.to_line_s}"
     self.entities_list.replace_student(student.id, student)
     self.refresh_data
   end
@@ -85,10 +111,13 @@ class Student_list_controller < Base_controller
     ids = self.get_selected
     begin
       ids.each do |id|
+        self.logger.info "Удаление студента с id: #{id}"
         self.entities_list.delete_student(id)
       end
     rescue => e
-      self.view.show_error_message("Ошибка при удалении: #{e.message}")
+      error_msg = "Ошибка при удалении: #{e.message}"
+      self.logger.error error_msg
+      self.view.show_error_message(error_msg)
     ensure
       self.refresh_data
       self.check_and_update_page
@@ -106,11 +135,13 @@ class Student_list_controller < Base_controller
     if new_page < 1 || new_page > self.view.total_pages
       return
     end
+    self.logger.info "Переключение страницы на: #{new_page}"
     self.view.current_page = new_page
     self.refresh_data
   end
 
   def apply_filters
+    self.logger.info "Установка фильтров"
     self.apply_full_name_filter
     self.apply_git_filter
     self.apply_email_filter
@@ -120,6 +151,7 @@ class Student_list_controller < Base_controller
   end
 
   def reset_filters
+    self.logger.info "Сброс фильтров"
     self.filters = Filter.new
   end
 
@@ -137,6 +169,7 @@ class Student_list_controller < Base_controller
   attr_accessor :filters, :sort_order
 
   def apply_full_name_filter
+    self.logger.info "Установка фильтра по ФИО: #{self.view.filters['name'][:text_field].text}"
     name = self.view.filters['name'][:text_field].text
     self.filters = Full_name_filter_decorator.new(self.filters, self.view.filters['name'][:text_field].text) unless name.nil? || name.empty?
   end
@@ -150,8 +183,10 @@ class Student_list_controller < Base_controller
     when 0
       return
     when 1
+      self.logger.info "Установка фильтра по #{field_key} #{text}" unless text.nil? || text.empty?
       self.filters = Field_filter_decorator.new(self.filters, filter_field, text) unless text.nil? || text.empty?
     when 2
+      self.logger.info "Установка фильтра по #{field_key}: нет значения"
       self.filters = Has_not_field_filter_decorator.new(self.filters, filter_field)
     end
   end

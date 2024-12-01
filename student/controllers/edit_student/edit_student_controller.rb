@@ -1,17 +1,23 @@
+require './logger/logger.rb'
+
 class Edit_student_controller
   
   def initialize(view, parent_controller)
     self.view = view
     self.parent_controller = parent_controller
+    self.logger = App_logger.instance
   end
 
   def operation(student_data)
     begin
+      self.logger.debug "Создание объекта студента: #{student_data.to_s}"
       new_student(student_data)
       self.parent_controller.replace_student(self.student)
       self.view.close
     rescue => e
-      self.view.show_error_message("Ошибка при изменении студента: #{e.message}")
+      error_msg = "Ошибка при изменении студента: #{e.message}"
+      self.logger.error error_msg
+      self.view.show_error_message(error_msg)
     end
   end
 
@@ -33,7 +39,9 @@ class Edit_student_controller
     begin
       self.student = self.parent_controller.get_student(id)
     rescue => e
-      self.view.show_error_message("Ошибка при загрузке данных о студенте: #{e.message}")
+      error_msg = "Ошибка при загрузке данных о студенте: #{e.message}"
+      self.logger.error error_msg
+      self.view.show_error_message(error_msg)
     end
   end
 
@@ -48,7 +56,7 @@ class Edit_student_controller
   end
 
   protected
-  attr_accessor :view, :parent_controller, :student
+  attr_accessor :view, :parent_controller, :student, :logger
 
   private
   def get_attributes
