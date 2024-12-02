@@ -1,2 +1,2 @@
-/student/.env
-/student/log
+/student*/.env
+/student*/log
