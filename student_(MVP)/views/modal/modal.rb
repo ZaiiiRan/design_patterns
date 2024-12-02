@@ -1,11 +1,12 @@
 require 'fox16'
+require './views/modal/modal_interface.rb'
 
 include Fox
 
 class Modal < FXDialogBox
-  attr_accessor :controller, :fields
+  include Modal_interface
 
-  def initialize(parent, parent_controller, title)
+  def initialize(parent, parent_presenter, title)
     super(parent, title, opts: DECOR_TITLE | DECOR_BORDER)
   end
 
@@ -32,16 +33,21 @@ class Modal < FXDialogBox
     end
   end
 
-  def show_error_message(message)
+  def show_error(message)
     FXMessageBox.error(self, MBOX_OK, "Ошибка", message)
   end
 
+  def update_view(data)
+    data.each do |field_name, value|
+      self.fields[field_name].text = value
+    end
+  end
+
   private
-  attr_accessor :ok_btn
 
   def on_ok
     data = self.fields.transform_values(&:text)
-    self.controller.operation(data)
+    self.presenter.operation(data)
   end
 
   def on_cancel
@@ -50,6 +56,6 @@ class Modal < FXDialogBox
 
   def enable_ok_btn
     data = self.fields.transform_values(&:text)
-    self.ok_btn.enabled = self.controller.valid_data?(data)
+    self.ok_btn.enabled = self.presenter.valid_data?(data)
   end
 end

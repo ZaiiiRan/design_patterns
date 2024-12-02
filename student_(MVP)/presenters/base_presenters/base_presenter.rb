@@ -1,6 +1,6 @@
 require './logger/logger.rb'
 
-class Base_controller
+class Base_presenter
   def initialize(view)
     self.view = view
     self.logger = App_logger.instance

@@ -1,15 +1,18 @@
 require './models/student/student.rb'
 require 'date'
-require './controllers/edit_student/edit_student_controller'
+require './presenters/edit_student/edit_student_presenter'
 require './models/student/student.rb'
 
-class Replace_student_controller < Edit_student_controller
+class Replace_student_presenter < Edit_student_presenter
   def populate_fields
     self.get_student
-    self.view.fields["first_name"].text = self.student.first_name
-    self.view.fields["name"].text = self.student.name
-    self.view.fields["patronymic"].text = self.student.patronymic
-    self.view.fields["birthdate"].text = self.student.birthdate.strftime('%d.%m.%Y')
+    data = {
+      "first_name" => self.student.first_name,
+      "name" => self.student.name,
+      "patronymic" => self.student.patronymic,
+      "birthdate" => self.student.birthdate.strftime('%d.%m.%Y'),
+    }
+    self.view.update_view data
   end
 
   def valid_data?(student_data)

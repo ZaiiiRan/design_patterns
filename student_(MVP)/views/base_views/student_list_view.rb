@@ -8,12 +8,9 @@ require './views/base_views/base_view.rb'
 include Fox
 
 class Student_list_view < Base_view
-  attr_accessor :current_page, :total_pages, :filters
-
-  ROWS_PER_PAGE = 10
-
   def initialize(parent)
     super(parent, opts: LAYOUT_FILL)
+    self.rows_per_page = 10
   end
 
   def setup_ui
@@ -26,11 +23,17 @@ class Student_list_view < Base_view
     refresh_data
   end
 
+  def update_view(data)
+    set_table_params(data[:columns], data[:total_count]) unless data[:total_count].nil? || data[:columns].nil?
+    set_table_data(data[:table_data]) unless data[:table_data].nil?
+    update_button_states
+  end
+
   def set_table_params(column_names, whole_entities_count)
     column_names.each_with_index do |name, index|
       self.table.setColumnText(index, name)
     end
-    self.total_pages = (whole_entities_count / ROWS_PER_PAGE.to_f).ceil
+    self.total_pages = (whole_entities_count / self.rows_per_page.to_f).ceil
     self.total_pages = 1 if self.total_pages == 0
     update_page_label
   end
@@ -46,12 +49,12 @@ class Student_list_view < Base_view
 
   def refresh_data
     self.current_page = 1
-    self.controller.refresh_data
+    self.presenter.refresh_data
   end
 
   # update button states method
   def update_button_states
-    selected_rows = self.controller.get_selected
+    selected_rows = self.presenter.get_selected
   
     self.add_btn.enabled = true
     self.update_btn.enabled = true
@@ -93,7 +96,7 @@ class Student_list_view < Base_view
   end
 
   def on_add
-    modal_view = Modal_factory.create_modal(self, self.controller, :add_student)
+    modal_view = Modal_factory.create_modal(self, self.presenter, :add_student)
     modal_view.create
     modal_view.show(PLACEMENT_OWNER)
   end
@@ -103,29 +106,29 @@ class Student_list_view < Base_view
   end
   
   def on_edit
-    modal_view = Modal_factory.create_modal(self, self.controller, :replace_student)
+    modal_view = Modal_factory.create_modal(self, self.presenter, :replace_student)
     modal_view.create
     modal_view.show(PLACEMENT_OWNER)
   end
 
   def on_edit_git
-    modal_view = Modal_factory.create_modal(self, self.controller, :edit_git)
+    modal_view = Modal_factory.create_modal(self, self.presenter, :edit_git)
     modal_view.create
     modal_view.show(PLACEMENT_OWNER)
   end
 
   def on_edit_contacts
-    modal_view = Modal_factory.create_modal(self, self.controller, :edit_contacts)
+    modal_view = Modal_factory.create_modal(self, self.presenter, :edit_contacts)
     modal_view.create
     modal_view.show(PLACEMENT_OWNER)
   end
   
   def on_delete
-    self.controller.delete_student
+    self.presenter.delete_student
   end
 
   def switch_page(direction)
-    self.controller.switch_page(direction)
+    self.presenter.switch_page(direction)
   end
 
   def reset_filters
@@ -137,11 +140,11 @@ class Student_list_view < Base_view
   end
 
   def on_row_select(pos)
-    self.controller.select(self.table.getItemText(pos.row, 0).to_i)
+    self.presenter.select(self.table.getItemText(pos.row, 0).to_i)
   end
 
   def on_row_deselect(pos)
-    self.controller.deselect(self.table.getItemText(pos.row, 0).to_i)
+    self.presenter.deselect(self.table.getItemText(pos.row, 0).to_i)
   end
 
   def setup_filtering_area
@@ -190,7 +193,7 @@ class Student_list_view < Base_view
 
     self.table = FXTable.new(table_area, opts: LAYOUT_FILL | TABLE_READONLY | TABLE_COL_SIZABLE)
 
-    self.table.setTableSize(ROWS_PER_PAGE, 4)
+    self.table.setTableSize(self.rows_per_page, 4)
     self.table.rowHeaderMode = LAYOUT_FIX_WIDTH
     self.table.rowHeaderWidth = 30
 
@@ -209,7 +212,7 @@ class Student_list_view < Base_view
     self.prev_btn.connect(SEL_COMMAND) { switch_page(-1) }
     self.next_btn.connect(SEL_COMMAND) { switch_page(1) }
     self.table.columnHeader.connect(SEL_COMMAND) do |_, _, column_index|
-      self.controller.set_sort_order(column_index)
+      self.presenter.set_sort_order(column_index)
     end
   end
 

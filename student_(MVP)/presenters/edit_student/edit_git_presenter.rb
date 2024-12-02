@@ -1,12 +1,15 @@
 require './models/student/student.rb'
 require 'date'
-require './controllers/edit_student/edit_student_controller'
+require './presenters/edit_student/edit_student_presenter'
 require './models/student/student.rb'
 
-class Edit_git_controller < Edit_student_controller
+class Edit_git_presenter < Edit_student_presenter
   def populate_fields
     self.get_student
-    self.view.fields["git"].text = self.student.git
+    data = {
+      "git" => self.student.git,
+    }
+    self.view.update_view data
   end
 
   def valid_data?(student_data)

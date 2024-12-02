@@ -1,32 +1,32 @@
 require './views/modal/modal.rb'
-require './controllers/edit_student/add_student_controller'
-require './controllers/edit_student/replace_student_controller'
-require './controllers/edit_student/edit_git_controller'
-require './controllers/edit_student/edit_contacts_controller'
+require './presenters/edit_student/add_student_presenter'
+require './presenters/edit_student/replace_student_presenter'
+require './presenters/edit_student/edit_git_presenter'
+require './presenters/edit_student/edit_contacts_presenter'
 
 class Modal_factory
-  def self.create_modal(parent, parent_controller, mode)
+  def self.create_modal(parent, parent_presenter, mode)
     modal = nil
     case mode
       when :add_student
-        modal = Modal.new(parent, parent_controller, "Добавить студента")
-        modal.controller = Add_student_controller.new(modal, parent_controller)
+        modal = Modal.new(parent, parent_presenter, "Добавить студента")
+        modal.presenter = Add_student_presenter.new(modal, parent_presenter)
         self.setup_form_for_edit_student(modal)
       when :replace_student
-        modal = Modal.new(parent, parent_controller, "Изменить студента")
-        modal.controller = Replace_student_controller.new(modal, parent_controller)
+        modal = Modal.new(parent, parent_presenter, "Изменить студента")
+        modal.presenter = Replace_student_presenter.new(modal, parent_presenter)
         self.setup_form_for_edit_student(modal)
       when :edit_git
-        modal = Modal.new(parent, parent_controller, "Изменить Git")
-        modal.controller = Edit_git_controller.new(modal, parent_controller)
+        modal = Modal.new(parent, parent_presenter, "Изменить Git")
+        modal.presenter = Edit_git_presenter.new(modal, parent_presenter)
         self.setup_form_for_edit_git(modal)
       when :edit_contacts
-        modal = Modal.new(parent, parent_controller, "Изменить контакты")
-        modal.controller = Edit_contacts_controller.new(modal, parent_controller)
+        modal = Modal.new(parent, parent_presenter, "Изменить контакты")
+        modal.presenter = Edit_contacts_presenter.new(modal, parent_presenter)
         self.setup_form_for_edit_contacts(modal)
     end
     modal.setup_buttons
-    modal.controller.populate_fields
+    modal.presenter.populate_fields
     modal
   end
 

@@ -1,14 +1,17 @@
 require './models/student/student.rb'
 require 'date'
-require './controllers/edit_student/edit_student_controller'
+require './presenters/edit_student/edit_student_presenter'
 require './models/student/student.rb'
 
-class Edit_contacts_controller < Edit_student_controller
+class Edit_contacts_presenter < Edit_student_presenter
   def populate_fields
     self.get_student
-    self.view.fields["telegram"].text = self.student.telegram
-    self.view.fields["email"].text = self.student.email
-    self.view.fields["phone_number"].text = self.student.phone_number
+    data = {
+      "telegram" => self.student.telegram,
+      "email" => self.student.email,
+      "phone_number" => self.student.phone_number,
+    }
+    self.view.update_view data
   end
 
   def valid_data?(student_data)

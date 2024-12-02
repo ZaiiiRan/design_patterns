@@ -6,7 +6,7 @@ require './models/students_list/students_list_file'
 require './models/data_storage_strategy/JSON_storage_strategy'
 require 'mysql2'
 require './models/student/student.rb'
-require './controllers/base_controllers/base_controller.rb'
+require './presenters/base_presenters/base_presenter.rb'
 require './models/filter/filter.rb'
 require './models/filter/student_filters/field_filter_decorator.rb'
 require './models/filter/student_filters/full_name_filter_decorator.rb'
@@ -15,19 +15,16 @@ require './models/filter/student_filters/contact_sort_decorator.rb'
 require './models/filter/student_filters/git_sort_decorator.rb'
 require './models/filter/student_filters/full_name_sort_decorator.rb'
 
-class Student_list_controller < Base_controller
+class Student_list_presenter < Base_presenter
   def initialize(view)
     super(view)
-    self.logger.debug("Инициализация Student_list_controller")
+    self.logger.debug("Инициализация Student_list_presenter")
     begin
       self.logger.debug("Инициализация Students_list")
       self.entities_list = Students_list.new(Students_list_DB.new)
       # self.entities_list = Students_list.new(Students_list_file_adapter.new(Students_list_file.new('./students.json', JSON_storage_strategy.new)))
-      
       self.logger.debug("Инициализация Data_list_student_short")
       self.data_list = Data_list_student_short.new([])
-      self.logger.debug("Подписка view на Data_list_student_short")
-      self.data_list.add_observer(self.view)
       self.filters = Filter.new
       self.sort_order = {
         order: :asc,
@@ -36,7 +33,7 @@ class Student_list_controller < Base_controller
     rescue StandardError => e
       error_msg = "Ошибка при получении доступа к файлу: #{e.message}"
       self.logger.error(error_msg)
-      self.view.show_error_message(error_msg)
+      self.view.show_error(error_msg)
     end
   end
 
@@ -47,15 +44,15 @@ class Student_list_controller < Base_controller
     self.apply_filters
     begin
       self.logger.info "Поиск студентов в хранилище"
-      self.data_list = self.entities_list.get_k_n_student_short_list(self.view.current_page, self.view.class::ROWS_PER_PAGE, self.filters, self.data_list)
+      self.data_list = self.entities_list.get_k_n_student_short_list(self.view.current_page, self.view.rows_per_page, self.filters, self.data_list)
       self.data_list.count = self.entities_list.get_student_short_count
-      data_list.notify
-      self.view.update_button_states
+      self.view.update_view({ columns: self.data_list.get_names, total_count: self.data_list.count, table_data: self.data_list.retrieve_data })
     rescue => e
       error_msg = "Ошибка при получении данных: #{e.message}"
       self.logger.error error_msg
-      self.view.show_error_message(error_msg)
+      self.view.show_error(error_msg)
     end
+    
     self.logger.info "Таблица студентов обновлена"
   end
 
@@ -117,7 +114,7 @@ class Student_list_controller < Base_controller
     rescue => e
       error_msg = "Ошибка при удалении: #{e.message}"
       self.logger.error error_msg
-      self.view.show_error_message(error_msg)
+      self.view.show_error(error_msg)
     ensure
       self.refresh_data
       self.check_and_update_page
