@@ -6,6 +6,8 @@ require 'dotenv/load'
 include Fox
 
 if __FILE__== $0
+    puts ENV['LOG_FILE_PATH']
+    App_logger.instance(ENV['LOG_FILE_PATH'])
     DB_client.instance(
         host: ENV['DB_HOST'],
         username: ENV['DB_USERNAME'],
