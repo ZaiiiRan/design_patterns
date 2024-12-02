@@ -14,6 +14,14 @@ class Base_view < FXVerticalFrame
     raise NotImplementedError
   end
 
+  def set_table_params(column_names, whole_entities_count)
+    raise NotImplementedError
+  end
+
+  def set_table_data(data_table)
+    raise NotImplementedError
+  end
+
   def update_view(data)
     raise NotImplementedError
   end
