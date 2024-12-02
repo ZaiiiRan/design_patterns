@@ -1,9 +1,7 @@
 require 'fox16'
-require './models/data_list/data_list_student_short.rb'
-require './models/student/student.rb'
-require './models/student_short/student_short.rb'
-require './views/modal/modal_factory.rb'
-require './views/base_views/base_view.rb'
+require 'student_mvp'
+require_relative '../modal/modal_factory.rb'
+require_relative './base_view.rb'
 
 include Fox
 

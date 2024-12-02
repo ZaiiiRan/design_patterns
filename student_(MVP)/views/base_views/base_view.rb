@@ -1,5 +1,6 @@
 require 'fox16'
-require './views/base_views/base_view_interface.rb'
+require 'student_mvp'
+require_relative './base_view_interface'
 
 include Fox
 

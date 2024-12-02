@@ -1,5 +1,5 @@
-require './presenters/base_presenters/student_list_presenter.rb'
-require './views/base_views/student_list_view.rb'
+require_relative './student_list_view.rb'
+require 'student_mvp'
 
 class Base_view_factory
   def self.create_view(parent, type)

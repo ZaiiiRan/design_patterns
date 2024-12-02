@@ -1,5 +1,5 @@
 require 'fox16'
-require './views/modal/modal_interface.rb'
+require_relative './modal_interface.rb'
 
 include Fox
 

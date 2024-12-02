@@ -1,8 +1,5 @@
-require './views/modal/modal.rb'
-require './presenters/edit_student/add_student_presenter'
-require './presenters/edit_student/replace_student_presenter'
-require './presenters/edit_student/edit_git_presenter'
-require './presenters/edit_student/edit_contacts_presenter'
+require_relative './modal.rb'
+require 'student_mvp'
 
 class Modal_factory
   def self.create_modal(parent, parent_presenter, mode)
