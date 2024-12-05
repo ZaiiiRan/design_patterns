@@ -1,0 +1,25 @@
+<% if modal %>
+<div class="modal fade" id="modalWindow" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle"><%= modal.title %></h5>
+            </div>
+            <div class="modal-body">
+                <% modal.fields.each do |field_name, field| %>
+                    <div class="form-group">
+                        <label for="<%= field_name %>"><%= modal.fields_titles[field_name] %></label>
+                        <input type="text" class="form-control" id="<%= field_name %>" name="<%= field_name %>" value="<%= field.text %>">
+                    </div>
+                <% end %>
+                <div class="text-danger" id="modal-error"><%= modal.error_msg %></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="modalOkButton" disabled>OK</button>
+                <button type="button" class="btn btn-secondary" id="modalCancelButton" data-dismiss="modal">Отмена</button>
+            </div>
+        </div>
+    </div>
+</div>
+<% end %>
+
