@@ -16,6 +16,7 @@ require './models/filter/student_filters/git_sort_decorator.rb'
 require './models/filter/student_filters/full_name_sort_decorator.rb'
 
 class Student_list_controller < Base_controller
+  # constructor
   def initialize(view)
     super(view)
     self.logger.debug("Инициализация Student_list_controller")
@@ -40,6 +41,7 @@ class Student_list_controller < Base_controller
     end
   end
 
+  # refresh data
   def refresh_data
     self.logger.info "Обновление таблицы студентов"
     self.data_list.clear_selected
@@ -59,7 +61,8 @@ class Student_list_controller < Base_controller
     self.logger.info "Таблица студентов обновлена"
   end
 
-  def add_student(student)
+  # add student
+  def on_add(student)
     self.logger.info "Добавление студента в хранилище"
     self.logger.debug "Данные студента: #{student.to_line_s}"
     self.entities_list.add_student(student)
@@ -67,12 +70,14 @@ class Student_list_controller < Base_controller
     self.refresh_data
   end
 
+  # get selected
   def get_selected
-    selected = self.data_list.get_selected
+    selected = super
     self.logger.debug "Выделенные студенты: #{selected}"
     selected
   end
 
+  # get student by id
   def get_student(id)
     self.logger.info "Получение студента по id: #{id}"
     student = self.entities_list.get_student_by_id(id)
@@ -80,14 +85,16 @@ class Student_list_controller < Base_controller
     student
   end
 
-  def replace_student(student)
+  # replace student
+  def on_edit(student)
     self.logger.info "Замена студента с id: #{student.id}"
     self.logger.debug "Замена студента: #{student.to_line_s}"
     self.entities_list.replace_student(student.id, student)
     self.refresh_data
   end
 
-  def delete_student
+  # delete selected students
+  def on_delete
     ids = self.get_selected
     begin
       ids.each do |id|
@@ -104,12 +111,7 @@ class Student_list_controller < Base_controller
     end
   end
 
-  def check_and_update_page()
-    if self.view.current_page > self.view.total_pages
-      switch_page(-1)
-    end
-  end
-
+  # switch page
   def switch_page(direction)
     new_page = self.view.current_page + direction
     if new_page < 1 || new_page > self.view.total_pages
@@ -120,6 +122,7 @@ class Student_list_controller < Base_controller
     self.refresh_data
   end
 
+  # apply filters
   def apply_filters
     self.logger.info "Установка фильтров"
     self.apply_full_name_filter
@@ -130,11 +133,13 @@ class Student_list_controller < Base_controller
     self.apply_sort
   end
 
+  # reset filters
   def reset_filters
     self.logger.info "Сброс фильтров"
     self.filters = Filter.new
   end
 
+  # set sort order
   def set_sort_order(column_index)
     if self.sort_order[:col_index] == column_index
       self.sort_order[:order] = self.sort_order[:order] == :asc ? :desc : :asc 
@@ -197,6 +202,12 @@ class Student_list_controller < Base_controller
       self.filters = Contact_sort_decorator.new(self.filters, self.sort_order[:order])
     else
       self.filters
+    end
+  end
+
+  def check_and_update_page()
+    if self.view.current_page > self.view.total_pages
+      switch_page(-1)
     end
   end
 end

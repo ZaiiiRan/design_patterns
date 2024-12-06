@@ -80,7 +80,7 @@ class Base_view < FXVerticalFrame
   end
 
   def on_delete
-    self.controller.delete_student
+    self.controller.on_delete
   end
 
   def on_row_select(pos)

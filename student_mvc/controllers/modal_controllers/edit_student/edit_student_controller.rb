@@ -1,16 +1,17 @@
-require_relative './modal_controller'
+require_relative '../modal_controller'
 
 class Edit_student_controller < Modal_controller
-  
+  # constructor
   def initialize(view, parent_controller)
     super(view, parent_controller)
   end
 
+  # do operation
   def operation(data)
     begin
       self.logger.debug "Создание объекта студента: #{data.to_s}"
-      new_student(data)
-      self.parent_controller.replace_student(self.student)
+      new_entity(data)
+      self.parent_controller.on_edit(self.entity)
       self.view.close
     rescue => e
       error_msg = "Ошибка при изменении студента: #{e.message}"
@@ -19,7 +20,8 @@ class Edit_student_controller < Modal_controller
     end
   end
 
-  def new_student(data)
+  # new student object
+  def new_entity(data)
     data = data.transform_values do |value|
       stripped = value.strip
       stripped.empty? ? nil : stripped
@@ -29,13 +31,14 @@ class Edit_student_controller < Modal_controller
     data.each do |key, value|
       attributes[key.to_sym] = value
     end
-    self.student = Student.new_from_hash(attributes)
+    self.entity = Student.new_from_hash(attributes)
   end
 
-  def get_student
+  # get student object
+  def get_entity
     id = self.parent_controller.get_selected[0]
     begin
-      self.student = self.parent_controller.get_student(id)
+      self.entity = self.parent_controller.get_student(id)
     rescue => e
       error_msg = "Ошибка при загрузке данных о студенте: #{e.message}"
       self.logger.error error_msg
@@ -43,6 +46,7 @@ class Edit_student_controller < Modal_controller
     end
   end
 
+  # valid data?
   def valid_data?(data)
     data = data.transform_values { |value| value.strip }
     Student.valid_name?(data["first_name"]) && Student.valid_name?(data["name"]) &&
@@ -50,19 +54,19 @@ class Edit_student_controller < Modal_controller
   end
 
   protected
-  attr_accessor :student
 
+  # get attributes
   def get_attributes
     {
-      id: self.student&.id,
-      first_name: self.student&.first_name,
-      name: self.student&.name,
-      patronymic: self.student&.patronymic,
-      birthdate: self.student&.birthdate,
-      git: self.student&.git,
-      telegram: self.student&.telegram,
-      email: self.student&.email,
-      phone_number: self.student&.phone_number
+      id: self.entity&.id,
+      first_name: self.entity&.first_name,
+      name: self.entity&.name,
+      patronymic: self.entity&.patronymic,
+      birthdate: self.entity&.birthdate,
+      git: self.entity&.git,
+      telegram: self.entity&.telegram,
+      email: self.entity&.email,
+      phone_number: self.entity&.phone_number
     }
   end
 end

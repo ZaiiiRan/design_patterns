@@ -1,29 +1,29 @@
 require './views/modal/modal.rb'
-require './controllers/modal_controllers/add_student_controller'
-require './controllers/modal_controllers/replace_student_controller'
-require './controllers/modal_controllers/edit_git_controller'
-require './controllers/modal_controllers/edit_contacts_controller'
-require './controllers/modal_controllers/add_lab_controller'
-require './controllers/modal_controllers/replace_lab_controller'
+require './controllers/modal_controllers/edit_student/add_student_controller'
+require './controllers/modal_controllers/edit_student/replace_student_controller'
+require './controllers/modal_controllers/edit_student/edit_git_controller'
+require './controllers/modal_controllers/edit_student/edit_contacts_controller'
+require './controllers/modal_controllers/edit_lab/add_lab_controller'
+require './controllers/modal_controllers/edit_lab/replace_lab_controller'
 
 class Modal_factory
   def self.create_modal(parent, parent_controller, mode)
     modal = nil
     case mode
       when :add_student
-        modal = Modal.new(parent, parent_controller, "Добавить студента")
+        modal = Modal.new(parent, parent_controller, "Добавление студента")
         modal.controller = Add_student_controller.new(modal, parent_controller)
         self.setup_form_for_edit_student(modal)
       when :replace_student
-        modal = Modal.new(parent, parent_controller, "Изменить студента")
+        modal = Modal.new(parent, parent_controller, "Редактирование студента")
         modal.controller = Replace_student_controller.new(modal, parent_controller)
         self.setup_form_for_edit_student(modal)
       when :edit_git
-        modal = Modal.new(parent, parent_controller, "Изменить Git")
+        modal = Modal.new(parent, parent_controller, "Редактирование Git")
         modal.controller = Edit_git_controller.new(modal, parent_controller)
         self.setup_form_for_edit_git(modal)
       when :edit_contacts
-        modal = Modal.new(parent, parent_controller, "Изменить контакты")
+        modal = Modal.new(parent, parent_controller, "Редактирование контактов")
         modal.controller = Edit_contacts_controller.new(modal, parent_controller)
         self.setup_form_for_edit_contacts(modal)
       when :add_lab

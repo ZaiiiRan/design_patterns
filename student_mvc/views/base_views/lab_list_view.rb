@@ -39,8 +39,4 @@ class Lab_list_view < Base_view
     modal_view.create
     modal_view.show(PLACEMENT_OWNER)
   end
-
-  def on_delete
-    self.controller.delete_lab
-  end
 end

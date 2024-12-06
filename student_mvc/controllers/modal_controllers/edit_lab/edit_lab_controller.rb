@@ -1,16 +1,18 @@
-require_relative './modal_controller'
-require_relative '../../models/lab/lab'
+require_relative '../modal_controller'
+require_relative '../../../models/lab/lab'
 
 class Edit_lab_controller < Modal_controller
+  # constructor
   def initialize(view, parent_controller)
     super(view, parent_controller)
   end
 
+  # do operation
   def operation(data)
     begin
       self.logger.debug "Создание объекта лабы: #{data.to_s}"
-      new_lab(data)
-      self.parent_controller.replace_lab(self.num, self.lab)
+      new_entity(data)
+      self.parent_controller.on_edit(self.num, self.entity)
       self.view.close
     rescue => e
       error_msg = "Ошибка при изменении лабы:\n#{e.message}"
@@ -19,7 +21,8 @@ class Edit_lab_controller < Modal_controller
     end
   end
 
-  def new_lab(data)
+  # new lab object
+  def new_entity(data)
     data.delete("num")
     data = data.transform_values do |value|
       stripped = value.strip
@@ -30,13 +33,13 @@ class Edit_lab_controller < Modal_controller
     data.each do |key, value|
       attributes[key.to_sym] = value
     end
-    self.lab = Lab.new_from_hash(attributes)
+    self.entity = Lab.new_from_hash(attributes)
   end
 
-  def get_lab
+  def get_entity
     id = self.parent_controller.get_selected[0]
     begin
-      self.lab = self.parent_controller.get_lab(id)
+      self.entity = self.parent_controller.get_lab(id)
     rescue
       error_msg = "Ошибка при загрузке данных о лабе: #{e.message}"
       self.logger.error error_msg
@@ -44,6 +47,7 @@ class Edit_lab_controller < Modal_controller
     end
   end
 
+  # valid_data?
   def valid_data?(data)
     data = data.transform_values { |value| value.strip }
     Lab.valid_name?(data["name"]) && Lab.valid_topics?(data["topics"]) && 
@@ -51,15 +55,16 @@ class Edit_lab_controller < Modal_controller
   end
 
   protected
-  attr_accessor :lab, :num
+  attr_accessor :num
 
+  # get attributes
   def get_attributes
     {
-      id: self.lab&.id,
-      name: self.lab&.name,
-      topics: self.lab&.topics,
-      tasks: self.lab&.tasks,
-      date_of_issue: self.lab&.date_of_issue,
+      id: self.entity&.id,
+      name: self.entity&.name,
+      topics: self.entity&.topics,
+      tasks: self.entity&.tasks,
+      date_of_issue: self.entity&.date_of_issue,
     }
   end
 end

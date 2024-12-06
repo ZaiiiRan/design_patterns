@@ -12,7 +12,6 @@ class Modal < FXDialogBox
   def setup_form(small_labels, big_labels = nil)
     self.fields = {}
   
-    # Обработка маленьких текстовых полей
     small_labels.each do |field_name, label_text|
       FXHorizontalFrame.new(self, opts: LAYOUT_FILL_X | PACK_UNIFORM_WIDTH) do |frame|
         FXLabel.new(frame, "#{label_text}: ", opts: LAYOUT_SIDE_LEFT)
@@ -23,7 +22,6 @@ class Modal < FXDialogBox
       end
     end
   
-    # Обработка больших текстовых полей
     unless big_labels.nil?
       big_labels.each do |field_name, label_text|
         FXHorizontalFrame.new(self, opts: LAYOUT_FILL_X | PACK_UNIFORM_WIDTH) do |frame|

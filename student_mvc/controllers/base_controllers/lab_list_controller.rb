@@ -3,6 +3,7 @@ require_relative '../../models/labs_list/labs_list_DB'
 require_relative '../../models/data_list/data_list_lab'
 
 class Lab_list_controller < Base_controller
+  # constructor
   def initialize(view)
     super(view)
     self.logger.debug("Инициализация Lab_list_controller")
@@ -21,6 +22,7 @@ class Lab_list_controller < Base_controller
     end
   end
 
+  # refresh data
   def refresh_data
     self.logger.info "Обновление таблицы лаб"
     self.data_list.clear_selected
@@ -37,12 +39,14 @@ class Lab_list_controller < Base_controller
     self.logger.info("Таблица лаб обновлена")
   end
 
+  # get selected labs
   def get_selected
-    selected = self.data_list.get_selected
+    selected = super
     self.logger.debug "Выделенные лабы: #{selected}"
     selected
   end
 
+  # get lab by id
   def get_lab(id)
     self.logger.info "Получение лабы по id: #{id}"
     lab = self.entities_list.get_lab_by_id(id)
@@ -50,7 +54,8 @@ class Lab_list_controller < Base_controller
     lab
   end
 
-  def add_lab(num, lab)
+  # add lab
+  def on_add(num, lab)
     self.logger.info "Добавление лабы в хранилище"
     self.logger.debug "Данные лабы: #{lab.to_line_s}"
     self.check_date_of_issue(num, lab.date_of_issue)
@@ -59,7 +64,8 @@ class Lab_list_controller < Base_controller
     self.refresh_data
   end
 
-  def replace_lab(num, lab)
+  # replace lab
+  def on_edit(num, lab)
     self.logger.info "Замена лабы с id: #{lab.id}"
     self.logger.debug "Замена лабы: #{lab.to_line_s}"
     self.check_date_of_issue(num, lab.date_of_issue)
@@ -67,7 +73,8 @@ class Lab_list_controller < Base_controller
     self.refresh_data
   end
 
-  def delete_lab
+  # delete lab
+  def on_delete
     id = self.get_selected
     begin
       self.logger.info "Удаление лабы с id: #{id[0]}"
@@ -80,14 +87,19 @@ class Lab_list_controller < Base_controller
     self.refresh_data
   end
 
+  # get last num in data_list
   def get_last_num
     self.data_list.get_size
   end
 
+  # get selected num in data list
   def get_selected_num
     self.data_list.get_selected_num
   end
 
+  private
+
+  # check date of issue
   def check_date_of_issue(num, date_of_issue)
     last = get_last_num
     return true if last == 0
@@ -96,6 +108,7 @@ class Lab_list_controller < Base_controller
     check_next_date(num, date_of_issue, last)
   end
 
+  # check prev date
   def check_prev_date(num, date_of_issue, last)
     return unless num > 1
 
@@ -105,6 +118,7 @@ class Lab_list_controller < Base_controller
     end
   end
 
+  # check next date
   def check_next_date(num, date_of_issue, last)
     return unless num < last 
   
@@ -114,6 +128,7 @@ class Lab_list_controller < Base_controller
     end
   end
 
+  # raise error (for date validation)
   def raise_error(num, date, message)
     raise StandardError, "Вы не можете выдать эту лабораторную работу #{message}.\nСрок выдачи ЛР №#{num} - #{date.strftime('%d.%m.%Y')}"
   end
