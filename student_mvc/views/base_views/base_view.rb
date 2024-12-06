@@ -97,6 +97,12 @@ class Base_view < FXVerticalFrame
     self.table = FXTable.new(table_area, opts: LAYOUT_FILL | TABLE_READONLY | TABLE_COL_SIZABLE | TABLE_ROW_SIZABLE)
 
     self.table.setTableSize(self.rows_per_page, column_count)
+    self.rows_per_page.times do |row|
+      column_count.times do |col|
+        self.table.setItemJustify(row, col, FXTableItem::LEFT | FXTableItem::TOP)
+      end
+    end
+
     self.table.rowHeaderMode = LAYOUT_FIX_WIDTH
     self.table.rowHeaderWidth = 30
 
