@@ -18,6 +18,15 @@ class Lab_list_view < Base_view
     refresh_data
   end
 
+  def update_button_states
+    super
+
+    self.delete_btn.enabled = false
+    if self.controller.get_selected_num == self.controller.get_last_num && self.controller.get_selected.size == 1
+      self.delete_btn.enabled = true
+    end
+  end
+
   private
   def on_add
     modal_view = Modal_factory.create_modal(self, self.controller, :add_lab)
@@ -29,5 +38,9 @@ class Lab_list_view < Base_view
     modal_view = Modal_factory.create_modal(self, self.controller, :replace_lab)
     modal_view.create
     modal_view.show(PLACEMENT_OWNER)
+  end
+
+  def on_delete
+    self.controller.delete_lab
   end
 end

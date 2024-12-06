@@ -67,6 +67,19 @@ class Lab_list_controller < Base_controller
     self.refresh_data
   end
 
+  def delete_lab
+    id = self.get_selected
+    begin
+      self.logger.info "Удаление лабы с id: #{id[0]}"
+      self.entities_list.delete_lab(id[0])
+    rescue StandardError => e
+      error_msg = "Ошибка при удалении лабы: #{e.message}"
+      self.logger.error(error_msg)
+      self.view.show_error_message(error_msg)
+    end
+    self.refresh_data
+  end
+
   def get_last_num
     self.data_list.get_size
   end
