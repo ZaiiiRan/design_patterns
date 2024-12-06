@@ -1,8 +1,10 @@
 require './views/modal/modal.rb'
-require './controllers/edit_student/add_student_controller'
-require './controllers/edit_student/replace_student_controller'
-require './controllers/edit_student/edit_git_controller'
-require './controllers/edit_student/edit_contacts_controller'
+require './controllers/modal_controllers/add_student_controller'
+require './controllers/modal_controllers/replace_student_controller'
+require './controllers/modal_controllers/edit_git_controller'
+require './controllers/modal_controllers/edit_contacts_controller'
+require './controllers/modal_controllers/add_lab_controller'
+
 
 class Modal_factory
   def self.create_modal(parent, parent_controller, mode)
@@ -24,6 +26,10 @@ class Modal_factory
         modal = Modal.new(parent, parent_controller, "Изменить контакты")
         modal.controller = Edit_contacts_controller.new(modal, parent_controller)
         self.setup_form_for_edit_contacts(modal)
+      when :add_lab
+        modal = Modal.new(parent, parent_controller, "Добавление лабораторной работы")
+        modal.controller = Add_lab_controller.new(modal, parent_controller)
+        self.setup_form_for_edit_lab(modal)
     end
     modal.setup_buttons
     modal.controller.populate_fields
@@ -55,5 +61,19 @@ class Modal_factory
       "phone_number" => "Телефон"
     }
     modal.setup_form(labels)
+  end
+
+  def self.setup_form_for_edit_lab(modal)
+    labels = {
+      "num" => "№",
+      "name" => "Наименование",
+      "date_of_issue" => "Дата выдачи",
+    }
+    big_labels = {
+      "topics" => "Темы",
+      "tasks" => "Перечень задач",
+    }
+    modal.setup_form(labels, big_labels)
+    modal.fields["num"].enabled = false
   end
 end

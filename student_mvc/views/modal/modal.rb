@@ -9,19 +9,34 @@ class Modal < FXDialogBox
     super(parent, title, opts: DECOR_TITLE | DECOR_BORDER)
   end
 
-  def setup_form(labels)
+  def setup_form(small_labels, big_labels = nil)
     self.fields = {}
-
-    labels.each do |field_name, label_text|
+  
+    # Обработка маленьких текстовых полей
+    small_labels.each do |field_name, label_text|
       FXHorizontalFrame.new(self, opts: LAYOUT_FILL_X | PACK_UNIFORM_WIDTH) do |frame|
-        FXLabel.new(frame, "#{label_text}: ")
-        self.fields[field_name] = FXTextField.new(frame, 30, opts: TEXTFIELD_NORMAL | LAYOUT_SIDE_RIGHT)
+        FXLabel.new(frame, "#{label_text}: ", opts: LAYOUT_SIDE_LEFT)
+        self.fields[field_name] = FXTextField.new(frame, 30, opts: TEXTFIELD_NORMAL | LAYOUT_FILL_X)
         self.fields[field_name].connect(SEL_CHANGED) do
           enable_ok_btn
         end
       end
     end
+  
+    # Обработка больших текстовых полей
+    unless big_labels.nil?
+      big_labels.each do |field_name, label_text|
+        FXHorizontalFrame.new(self, opts: LAYOUT_FILL_X | PACK_UNIFORM_WIDTH) do |frame|
+          FXLabel.new(frame, "#{label_text}: ", opts: LAYOUT_SIDE_LEFT | LAYOUT_FILL_Y )
+          self.fields[field_name] = FXText.new(frame, opts: LAYOUT_FILL_X | LAYOUT_FILL_Y | TEXT_WORDWRAP | TEXT_SHOWACTIVE)
+          self.fields[field_name].connect(SEL_CHANGED) do
+            enable_ok_btn
+          end
+        end
+      end
+    end
   end
+  
 
   def setup_buttons
     FXHorizontalFrame.new(self, opts: LAYOUT_FILL_X | PACK_UNIFORM_WIDTH) do |frame|

@@ -1,6 +1,6 @@
 require './models/student/student.rb'
 require 'date'
-require './controllers/edit_student/edit_student_controller'
+require_relative './edit_student_controller.rb'
 require './models/student/student.rb'
 
 class Replace_student_controller < Edit_student_controller
@@ -12,8 +12,8 @@ class Replace_student_controller < Edit_student_controller
     self.view.fields["birthdate"].text = self.student.birthdate.strftime('%d.%m.%Y')
   end
 
-  def valid_data?(student_data)
-    data = student_data.transform_values { |value| value.strip }
+  def valid_data?(data)
+    data = data.transform_values { |value| value.strip }
     self.logger.debug "Проверка валидности данных: #{data.to_s}"
     valid = super(data)
     unchanged = self.student.first_name == data["first_name"] &&

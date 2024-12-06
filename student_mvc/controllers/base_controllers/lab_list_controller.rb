@@ -42,4 +42,42 @@ class Lab_list_controller < Base_controller
     self.logger.debug "Выделенные лабы: #{selected}"
     selected
   end
+
+  def get_lab(id)
+    self.logger.info "Получение лабы по id: #{id}"
+    lab = self.entities_list.get_lab_by_id(id)
+    self.logger.debug "Лаба: #{lab.to_line_s}"
+    lab
+  end
+
+  def add_lab(num, lab)
+    self.logger.info "Добавление лабы в хранилище"
+    self.logger.debug "Данные лабы: #{lab.to_line_s}"
+    self.valid_date_of_issue(num, lab.date_of_issue)
+    self.entities_list.add_lab(lab)
+    self.logger.info "Лаба добавлена в хранилище"
+    self.refresh_data
+  end
+
+  def replace_lab(lab)
+    self.logger.info "Замена лабы с id: #{lab.id}"
+    self.logger.debug "Замена лабы: #{lab.to_line_s}"
+    self.entities_list.replace_lab(lab.id, lab)
+    self.refresh_data
+  end
+
+  def get_last_num
+    self.data_list.get_size
+  end
+
+  def valid_date_of_issue(num, date_of_issue)
+    last = self.get_last_num
+    if num > last
+      return true if last == 0
+      prev_date = self.data_list.get_date_of_issue(last)
+      if prev_date > date_of_issue
+        raise StandardError, "Вы не можете выдать эту лабораторную работу раньше предыдущей.\nСрок выдачи ЛР №#{last} - #{prev_date.strftime('%d.%m.%Y')}"
+      end
+    end
+  end
 end

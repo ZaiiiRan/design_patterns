@@ -1,17 +1,15 @@
-require './logger/logger.rb'
+require_relative './modal_controller'
 
-class Edit_student_controller
+class Edit_student_controller < Modal_controller
   
   def initialize(view, parent_controller)
-    self.view = view
-    self.parent_controller = parent_controller
-    self.logger = App_logger.instance
+    super(view, parent_controller)
   end
 
-  def operation(student_data)
+  def operation(data)
     begin
-      self.logger.debug "Создание объекта студента: #{student_data.to_s}"
-      new_student(student_data)
+      self.logger.debug "Создание объекта студента: #{data.to_s}"
+      new_student(data)
       self.parent_controller.replace_student(self.student)
       self.view.close
     rescue => e
@@ -21,8 +19,8 @@ class Edit_student_controller
     end
   end
 
-  def new_student(student_data)
-    data = student_data.transform_values do |value|
+  def new_student(data)
+    data = data.transform_values do |value|
       stripped = value.strip
       stripped.empty? ? nil : stripped
     end
@@ -45,20 +43,15 @@ class Edit_student_controller
     end
   end
 
-  def populate_fields
-    raise NotImplementedError
-  end
-
-  def valid_data?(student_data)
-    data = student_data.transform_values { |value| value.strip }
+  def valid_data?(data)
+    data = data.transform_values { |value| value.strip }
     Student.valid_name?(data["first_name"]) && Student.valid_name?(data["name"]) &&
       Student.valid_name?(data["patronymic"]) && Student.valid_birthdate?(data["birthdate"])
   end
 
   protected
-  attr_accessor :view, :parent_controller, :student, :logger
+  attr_accessor :student
 
-  private
   def get_attributes
     {
       id: self.student&.id,

@@ -1,6 +1,6 @@
 require './models/student/student.rb'
 require 'date'
-require './controllers/edit_student/edit_student_controller'
+require_relative './edit_student_controller.rb'
 require './models/student/student.rb'
 
 class Edit_contacts_controller < Edit_student_controller
@@ -11,8 +11,8 @@ class Edit_contacts_controller < Edit_student_controller
     self.view.fields["phone_number"].text = self.student.phone_number
   end
 
-  def valid_data?(student_data)
-    data = student_data.transform_values { |value| value.strip }
+  def valid_data?(data)
+    data = data.transform_values { |value| value.strip }
     self.logger.debug "Проверка валидности данных: #{data.to_s}"
     valid = Student.valid_phone_number?(data["phone_number"]) && Student.valid_email?(data["email"]) &&
       Student.valid_telegram?(data["telegram"])

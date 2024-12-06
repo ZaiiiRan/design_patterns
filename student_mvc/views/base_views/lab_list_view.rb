@@ -20,7 +20,9 @@ class Lab_list_view < Base_view
 
   private
   def on_add
-    
+    modal_view = Modal_factory.create_modal(self, self.controller, :add_lab)
+    modal_view.create
+    modal_view.show(PLACEMENT_OWNER)
   end
 
   def on_edit
