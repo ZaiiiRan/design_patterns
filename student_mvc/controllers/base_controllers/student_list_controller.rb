@@ -47,7 +47,7 @@ class Student_list_controller < Base_controller
     self.apply_filters
     begin
       self.logger.info "Поиск студентов в хранилище"
-      self.data_list = self.entities_list.get_k_n_student_short_list(self.view.current_page, self.view.class::ROWS_PER_PAGE, self.filters, self.data_list)
+      self.data_list = self.entities_list.get_k_n_student_short_list(self.view.current_page, self.view.rows_per_page, self.filters, self.data_list)
       self.data_list.count = self.entities_list.get_student_short_count(self.filters)
       data_list.notify
       self.view.update_button_states
@@ -65,26 +65,6 @@ class Student_list_controller < Base_controller
     self.entities_list.add_student(student)
     self.logger.info "Студент добавлен в хранилище"
     self.refresh_data
-  end
-
-  def select(number)
-    begin
-      self.data_list.select(number)
-      self.logger.info "Выделена строка: #{number}"
-      self.view.update_button_states
-    rescue
-      self.logger.error "Ошибка при выделении строки: #{number}"
-    end
-  end
-
-  def deselect(number)
-    begin
-      self.data_list.deselect(number)
-      self.logger.info "Выделение со строки: #{number} убрано"
-      self.view.update_button_states
-    rescue
-      self.logger.error "Ошибка при удалении выделения строки: #{number}"
-    end
   end
 
   def get_selected

@@ -18,6 +18,15 @@ class Lab
     self.new(**hash.transform_keys(&:to_sym))
   end
 
+  def to_s
+    "id: #{id}\nname: #{name}\s\ntopics: #{topics}\ntasks: #{tasks}\ndate_of_issue: #{date_of_issue}"
+  end
+
+  # to line string
+  def to_line_s
+    "#{id}, #{name}, #{date_of_issue}, #{topics}, #{tasks}"
+  end
+
   # date of issue validation
   def self.valid_date_of_issue?(date_of_issue)
     valid = (date_of_issue =~ /^\d{2}\.\d{2}\.\d{4}$/)
