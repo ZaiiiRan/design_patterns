@@ -15,6 +15,10 @@ class Data_list_lab < Data_list
     self.data[num].date_of_issue
   end
 
+  def get_selected_num
+    self.selected[0]
+  end
+
   private
 
   # build row for lab

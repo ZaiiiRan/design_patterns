@@ -53,15 +53,16 @@ class Lab_list_controller < Base_controller
   def add_lab(num, lab)
     self.logger.info "Добавление лабы в хранилище"
     self.logger.debug "Данные лабы: #{lab.to_line_s}"
-    self.valid_date_of_issue(num, lab.date_of_issue)
+    self.check_date_of_issue(num, lab.date_of_issue)
     self.entities_list.add_lab(lab)
     self.logger.info "Лаба добавлена в хранилище"
     self.refresh_data
   end
 
-  def replace_lab(lab)
+  def replace_lab(num, lab)
     self.logger.info "Замена лабы с id: #{lab.id}"
     self.logger.debug "Замена лабы: #{lab.to_line_s}"
+    self.check_date_of_issue(num, lab.date_of_issue)
     self.entities_list.replace_lab(lab.id, lab)
     self.refresh_data
   end
@@ -70,14 +71,37 @@ class Lab_list_controller < Base_controller
     self.data_list.get_size
   end
 
-  def valid_date_of_issue(num, date_of_issue)
-    last = self.get_last_num
-    if num > last
-      return true if last == 0
-      prev_date = self.data_list.get_date_of_issue(last)
-      if prev_date > date_of_issue
-        raise StandardError, "Вы не можете выдать эту лабораторную работу раньше предыдущей.\nСрок выдачи ЛР №#{last} - #{prev_date.strftime('%d.%m.%Y')}"
-      end
+  def get_selected_num
+    self.data_list.get_selected_num
+  end
+
+  def check_date_of_issue(num, date_of_issue)
+    last = get_last_num
+    return true if last == 0
+  
+    check_prev_date(num, date_of_issue, last)
+    check_next_date(num, date_of_issue, last)
+  end
+
+  def check_prev_date(num, date_of_issue, last)
+    return unless num > 1
+
+    prev_date = data_list.get_date_of_issue(num - 1)
+    if prev_date > date_of_issue
+      raise_error(num - 1, prev_date, "раньше предыдущей")
     end
+  end
+
+  def check_next_date(num, date_of_issue, last)
+    return unless num < last 
+  
+    next_date = data_list.get_date_of_issue(num + 1)
+    if next_date < date_of_issue
+      raise_error(num + 1, next_date, "позже следующей")
+    end
+  end
+
+  def raise_error(num, date, message)
+    raise StandardError, "Вы не можете выдать эту лабораторную работу #{message}.\nСрок выдачи ЛР №#{num} - #{date.strftime('%d.%m.%Y')}"
   end
 end

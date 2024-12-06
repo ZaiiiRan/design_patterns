@@ -4,7 +4,7 @@ require './controllers/modal_controllers/replace_student_controller'
 require './controllers/modal_controllers/edit_git_controller'
 require './controllers/modal_controllers/edit_contacts_controller'
 require './controllers/modal_controllers/add_lab_controller'
-
+require './controllers/modal_controllers/replace_lab_controller'
 
 class Modal_factory
   def self.create_modal(parent, parent_controller, mode)
@@ -29,6 +29,10 @@ class Modal_factory
       when :add_lab
         modal = Modal.new(parent, parent_controller, "Добавление лабораторной работы")
         modal.controller = Add_lab_controller.new(modal, parent_controller)
+        self.setup_form_for_edit_lab(modal)
+      when :replace_lab
+        modal = Modal.new(parent, parent_controller, "Редактирование лабораторной работы")
+        modal.controller = Replace_lab_controller.new(modal, parent_controller)
         self.setup_form_for_edit_lab(modal)
     end
     modal.setup_buttons

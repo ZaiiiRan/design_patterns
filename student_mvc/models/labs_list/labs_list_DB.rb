@@ -58,6 +58,7 @@ class Labs_list_DB < Labs_list_interface
         new_lab.topics,
         new_lab.tasks,
         new_lab.date_of_issue,
+        id
       ])
     rescue Mysql2::Error => e
       if e.message.include?('Duplicate entry')

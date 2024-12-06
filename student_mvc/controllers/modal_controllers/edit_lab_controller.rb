@@ -8,12 +8,12 @@ class Edit_lab_controller < Modal_controller
 
   def operation(data)
     begin
-      self.logger.debug "Создание объекта лабы: #{ladata.to_s}"
+      self.logger.debug "Создание объекта лабы: #{data.to_s}"
       new_lab(data)
-      self.parent_controller.replace_lab(self.lab)
+      self.parent_controller.replace_lab(self.num, self.lab)
       self.view.close
     rescue => e
-      error_msg = "Ошибка при изменении лабы: #{e.message}"
+      error_msg = "Ошибка при изменении лабы:\n#{e.message}"
       self.logger.error error_msg
       self.view.show_error_message(error_msg)
     end

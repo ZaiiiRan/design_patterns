@@ -26,6 +26,8 @@ class Lab_list_view < Base_view
   end
 
   def on_edit
-    
+    modal_view = Modal_factory.create_modal(self, self.controller, :replace_lab)
+    modal_view.create
+    modal_view.show(PLACEMENT_OWNER)
   end
 end
