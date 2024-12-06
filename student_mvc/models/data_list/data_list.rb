@@ -28,6 +28,11 @@ class Data_list
         ids
     end
 
+    # get selected nums
+    def get_selected_nums
+        self.selected
+    end
+
     # deselect
     def deselect(number)
         self.selected.delete(number) if self.selected.include?(number)
