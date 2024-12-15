@@ -6,4 +6,5 @@ Rails.application.routes.draw do
       post "delete_multiple", to: "students#delete_multiple"
     end
   end
+  resources :labs, only: %i[index]
 end
