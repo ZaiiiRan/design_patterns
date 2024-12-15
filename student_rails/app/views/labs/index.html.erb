@@ -14,7 +14,7 @@
             <% @labs.each_with_index do |lab, index| %>
                 <tr>
                     <td>
-                        <input type="checkbox" class="student-checkbox" data-id="<%= index %>">
+                        <input type="checkbox" class="lab-checkbox" data-id="<%= index %>">
                     </td>
                     <td><%= index + 1 %></td>
                     <td><%= lab.name %></td>
@@ -27,12 +27,16 @@
     </table>
 
     <div class="d-flex justify-content-between mt-3">
-        <button id="add-btn" class="btn btn-success">Добавить</button>
+        <button id="add-btn" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#lab-modal">Добавить</button>
         <button id="update-btn" class="btn btn-info">Обновить</button>
-        <button id="edit-btn" class="btn btn-primary">Изменить</button>
+        <button id="edit-btn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#lab-modal">Изменить</button>
         <button id="delete-btn" class="btn btn-danger">Удалить</button>
     </div>
 </div>
+
+<%= render 'create_edit_modal' %>
+
+<%= javascript_include_tag 'labs_controls' %>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
