@@ -5,25 +5,6 @@ class Student < ApplicationRecord
   validates :phone_number, uniqueness: true, allow_blank: true, format: { with: /\A(?:\+7|8)[\s-]?(?:\(?\d{3}\)?[\s-]?)\d{3}[\s-]?\d{2}[\s-]?\d{2}\z/, message: "Неверный формат номера телефона" }
   validates :git, uniqueness: true, allow_blank: true, format: { with: %r{\Ahttps?://github\.com/[a-zA-Z0-9_\-]+\z}, message: "Неверный формат Git" }
 
-  def self.new_from_string(string)
-    data = parse_string(string)
-    Student.new(
-      id: data["id"].to_i,
-      first_name: data["first_name"],
-      name: data["name"],
-      patronymic: data["patronymic"],
-      telegram: data["telegram"],
-      email: data["email"],
-      phone_number: data["phone_number"],
-      git: data["git"],
-      birthdate: Date.parse(data["birthdate"])
-    )
-  end
-
-  def self.new_from_hash(hash)
-    Student.new(hash.transform_keys(&:to_sym))
-  end
-
   def get_full_name
     "#{first_name} #{name[0]}.#{patronymic[0]}."
   end
