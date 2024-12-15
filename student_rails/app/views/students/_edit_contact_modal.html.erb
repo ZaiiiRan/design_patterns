@@ -1,0 +1,30 @@
+<div id="edit-contact-modal" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Редактировать Контакты</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-contact-form">
+                    <div class="mb-3">
+                        <label for="telegram-value" class="form-label">Telegram</label>
+                        <input type="url" class="form-control" id="telegram-value" name="telegram_value" placeholder="Telegram">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email-value" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email-value" name="git_value" placeholder="Email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone_number-value" class="form-label">Телефон</label>
+                        <input type="text" class="form-control" id="phone-value" name="phone_number_value" placeholder="Телефон">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-primary" id="save-contact-button">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>

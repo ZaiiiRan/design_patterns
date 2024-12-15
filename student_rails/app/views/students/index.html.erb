@@ -92,120 +92,23 @@
   </div>
 
   <div class="d-flex justify-content-between mt-3">
-    <button id="add-btn" class="btn btn-success">Добавить</button>
+    <button id="add-btn" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#student-modal">Добавить</button>
     <button id="update-btn" class="btn btn-info">Обновить</button>
-    <button id="edit-btn" class="btn btn-primary">Изменить</button>
-    <button id="edit-git-btn" class="btn btn-warning">Изменить Git</button>
-    <button id="edit-contact-btn" class="btn btn-secondary">Изменить контакты</button>
+    <button id="edit-btn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#student-modal">Изменить</button>
+    <button id="edit-git-btn" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit-git-modal">Изменить Git</button>
+    <button id="edit-contact-btn" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#edit-contact-modal">Изменить контакты</button>
     <button id="delete-btn" class="btn btn-danger">Удалить</button>
   </div>
 </div>
 
-<script>
-  function toggleSortDirection(column) {
-    const currentDirection = new URLSearchParams(window.location.search).get('sort_direction');
-    return (currentDirection === 'asc' || currentDirection === null) && column === new URLSearchParams(window.location.search).get('sort_column') ? 'desc' : 'asc';
-  }
+<%= render 'create_edit_modal' %>
+<%= render 'edit_git_modal' %>
+<%= render 'edit_contact_modal' %>
 
-  function toggleTextField(selectId, textFieldId) {
-    const selectElement = document.getElementById(selectId);
-    const textField = document.getElementById(textFieldId);
-    if (selectElement.value === 'yes') {
-      textField.disabled = false;
-    } else {
-      textField.disabled = true;
-    }
-  }
-
-  document.getElementById('git-select').addEventListener('change', function() {
-    toggleTextField('git-select', 'git-text-field');
-  });
-  document.getElementById('email-select').addEventListener('change', function() {
-    toggleTextField('email-select', 'email-text-field');
-  });
-  document.getElementById('phone-select').addEventListener('change', function() {
-    toggleTextField('phone-select', 'phone-text-field');
-  });
-  document.getElementById('telegram-select').addEventListener('change', function() {
-    toggleTextField('telegram-select', 'telegram-text-field');
-  });
-
-  toggleTextField('git-select', 'git-text-field');
-  toggleTextField('email-select', 'email-text-field');
-  toggleTextField('phone-select', 'phone-text-field');
-  toggleTextField('telegram-select', 'telegram-text-field');
-
-  function toggleSortDirection(column) {
-    const urlParams = new URLSearchParams(window.location.search);
-    const currentSortColumn = urlParams.get('sort_column');
-    const currentSortDirection = urlParams.get('sort_order');
-
-    if (currentSortColumn === column) {
-      urlParams.set('sort_order', currentSortDirection === 'asc' ? 'desc' : 'asc');
-    } else {
-      urlParams.set('sort_column', column);
-      urlParams.set('sort_order', 'asc');
-    }
-
-    window.location.search = urlParams.toString();
-  }
-
-  document.querySelectorAll('.sortable').forEach(element => {
-    element.addEventListener('click', function(event) {
-      event.preventDefault();
-      toggleSortDirection(this.dataset.column);
-    });
-  });
-
-  document.getElementById('update-btn').addEventListener('click', function() {
-    const full_name = document.querySelector('[name="full_name"]').value;
-    const git = document.querySelector('[name="git"]').value;
-    const email = document.querySelector('[name="email"]').value;
-    const phone = document.querySelector('[name="phone"]').value;
-    const telegram = document.querySelector('[name="telegram"]').value;
-
-    let url = new URL(window.location.href);
-    url.searchParams.set('full_name', full_name);
-    url.searchParams.set('git', git);
-    url.searchParams.set('email', email);
-    url.searchParams.set('phone', phone);
-    url.searchParams.set('telegram', telegram);
-
-    const sortColumn = new URLSearchParams(window.location.search).get('sort_column');
-    const sortOrder = new URLSearchParams(window.location.search).get('sort_order');
-    const page = 1;
-
-    url.searchParams.set('sort_column', sortColumn || 'id');
-    url.searchParams.set('sort_order', sortOrder || 'asc');
-    url.searchParams.set('page', page);
-
-    window.location.href = url.toString();
-  });
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const checkboxes = document.querySelectorAll('.student-checkbox');
-    const editBtn = document.getElementById('edit-btn');
-    const editGitBtn = document.getElementById('edit-git-btn');
-    const editContactBtn = document.getElementById('edit-contact-btn');
-    const deleteBtn = document.getElementById('delete-btn');
-
-    function updateButtonStates() {
-      const checkedCount = Array.from(checkboxes).filter(checkbox => checkbox.checked).length;
-
-      const isSingleSelection = checkedCount === 1;
-      editBtn.disabled = !isSingleSelection;
-      editGitBtn.disabled = !isSingleSelection;
-      editContactBtn.disabled = !isSingleSelection;
-
-      deleteBtn.disabled = checkedCount === 0;
-    }
-
-    checkboxes.forEach(checkbox => {
-      checkbox.addEventListener('change', updateButtonStates);
-    });
-
-    updateButtonStates();
-  });
-</script>
+<%= javascript_include_tag 'students_controls' %>
+<%= javascript_include_tag 'students_filtering' %>
+<%= javascript_include_tag 'students_sort' %>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
