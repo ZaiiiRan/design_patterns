@@ -6,6 +6,7 @@ class StudentsController < ApplicationController
 
     self.query = Student.all
     self.apply_filters
+    self.apply_sort
 
     self.students = query.offset((self.page - 1) * self.per_page).limit(self.per_page)
     self.total_pages = (query.count / self.per_page.to_f).ceil
@@ -14,7 +15,7 @@ class StudentsController < ApplicationController
 
   def apply_filters
     if params[:full_name].present?
-      self.query = self.query.where("CONCAT(LOWER(first_name), ' ', LOWER(SUBSTR(name, 1, 1)), '.', LOWER(SUBSTR(patronymic, 1, 1)), '.') LIKE ?", 
+      self.query = self.query.where("CONCAT(LOWER(first_name), ' ', LOWER(SUBSTR(name, 1, 1)), '.', LOWER(SUBSTR(patronymic, 1, 1)), '.') LIKE ?",
         "%#{params[:full_name]}%")
     end
 
@@ -35,6 +36,26 @@ class StudentsController < ApplicationController
       end
     elsif param_value == "no"
       self.query = self.query.where(field => nil)
+    end
+  end
+
+  def apply_sort
+    sort_column = params[:sort_column] || "id"
+    sort_order = params[:sort_order] || "asc"
+
+    if sort_column == "contact"
+      sort_column = "telegram, email, phone_number"
+    end
+
+    if sort_column == "telegram, email, phone_number"
+      self.query = self.query.order(Arel.sql("
+        COALESCE(telegram, '') = '',
+        COALESCE(email, '') = '',
+        COALESCE(phone_number, '') = '',
+        #{sort_column} #{sort_order}
+      "))
+    else
+      self.query = self.query.order(Arel.sql("#{sort_column} IS NULL, #{sort_column} #{sort_order}"))
     end
   end
 end
