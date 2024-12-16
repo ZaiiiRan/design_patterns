@@ -3,7 +3,7 @@ class LabsController < ApplicationController
   before_action :set_lab, only: %i[show update destroy]
 
   def index
-    self.labs = Lab.all
+    self.labs = Lab.all.order(:id)
   end
 
   def show
@@ -34,7 +34,7 @@ class LabsController < ApplicationController
       return
     end
 
-    if lab_params.except(:name, :topics, :tasks, :date_of_issue) == self.lab.attributes.symbolize_keys.except(:name, :topics, :tasks, :date_of_issue)
+    if no_data_changes?
       render json: { success: false, errors: "Данные не были изменены" }, status: :unprocessable_entity
       return
     end
@@ -62,14 +62,17 @@ class LabsController < ApplicationController
 
   private
 
+  # set lab
   def set_lab
     self.lab = Lab.limit(1).offset(params[:id].to_i).first
   end
 
+  # lab params
   def lab_params
     params.require(:lab).permit(:name, :topics, :tasks, :date_of_issue)
   end
 
+  # date of issue validation
   def check_date_of_issue(num, date_of_issue)
     lab_count = Lab.count
     return nil if lab_count.zero?
@@ -86,5 +89,13 @@ class LabsController < ApplicationController
     end
 
     nil
+  end
+
+  # check no data changes
+  def no_data_changes?
+    new_data = lab_params
+
+    new_data[:name] == self.lab.name && new_data[:topics] == self.lab.topics &&
+      new_data[:tasks] == self.lab.tasks && Date.parse(new_data[:date_of_issue]) == self.lab.date_of_issue
   end
 end

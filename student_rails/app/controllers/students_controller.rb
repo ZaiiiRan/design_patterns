@@ -28,9 +28,7 @@ class StudentsController < ApplicationController
   end
 
   def update
-    self.student = Student.find(params[:id])
-
-    if student_params.except(:git, :telegram, :email, :phone_number) == self.student.attributes.symbolize_keys.except(:git, :telegram, :email, :phone_number)
+    if no_data_changes?
       render json: { success: false, errors: "Данные не были изменены" }, status: :unprocessable_entity
       return
     end
@@ -56,14 +54,17 @@ class StudentsController < ApplicationController
 
   private
 
+  # set student
   def set_student
     self.student = Student.find(params[:id])
   end
 
+  # student params
   def student_params
     params.require(:student).permit(:first_name, :name, :patronymic, :birthdate, :git, :telegram, :email, :phone_number)
   end
 
+  # apply_filters
   def apply_filters
     if params[:full_name].present?
       self.query = self.query.where("CONCAT(LOWER(first_name), ' ', LOWER(SUBSTR(name, 1, 1)), '.', LOWER(SUBSTR(patronymic, 1, 1)), '.') LIKE ?",
@@ -76,6 +77,7 @@ class StudentsController < ApplicationController
     apply_field_filter(:telegram, params[:telegram], params[:telegram_value])
   end
 
+  # apply_field_filter
   def apply_field_filter(field, param_value, param_value_field)
     return if param_value.nil? || param_value == "nil"
 
@@ -90,6 +92,7 @@ class StudentsController < ApplicationController
     end
   end
 
+  # apply sort
   def apply_sort
     sort_column = params[:sort_column] || "id"
     sort_order = params[:sort_order] || "asc"
@@ -107,6 +110,17 @@ class StudentsController < ApplicationController
       "))
     else
       self.query = self.query.order(Arel.sql("#{sort_column} IS NULL, #{sort_column} #{sort_order}"))
+    end
+  end
+
+  # check no data changes
+  def no_data_changes?
+    fields = %i[first_name name patronymic birthdate git telegram email phone_number]
+
+    fields.all? do |field|
+      next true if self.student_params[field].nil?
+      new_value = field == :birthdate ? Date.parse(student_params[:birthdate]) : student_params[field]
+      new_value == self.student.public_send(field)
     end
   end
 end
