@@ -1,74 +1,56 @@
-class LabsController < ApplicationController
-  attr_accessor :labs, :lab
-  before_action :set_lab, only: %i[show update destroy]
+class LabsController < BaseController
+  before_action :set_entity, only: %i[destroy update show]
 
   def index
-    self.labs = Lab.all.order(:id)
-  end
-
-  def show
-    render json: self.lab
+    self.entities = Lab.all.order(:id)
   end
 
   def create
-    error = check_date_of_issue(Lab.count + 2, Date.parse(lab_params[:date_of_issue]))
+    error = check_date_of_issue(Lab.count + 2, Date.parse(entity_params[:date_of_issue]))
 
     unless error.nil?
-      render json: { success: false, errors: error }, status: :unprocessable_entity
+      render_error(error)
       return
     end
 
-    self.lab = Lab.new(lab_params)
-    if self.lab.save
-      render json: { success: true }, status: :ok
-    else
-      render json: { errors: self.lab.errors.full_messages }, status: :unprocessable_entity
-    end
+    self.entity = Lab.new(entity_params)
+    super
   end
 
   def update
-    error = check_date_of_issue(params[:id].to_i + 1, Date.parse(lab_params[:date_of_issue]))
+    error = check_date_of_issue(params[:id].to_i + 1, Date.parse(entity_params[:date_of_issue]))
 
     unless error.nil?
-      render json: { success: false, errors: error }, status: :unprocessable_entity
+      render_error(error)
       return
     end
 
-    if no_data_changes?
-      render json: { success: false, errors: "Данные не были изменены" }, status: :unprocessable_entity
-      return
-    end
-
-    if self.lab.update(lab_params)
-      render json: { success: true }
-    else
-      render json: { success: false, errors: self.lab.errors }, status: :unprocessable_entity
-    end
+    super
   end
 
   def destroy
     last_lab = Lab.last
-    if last_lab.id != self.lab.id
-      render json: { success: false, errors: "Эта лабораторная не последняя" }, status: :unprocessable_entity
+    if last_lab.id != self.entity.id
+      render_error("Эта лабораторная не последняя")
       return
     end
 
-    if self.lab.destroy
+    if self.entity.destroy
       render json: { success: true, message: "Лабораторная работа успешно удалена" }, status: :ok
     else
-      render json: { success: false, errors: "Не удалось удалить лабораторную работу" }, status: :unprocessable_entity
+      render_error("Не удалось удалить лабораторную работу")
     end
   end
 
   private
 
-  # set lab
-  def set_lab
-    self.lab = Lab.limit(1).offset(params[:id].to_i).first
+  # set entity
+  def set_entity
+    self.entity = Lab.limit(1).offset(params[:id].to_i).first
   end
 
-  # lab params
-  def lab_params
+  # entity params
+  def entity_params
     params.require(:lab).permit(:name, :topics, :tasks, :date_of_issue)
   end
 
@@ -93,9 +75,9 @@ class LabsController < ApplicationController
 
   # check no data changes
   def no_data_changes?
-    new_data = lab_params
+    new_data = entity_params
 
-    new_data[:name] == self.lab.name && new_data[:topics] == self.lab.topics &&
-      new_data[:tasks] == self.lab.tasks && Date.parse(new_data[:date_of_issue]) == self.lab.date_of_issue
+    new_data[:name] == self.entity.name && new_data[:topics] == self.entity.topics &&
+      new_data[:tasks] == self.entity.tasks && Date.parse(new_data[:date_of_issue]) == self.entity.date_of_issue
   end
 end

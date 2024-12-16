@@ -1,6 +1,5 @@
-class StudentsController < ApplicationController
-  attr_accessor :page, :per_page, :students, :total_pages, :query, :student
-  before_action :set_student, only: %i[update show]
+class StudentsController < BaseController
+  attr_accessor :page, :per_page, :total_pages, :query
   def index
     self.page = (params[:page] || 1).to_i
     self.per_page = 10
@@ -9,41 +8,20 @@ class StudentsController < ApplicationController
     self.apply_filters
     self.apply_sort
 
-    self.students = query.offset((self.page - 1) * self.per_page).limit(self.per_page)
+    self.entities = query.offset((self.page - 1) * self.per_page).limit(self.per_page)
     self.total_pages = (query.count / self.per_page.to_f).ceil
     self.total_pages = 1 if self.total_pages == 0
   end
 
   def create
-    self.student = Student.new(student_params)
-    if self.student.save
-      render json: { success: true }, status: :ok
-    else
-      render json: { errors: self.student.errors.full_messages }, status: :unprocessable_entity
-    end
-  end
-
-  def show
-    render json: self.student
-  end
-
-  def update
-    if no_data_changes?
-      render json: { success: false, errors: "Данные не были изменены" }, status: :unprocessable_entity
-      return
-    end
-
-    if self.student.update(student_params)
-      render json: { success: true }
-    else
-      render json: { success: false, errors: self.student.errors }, status: :unprocessable_entity
-    end
+    self.entity = Student.new(entity_params)
+    super
   end
 
   def delete_multiple
     student_ids = params[:student_ids]
     if student_ids.nil? || student_ids.empty?
-      render json: { error: "Ни одного студента не выбрано" }, status: :unprocessable_entity
+      render_error("Ни одного студента не выбрано")
       return
     end
 
@@ -52,16 +30,27 @@ class StudentsController < ApplicationController
     render json: { message: "Студенты удалены" }, status: :ok
   end
 
-  private
 
-  # set student
-  def set_student
-    self.student = Student.find(params[:id])
+  private
+  # set entity
+  def set_entity
+    self.entity= Student.find(params[:id])
   end
 
-  # student params
-  def student_params
+  # entity params
+  def entity_params
     params.require(:student).permit(:first_name, :name, :patronymic, :birthdate, :git, :telegram, :email, :phone_number)
+  end
+
+  # check no data changes
+  def no_data_changes?
+    fields = %i[first_name name patronymic birthdate git telegram email phone_number]
+
+    fields.all? do |field|
+      next true if self.entity_params[field].nil?
+      new_value = field == :birthdate ? Date.parse(entity_params[:birthdate]) : entity_params[field]
+      new_value == self.entity.public_send(field)
+    end
   end
 
   # apply_filters
@@ -110,17 +99,6 @@ class StudentsController < ApplicationController
       "))
     else
       self.query = self.query.order(Arel.sql("#{sort_column} IS NULL, #{sort_column} #{sort_order}"))
-    end
-  end
-
-  # check no data changes
-  def no_data_changes?
-    fields = %i[first_name name patronymic birthdate git telegram email phone_number]
-
-    fields.all? do |field|
-      next true if self.student_params[field].nil?
-      new_value = field == :birthdate ? Date.parse(student_params[:birthdate]) : student_params[field]
-      new_value == self.student.public_send(field)
     end
   end
 end

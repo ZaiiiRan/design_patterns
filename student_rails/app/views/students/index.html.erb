@@ -59,7 +59,7 @@
       </tr>
     </thead>
     <tbody>
-      <% @students.each_with_index do |student, index| %>
+      <% @entities.each_with_index do |student, index| %>
         <tr class="<%= 'table-danger' unless student.validate? %>">
           <td>
             <input type="checkbox" class="student-checkbox" data-id="<%= student.id %>">
