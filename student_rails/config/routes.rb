@@ -7,4 +7,5 @@ Rails.application.routes.draw do
     end
   end
   resources :labs, only: %i[index show create update destroy]
+  resources :marks
 end

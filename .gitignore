@@ -18,3 +18,5 @@
 /student_rails/public/assets
 
 /student_rails/config/master.key
+
+/hotel_mvc/.env

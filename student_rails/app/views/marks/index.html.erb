@@ -1,0 +1,110 @@
+<div class="container mt-5">
+  <%= form_with url: students_path, method: :get, local: true, class: 'mb-4' do |f| %>
+    <div class="row">
+      <div class="col-md-3 mb-3">
+        <%= f.label :full_name, "Фамилия и инициалы" %>
+        <%= f.text_field :full_name, class: 'form-control', placeholder: "Фамилия и инициалы", value: params[:full_name] %>
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <%= f.label :git, "Git" %>
+        <%= f.select :git, options_for_select([['Да', 'yes'], ['Нет', 'no']], params[:git]), { include_blank: 'Не важно' }, { class: 'form-control', id: 'git-select' } %>
+        <%= f.text_field :git_value, class: 'form-control mt-2', placeholder: "Git", id: 'git-text-field', value: params[:git_value], disabled: params[:git] != 'yes' %>
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <%= f.label :email, "Email" %>
+        <%= f.select :email, options_for_select([['Да', 'yes'], ['Нет', 'no']], params[:email]), { include_blank: 'Не важно' }, { class: 'form-control', id: 'email-select' } %>
+        <%= f.text_field :email_value, class: 'form-control mt-2', placeholder: "Email", id: 'email-text-field', value: params[:email_value], disabled: params[:email] != 'yes' %>
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <%= f.label :phone, "Номер телефона" %>
+        <%= f.select :phone, options_for_select([['Да', 'yes'], ['Нет', 'no']], params[:phone]), { include_blank: 'Не важно' }, { class: 'form-control', id: 'phone-select' } %>
+        <%= f.text_field :phone_value, class: 'form-control mt-2', placeholder: "Номер телефона", id: 'phone-text-field', value: params[:phone_value], disabled: params[:phone] != 'yes' %>
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <%= f.label :telegram, "Telegram" %>
+        <%= f.select :telegram, options_for_select([['Да', 'yes'], ['Нет', 'no']], params[:telegram]), { include_blank: 'Не важно' }, { class: 'form-control', id: 'telegram-select' } %>
+        <%= f.text_field :telegram_value, class: 'form-control mt-2', placeholder: "Telegram", id: 'telegram-text-field', value: params[:telegram_value], disabled: params[:telegram] != 'yes' %>
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <%= link_to 'Сбросить фильтры', students_path, class: 'btn btn-danger', style: 'margin-top: 30px;' %>
+      </div>
+    </div>
+  <% end %>
+
+  <table class="table table-bordered">
+    <thead class="table-light">
+      <tr>
+        <th></th>
+        <th>№</th>
+        <th>
+          <%= link_to 'Полное имя', class: 'sortable', data: { column: 'first_name' } do %>
+            <span>Полное имя</span>
+          <% end %>
+        </th>
+        <th>
+          <%= link_to 'Git', class: 'sortable', data: { column: 'git' } do %>
+            <span>Git</span>
+          <% end %>
+        </th>
+        <th>
+          <%= link_to 'Контакт', class: 'sortable', data: { column: 'contact' } do %>
+            <span>Контакт</span>
+          <% end %>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @entities.each_with_index do |student, index| %>
+        <tr class="<%= 'table-danger' unless student.validate? %>">
+          <td>
+            <input type="checkbox" class="student-checkbox" data-id="<%= student.id %>">
+          </td>
+          <td><%= (@page - 1) * @per_page + index + 1 %></td>
+          <td><%= student.get_full_name %></td>
+          <td><%= student.git %></td>
+          <td><%= student.get_any_contact %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div class="mt-3 d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center">
+      <% if @page > 1 %>
+        <%= link_to '<', students_path(page: @page - 1, full_name: params[:full_name], git: params[:git], email: params[:email], phone: params[:phone], telegram: params[:telegram], sort_column: params[:sort_column], sort_order: params[:sort_order]), class: 'btn btn-secondary' %>
+      <% else %>
+        <button class="btn btn-secondary disabled"><</button>
+      <% end %>
+
+      <span class="mx-3">Страница <%= @page %> из <%= @total_pages %></span>
+
+      <% if @page < @total_pages %>
+        <%= link_to '>', students_path(page: @page + 1, full_name: params[:full_name], git: params[:git], email: params[:email], phone: params[:phone], telegram: params[:telegram], sort_column: params[:sort_column], sort_order: params[:sort_order]), class: 'btn btn-secondary' %>
+      <% else %>
+        <button class="btn btn-secondary disabled">></button>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-between mt-3">
+    <button id="add-mark-btn" class="btn btn-success">Добавить оценку</button>
+    <button id="change-mark-btn" class="btn btn-warning">Изменить последнюю оценку</button>
+    <button id="delete-mark-btn" class="btn btn-danger">Удалить последнюю оценку</button>
+    <button id="history-btn" class="btn btn-info">Просмотреть историю</button>
+    <button id="edit-git-btn" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit-git-modal">Изменить Git</button>
+    <button id="edit-contact-btn" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#edit-contact-modal">Изменить контакты</button>
+    <button id="update-marks-btn" class="btn btn-info">Обновить</button>
+  </div>
+</div>
+
+<%= render 'edit_git_modal' =%>
+<%= render 'edit_contact_modal' %>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>

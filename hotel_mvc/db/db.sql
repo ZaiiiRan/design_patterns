@@ -1,0 +1,12 @@
+CREATE DATABASE hotel;
+USE hotel;
+
+CREATE TABLE rooms (
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    number TEXT NOT NULL,
+    capacity INTEGER NOT NULL,
+    price INTEGER NOT NULL
+);
+
+ALTER TABLE rooms AUTO_INCREMENT = 1;
+ALTER TABLE rooms ADD UNIQUE (number(255));

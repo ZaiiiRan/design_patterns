@@ -1,4 +1,6 @@
 class Student < ApplicationRecord
+  has_many :marks, dependent: :destroy
+
   validates :first_name, :name, :patronymic, format: { with: /\A[А-ЯЁ][а-яё]{1,}(-[А-ЯЁ][а-яё]{1,})?\z/, message: "Неверный формат имени" }
   validates :email, uniqueness: true, allow_blank: true, format: { with: /\A[\w+_.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\z/, message: "Неверный формат Email" }
   validates :telegram, uniqueness: true, allow_blank: true, format: { with: /\A@[a-zA-Z0-9_]{5,}\z/, message: "Неверный формат Telegram" }
