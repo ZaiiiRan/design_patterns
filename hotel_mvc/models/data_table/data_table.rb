@@ -28,7 +28,7 @@ class Data_table
   attr_reader :data
   
   def data=(data)
-    unless data.is_a?(Array) && data.all { |row| row.is_a?(Array) }
+    unless data.is_a?(Array) && data.all? { |row| row.is_a?(Array) }
       raise ArgumentError, 'Данные должны быть двумерным массивом'
     end
 
@@ -36,10 +36,10 @@ class Data_table
   end
 
   def valid_row?(row)
-    row.beetween(0, self.row_count - 1)
+    row.between?(0, self.row_count - 1)
   end
 
   def valid_column?(column)
-    column.beetween(0, self.column_count - 1)
+    column.between?(0, self.column_count - 1)
   end
 end

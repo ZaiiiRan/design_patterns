@@ -14,15 +14,15 @@ class Room
   end
 
   private
-  def valid_number?(number)
+  def self.valid_number?(number)
     number.to_s =~ /^\d{2,}$/
   end
 
-  def valid_capacity?(capacity)
-    capacity.beetween?(1, 5)
+  def self.valid_capacity?(capacity)
+    capacity.between?(1, 5)
   end
 
-  def valid_price?(price)
+  def self.valid_price?(price)
     if price.to_i < 0
       false
     end

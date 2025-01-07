@@ -21,7 +21,7 @@ class Rooms_list_db < Rooms_list_interface
     rooms = result.map { |row| Room.new_from_hash(row) }
     data_list ||= Data_list_room.new(rooms)
     data_list.index = start + 1
-    data_list.data = student_short
+    data_list.data = rooms
     data_list
   end
 

@@ -68,7 +68,7 @@ class Data_list
     observers.each do |observer|
       observer.set_table_params(self.get_names, self.count)
       observer.set_table_data(self.get_table)
-    end
+    end unless observers.nil?
   end
 
   def add_observer(observer)
