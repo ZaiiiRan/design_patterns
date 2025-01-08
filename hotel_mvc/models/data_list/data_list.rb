@@ -29,7 +29,7 @@ class Data_list
     self.selected
   end
 
-  def deselect
+  def deselect(number)
     self.selected.delete(number) if self.selected.include?(number)
   end
 

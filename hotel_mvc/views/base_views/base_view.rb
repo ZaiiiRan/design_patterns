@@ -104,7 +104,7 @@ class Base_view < FXVerticalFrame
     end
 
     self.table.connect(SEL_DESELECTED) do |_, _, row|
-      on_row_deselect(row)
+      self.on_row_deselect(row)
     end
 
     table_area

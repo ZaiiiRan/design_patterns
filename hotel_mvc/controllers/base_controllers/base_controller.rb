@@ -52,4 +52,10 @@ class Base_controller
 
   protected
   attr_accessor :view, :data_list, :entities_list
+
+  def check_and_update_page
+    if self.view.current_page > self.view.total_pages
+      switch_page(-1)
+    end
+  end
 end

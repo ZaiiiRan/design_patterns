@@ -23,6 +23,17 @@ class Room_list_controller < Base_controller
   end
 
   def on_delete
-    
+    ids = self.get_selected
+
+    begin
+      ids.each do |id|
+        self.entities_list.delete_room(id)
+      end
+    rescue => e
+      self.view.show_error_message("Ошибка при удалении: #{e.messgae}")
+    ensure
+      self.refresh_data
+      self.check_and_update_page
+    end
   end
 end
