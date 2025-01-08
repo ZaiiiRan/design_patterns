@@ -8,6 +8,6 @@ class Data_list_room < Data_list
 
   private
   def build_row(index, obj)
-    [index, obj.number, obj.capacity, obj.price]
+    [index, obj.number, obj.capacity, "#{obj.price} ₽"]
   end
 end

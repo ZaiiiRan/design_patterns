@@ -7,7 +7,7 @@ class Base_controller
     raise NotImplementedError
   end
 
-  def on_add
+  def on_add(entity)
     raise NotImplementedError
   end
 
@@ -28,6 +28,7 @@ class Base_controller
       self.data_list.select(number)
     rescue
     end
+    self.view.update_button_states
   end
 
   def deselect(number)
@@ -35,6 +36,7 @@ class Base_controller
       self.data_list.deselect(number)
     rescue
     end
+    self.view.update_button_states
   end
 
   def get_selected

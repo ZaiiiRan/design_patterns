@@ -1,4 +1,5 @@
 require_relative './base_view.rb'
+require_relative '../modal/modal_factory.rb'
 
 class Room_list_view < Base_view
   def initialize(parent)
@@ -15,10 +16,14 @@ class Room_list_view < Base_view
 
   private
   def on_add
-    
+    modal_view = Modal_factory.create_modal(self, self.controller, :add_room)
+    modal_view.create
+    modal_view.show(PLACEMENT_OWNER)
   end
 
   def on_edit
-    
+    modal_view = Modal_factory.create_modal(self, self.controller, :edit_room)
+    modal_view.create
+    modal_view.show(PLACEMENT_OWNER)
   end
 end

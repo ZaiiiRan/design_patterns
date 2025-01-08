@@ -41,6 +41,25 @@ class Base_view < FXVerticalFrame
     FXMessageBox.error(self, MBOX_OK, 'Ошибка', message)
   end
 
+  def update_button_states
+    selected_rows = self.controller.get_selected
+
+    self.add_btn.enabled = true
+    self.update_btn.enabled = true
+
+    case selected_rows.size
+    when 0
+      self.edit_btn.enabled = false
+      self.delete_btn.enabled = false
+    when 1
+      self.edit_btn.enabled = true
+      self.delete_btn.enabled = true
+    else
+      self.edit_btn.enabled = false
+      self.delete_btn.enabled = true
+    end
+  end
+
   protected
   attr_accessor :table, :prev_btn, :next_btn, :page_label, :add_btn, :update_btn, :edit_btn, :delete_btn
 

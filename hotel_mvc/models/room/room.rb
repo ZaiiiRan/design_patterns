@@ -13,7 +13,6 @@ class Room
     self.new(**hash.transform_keys(&:to_sym))
   end
 
-  private
   def self.valid_number?(number)
     number.to_s =~ /^\d{2,}$/
   end
@@ -29,6 +28,7 @@ class Room
     true
   end
 
+  private
   def number=(number)
     unless self.class.valid_number?(number)
       raise ArgumentError, "Неверный формат номера комнаты"
