@@ -15,11 +15,13 @@ class App < FXMainWindow
   end
 
   private
-  attr_accessor :room_list_view
+  attr_accessor :room_list_view, :guest_list_view
 
   def on_tab_changed(index)
     if index == 0
       self.room_list_view.refresh_data
+    elsif index == 1
+      self.guest_list_view.refresh_data
     end
   end
 
@@ -32,6 +34,7 @@ class App < FXMainWindow
 
     FXTabItem.new(tabs, 'Гости', opts: JUSTIFY_CENTER_X)
     guest_list = FXVerticalFrame.new(tabs, opts: LAYOUT_FILL)
+    self.guest_list_view = Base_view_factory.create_view(guest_list, :guest_list)
 
     FXTabItem.new(tabs, 'Бронь', opts: JUSTIFY_CENTER_X)
     booking_list = FXVerticalFrame.new(tabs, opts: LAYOUT_FILL)

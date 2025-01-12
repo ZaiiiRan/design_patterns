@@ -7,7 +7,7 @@ require './data_access/db_client/db_client.rb'
 class Guests_list_db < Guests_list_interface
   def get_guest_by_id(id)
     result = DB_client.instance.query('SELECT * FROM guests WHERE id = ?', [id])
-    row = result.row
+    row = result.first
     return nil unless row
     Guest.new_from_hash(row)
   end

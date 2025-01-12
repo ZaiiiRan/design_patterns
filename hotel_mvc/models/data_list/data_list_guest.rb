@@ -1,5 +1,6 @@
 require_relative './data_list.rb'
 require_relative '../data_table/data_table.rb'
+require 'date'
 
 class Data_list_guest < Data_list
   def get_names
