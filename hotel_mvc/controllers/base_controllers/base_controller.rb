@@ -1,6 +1,12 @@
+require_relative '../../models/filter/filter.rb'
 class Base_controller
   def initialize(view)
     self.view = view
+    self.filters = Filter.new
+    self.sort_order = {
+      order: :asc,
+      col_index: 0
+    }
   end
 
   def refresh_data
@@ -52,12 +58,30 @@ class Base_controller
     self.refresh_data
   end
 
+  def set_sort_order(column_index)
+    if self.sort_order[:col_index] == column_index
+      self.sort_order[:order] = self.sort_order[:order] == :asc ? :desc : :asc
+    else
+      self.sort_order[:col_index] = column_index
+      self.sort_order[:order] = :asc
+    end
+    self.refresh_data
+  end
+
+  def reset_filters
+    self.filters = Filter.new
+  end
+
   protected
-  attr_accessor :view, :data_list, :entities_list
+  attr_accessor :view, :data_list, :entities_list, :sort_order, :filters
 
   def check_and_update_page
     if self.view.current_page > self.view.total_pages
       switch_page(-1)
     end
+  end
+
+  def apply_sort
+    raise NotImplementedError
   end
 end

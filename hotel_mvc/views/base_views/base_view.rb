@@ -11,7 +11,9 @@ class Base_view < FXVerticalFrame
   end
 
   def setup_ui
-    raise NotImplementedError
+    self.current_page = 1
+    self.total_pages = 1
+    self.setup_controls_area
   end
 
   def set_table_params(column_names, entitites_count)
@@ -124,6 +126,10 @@ class Base_view < FXVerticalFrame
 
     self.table.connect(SEL_DESELECTED) do |_, _, row|
       self.on_row_deselect(row)
+    end
+
+    self.table.columnHeader.connect(SEL_COMMAND) do |_, _, column_index|
+      self.controller.set_sort_order(column_index)
     end
 
     table_area

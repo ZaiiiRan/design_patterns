@@ -2,6 +2,7 @@ require_relative './base_controller.rb'
 require_relative '../../models/rooms_list/rooms_list.rb'
 require_relative '../../models/rooms_list/rooms_list_db.rb'
 require_relative '../../models/data_list/data_list_room.rb'
+require_relative '../../models/filter/sort_decorator.rb'
 
 class Room_list_controller < Base_controller
   def initialize(view)
@@ -14,9 +15,11 @@ class Room_list_controller < Base_controller
 
   def refresh_data
     self.data_list.clear_selected
+    self.reset_filters
+    self.apply_sort
     begin
       self.data_list.count = self.entities_list.count
-      self.entities_list.get_rooms(self.view.current_page, self.view.rows_per_page, nil, self.data_list)
+      self.entities_list.get_rooms(self.view.current_page, self.view.rows_per_page, self.filters, self.data_list)
       self.view.update_button_states
     rescue
       self.view.show_error_message(error_msg)
@@ -51,5 +54,20 @@ class Room_list_controller < Base_controller
 
   def get_entity(id)
     self.entities_list.get_room_by_id(id)
+  end
+
+  private
+
+  def apply_sort
+    field = ''
+    case self.sort_order[:col_index]
+    when 1
+      field = 'number'
+    when 2
+      field = 'capacity'
+    when 3
+      field = 'price'
+    end
+    self.filters = Sort_decorator.new(self.filters, field, self.sort_order[:order]) unless field == ''
   end
 end
