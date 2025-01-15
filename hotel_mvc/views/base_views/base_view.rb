@@ -3,17 +3,17 @@ require 'fox16'
 include Fox
 
 class Base_view < FXVerticalFrame
-  attr_accessor :controller, :rows_per_page, :current_page, :total_pages
+  attr_accessor :controller, :rows_per_page, :current_page, :total_pages, :filters
 
   def initialize(parent, opts: nil)
     super(parent, opts: opts)
     self.rows_per_page = 10
+    self.filters = {}
   end
 
   def setup_ui
     self.current_page = 1
     self.total_pages = 1
-    self.setup_controls_area
   end
 
   def set_table_params(column_names, entitites_count)
@@ -159,5 +159,53 @@ class Base_view < FXVerticalFrame
     self.update_btn.connect(SEL_COMMAND) { on_update }
 
     button_area
+  end
+
+  def add_filtering_text_field(frame, label, enabled = false)
+    text_field = FXTextField.new(frame, 20, opts: TEXTFIELD_NORMAL | LAYOUT_SIDE_RIGHT)
+    text_field.enabled = enabled
+
+    self.filters[label][:text_field] = text_field
+  end
+
+  def add_filtering_combo(frame, label)
+    combo = FXComboBox.new(frame, 3, opts: COMBOBOX_STATIC | FRAME_SUNKEN | LAYOUT_SIDE_RIGHT)
+    combo.numVisible = 3
+    combo.appendItem('Не имеет значения')
+    combo.appendItem('Нет')
+    combo.appendItem('Да')
+
+    combo.connect(SEL_COMMAND) do
+      self.filters[label][:text_field].enabled = (combo.currentItem == 2)
+    end
+
+    self.filters[label][:combo] = combo
+  end
+
+  def add_filtering_row(parent, label, has_combo = false)
+    FXHorizontalFrame.new(parent, opts: LAYOUT_FILL_X | PACK_UNIFORM_WIDTH) do |frame|
+      FXLabel.new(frame, label)
+      self.filters[label] = {}
+      
+      add_filtering_combo(frame, label) if has_combo
+      add_filtering_text_field(frame, label, !has_combo)
+    end
+  end
+
+  def add_filtering_range_fields(parent, label)
+    self.filters[label] = {}
+    FXHorizontalFrame.new(parent, opts: LAYOUT_FILL_X | PACK_UNIFORM_WIDTH) do |frame|
+      FXLabel.new(frame, label)
+      FXLabel.new(frame, "от")
+      text_field1 = FXTextField.new(frame, 20, opts: TEXTFIELD_NORMAL | LAYOUT_SIDE_RIGHT)
+      FXLabel.new(frame, "до")
+      text_field2 = FXTextField.new(frame, 20, opts: TEXTFIELD_NORMAL | LAYOUT_SIDE_RIGHT)
+      self.filters[label][:text_field1] = text_field1
+      self.filters[label][:text_field2] = text_field2
+    end 
+  end
+
+  def setup_filtering_area
+    raise NotImplementedError
   end
 end

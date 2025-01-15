@@ -14,13 +14,13 @@ class Guest_list_controller < Base_controller
   def refresh_data
     self.data_list.clear_selected
     self.reset_filters
-    self.apply_sort
     begin
-      self.data_list.count = self.entities_list.count
+      self.apply_filters
+      self.data_list.count = self.entities_list.count(self.filters)
       self.entities_list.get_guests(self.view.current_page, self.view.rows_per_page, self.filters, self.data_list)
       self.view.update_button_states
-    rescue
-      self.view.show_error_message(error_msg)
+    rescue => e
+      self.view.show_error_message(e.message)
     end
   end
 
@@ -53,8 +53,16 @@ class Guest_list_controller < Base_controller
     self.entities_list.get_guest_by_id(id)
   end
 
-  private
+  def apply_filters
+    self.apply_not_combo_filter('Фамилия:', 'lastname')
+    self.apply_not_combo_filter('Имя:', 'firstname')
+    self.apply_range_filter('Дата рождения:', 'birthdate', :date)
+    self.apply_combo_filter('Email:', 'email')
+    self.apply_combo_filter('Номер телефона:', 'phone_number')
+    self.apply_sort
+  end
 
+  private
   def apply_sort
     field = ''
     case self.sort_order[:col_index]

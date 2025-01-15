@@ -16,13 +16,13 @@ class Room_list_controller < Base_controller
   def refresh_data
     self.data_list.clear_selected
     self.reset_filters
-    self.apply_sort
+    self.apply_filters
     begin
-      self.data_list.count = self.entities_list.count
+      self.data_list.count = self.entities_list.count(self.filters)
       self.entities_list.get_rooms(self.view.current_page, self.view.rows_per_page, self.filters, self.data_list)
       self.view.update_button_states
-    rescue
-      self.view.show_error_message(error_msg)
+    rescue => e
+      self.view.show_error_message(e.message)
     end
   end
 
@@ -54,6 +54,13 @@ class Room_list_controller < Base_controller
 
   def get_entity(id)
     self.entities_list.get_room_by_id(id)
+  end
+
+  def apply_filters
+    self.apply_not_combo_filter('Номер комнаты:', 'number', :number)
+    self.apply_range_filter('Максимум человек:', 'capacity', :number)
+    self.apply_range_filter('Цена за ночь:', 'price', :number)
+    self.apply_sort
   end
 
   private
