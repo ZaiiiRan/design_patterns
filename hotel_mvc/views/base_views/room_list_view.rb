@@ -29,7 +29,7 @@ class Room_list_view < Base_view
 
   def setup_filtering_area
     filtering_area = FXVerticalFrame.new(self, opts: LAYOUT_FILL_X | LAYOUT_SIDE_TOP)
-    FXLabel.new(filtering_area, 'Фильтры')
+    FXLabel.new(filtering_area, 'Поиск')
 
     self.add_filtering_row(filtering_area, "Номер комнаты:")
     self.add_filtering_range_fields(filtering_area, "Максимум человек:")

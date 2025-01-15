@@ -11,18 +11,4 @@ class Field_filter_range_date < Field_filter_range
       raise 'Ошибка парсинга даты'
     end
   end
-
-  def apply(filtering_object)
-    query = super(filtering_object)
-    unless self.value1.nil?
-      query = "#{query} #{field} >= #{value1}"
-    end
-
-    unless self.value2.nil?
-      query += " AND" if !query.end_with?("AND") && !query.end_with?("WHERE")
-      query += " #{field} <= #{value2}"
-    end
-
-    query
-  end
 end

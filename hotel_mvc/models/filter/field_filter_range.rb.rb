@@ -11,7 +11,18 @@ class Field_filter_range < Filter_decorator
   def apply(filtering_object)
     query = super(filtering_object)
     condition = query.include?("WHERE") ? "AND" : "WHERE"
-    "#{query} #{condition}"
+    query = "#{query} #{condition}"
+    
+    unless self.value1.nil?
+      query = "#{query} #{field} >= #{value1}"
+    end
+
+    unless self.value2.nil?
+      query += " AND" if !query.end_with?("AND") && !query.end_with?("WHERE")
+      query += " #{field} <= #{value2}"
+    end
+
+    query
   end
 
   protected

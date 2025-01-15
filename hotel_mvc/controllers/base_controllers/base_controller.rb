@@ -104,6 +104,7 @@ class Base_controller
     filter_config = self.view.filters[label]
     value1 = filter_config[:text_field1].text.strip
     value2 = filter_config[:text_field2].text.strip
+
     value1 = nil if value1.empty?
     value2 = nil if value2.empty?
 
@@ -113,7 +114,6 @@ class Base_controller
     when :date
       self.filters = Field_filter_range_date.new(self.filters, field, value1, value2) unless value1.nil? && value2.nil?
     end
-
   end
 
   def apply_combo_filter(label, field, type = :string)

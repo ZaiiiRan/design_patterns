@@ -6,16 +6,6 @@ class Modal_room_controller < Modal_controller
     super(view, parent_controller)
   end
 
-  def on_ok(data)
-    begin
-      self.new_entity(data)
-      self.parent_controller.on_edit(self.entity)
-      self.view.close
-    rescue => e
-      self.view.show_error_message("Ошибка при изменении данных комнаты: #{e.message}")
-    end
-  end
-
   def new_entity(data)
     data = data.transform_values do |value|
       stripped = value.strip
